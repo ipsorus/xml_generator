@@ -1,0 +1,9 @@
+<RCC>
+  <qresource prefix="icons">
+    <file>IconBook.ico</file>
+    <file>strelka.ico</file>
+  </qresource>
+  <qresource prefix="logo">
+    <file>vniims_logo.jpg</file>
+  </qresource>
+</RCC>

@@ -1,0 +1,1 @@
+pyinstaller --onefile --icon=IconBook.ico --noconsole xml_generator.py
