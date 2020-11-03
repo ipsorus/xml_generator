@@ -1,65 +1,204 @@
+# Владелец интеллектуальной собственности и разработчик данного программного обеспечения: Лошкарев Вадим Игоревич
+
 import sys
 import os
 import errno
 
 import res_rc
+import MainWindow_poverki_2020  #модуль главного окна PyQt
 
-from datetime import datetime, date, time, timedelta
-from PyQt5.QtCore import pyqtSignal, Qt, QDate, QDateTime, QTimer
-from PyQt5.QtWidgets import QMainWindow, QWidget, QFileDialog, QToolTip, QPushButton, QApplication, QMessageBox
-from PyQt5.QtGui import *
-import MainWindow_poverki  #модуль главного окна PyQt
-from PyQt5 import QtGui
-from PyQt5.QtGui import QColor, QPalette
+from datetime import datetime, date, time
+#from PyQt5.QtCore import Qt, QDate, QDateTime, QTimer, QRect
+#from PyQt5.QtWidgets import QMainWindow, QWidget, QFileDialog, QToolTip, QPushButton, QApplication, QMessageBox, QLineEdit, QLabel, QProgressBar, QSpinBox, QTabBar, QTextEdit, QToolButton
+#from PyQt5.QtGui import *
 
-class main_window(QMainWindow, MainWindow_poverki.Ui_MainWindow):
+#from PyQt5.QtGui import QFont
+
+from PyQt5 import QtCore, QtGui, QtWidgets
+
+from PyQt5.Qt import *
+
+class TabPage_SO(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.labelType = QtWidgets.QLabel("№ типа СО по реестру *", self)
+        self.labelType.setGeometry(QtCore.QRect(10, 10, 191, 16))
+        self.lineEditType = QtWidgets.QLineEdit(self)
+        self.lineEditType.setGeometry(QtCore.QRect(10, 30, 191, 31))
+        self.lineEditType.setClearButtonEnabled(True)
+
+        self.labelYearOfIssue = QtWidgets.QLabel("Год выпуска *", self)
+        self.labelYearOfIssue.setGeometry(QtCore.QRect(240, 10, 191, 16))
+        self.spinBoxManufYear = QtWidgets.QSpinBox(self)
+        self.spinBoxManufYear.setGeometry(QtCore.QRect(240, 30, 191, 31))
+        self.spinBoxManufYear.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.spinBoxManufYear.setAlignment(QtCore.Qt.AlignCenter)
+        self.spinBoxManufYear.setMinimum(1917)
+        self.spinBoxManufYear.setMaximum(2060)
+        current_date = date.today()
+        self.spinBoxManufYear.setProperty("value", current_date.year)
+
+        self.labelSerialNumber = QtWidgets.QLabel("Заводской №/№ партии", self)
+        self.labelSerialNumber.setGeometry(QtCore.QRect(470, 10, 191, 16))
+        self.lineEditSerialNumber = QtWidgets.QLineEdit(self)
+        self.lineEditSerialNumber.setGeometry(QtCore.QRect(470, 30, 191, 31))
+        self.lineEditSerialNumber.setClearButtonEnabled(True)
+
+        self.labelSpecifications = QtWidgets.QLabel("Метрологические характеристики СО", self)
+        self.labelSpecifications.setGeometry(QtCore.QRect(10, 70, 261, 16))
+        self.lineEditSpecifications = QtWidgets.QLineEdit(self)
+        self.lineEditSpecifications.setGeometry(QtCore.QRect(10, 90, 651, 31))
+        self.lineEditSpecifications.setClearButtonEnabled(True)
+
+class TabPage_SI(QtWidgets.QWidget):
+    def __init__(self, parent=None):
+        super().__init__(parent)
+
+        self.labelTypeSI = QtWidgets.QLabel("Регистрационный № типа СИ *", self)
+        self.labelTypeSI.setGeometry(QtCore.QRect(10, 5, 200, 21))
+        self.lineEditTypeSI = QtWidgets.QLineEdit(self)
+        self.lineEditTypeSI.setGeometry(QtCore.QRect(10, 30, 191, 31))
+        self.lineEditTypeSI.setClearButtonEnabled(True)
+
+        self.labelZavNumber = QtWidgets.QLabel("Заводской номер *", self)
+        self.labelZavNumber.setGeometry(QtCore.QRect(10, 70, 151, 16))
+        self.lineEditZavNumber = QtWidgets.QLineEdit(self)
+        self.lineEditZavNumber.setGeometry(QtCore.QRect(10, 90, 191, 31))
+        self.lineEditZavNumber.setClearButtonEnabled(True)
+
+        self.labelInventory = QtWidgets.QLabel("Буквенно-цифровое обозначение *", self)
+        self.labelInventory.setGeometry(QtCore.QRect(250, 70, 240, 16))
+        self.lineEditInventory = QtWidgets.QLineEdit(self)
+        self.lineEditInventory.setGeometry(QtCore.QRect(250, 90, 191, 31))
+        self.lineEditInventory.setClearButtonEnabled(True)
+
+class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
     def __init__(self, parent = None):
         super(main_window, self).__init__()
         self.setupUi(self)
 
         self.menuBar.setVisible(False)
-        self.setWindowTitle("  ")
+        self.setWindowTitle("")
         self.logoTimer()
 
+        self.font_tab3 = QtGui.QFont()
+        self.font_tab3.setFamily("Calibri")
+        self.font_tab3.setPointSize(12)
+        self.font_tab3.setBold(False)
+        self.font_tab3.setWeight(50)
+
+        self.red_warning = "border-color: red; border-style: solid; border-width: 2px; font-weight: normal;"
+
+        self.label_29.setVisible(False)
         self.progressBar.setVisible(False)
-        self.dateEdit.setDateTime(QDateTime.currentDateTime())
+        self.listWidget.setVisible(False)
+        self.pushButton_4.setVisible(False)
+        self.dateEdit.setDate(QtCore.QDate.currentDate())
         self.line_3.setVisible(False)
         self.line_3.setStyleSheet('color: red;')
         self.line_4.setVisible(False)
         self.line_4.setStyleSheet('color: red;')
         self.line_5.setVisible(False)
         self.line_5.setStyleSheet('color: red;')
+        self.line_6.setVisible(False)
+        self.line_6.setStyleSheet('color: red;')
         self.label_9.setVisible(False)
         self.label_9.setStyleSheet('color: red;')
-        self.label_10.setVisible(False)
-        self.label_10.setStyleSheet('color: red;')
         self.label_19.setVisible(False)
         self.label_19.setStyleSheet('color: red;')
         self.label_20.setVisible(False)
         self.label_20.setStyleSheet('color: red;')
+        self.label_30.setVisible(False)
+        self.label_30.setStyleSheet('color: red;')
         self.calendarWidget.setVisible(False)
         self.pushButton_3.setVisible(False)
+        self.pushButton.setEnabled(False)
 
         self.pushButton.clicked.connect(self.create)            #Запуск
         self.pushButton_2.clicked.connect(self.open_calend)
         self.pushButton_3.clicked.connect(self.close_calend)
+        self.pushButton_4.clicked.connect(self.instruction_page_close)
         self.action.triggered.connect(self.info_page)
+        self.action_2.triggered.connect(self.instruction_page_open)
         self.action_3.triggered.connect(self.close)
 
+        self.radioButton_3.toggled.connect(self.onClicked_applic_inapplic)
+        self.radioButton_7.toggled.connect(self.onClicked_type_SI)
+        self.radioButton_8.toggled.connect(self.onClicked_type_SI)
+        self.radioButton_9.toggled.connect(self.onClicked_type_SI)
+
+        self.checkBox_4.toggled.connect(self.onClicked_checkBox_4)
+
+        self.comboBox.activated.connect(self.onClicked_comboBox)
+        self.tabWidget.currentChanged.connect(self.test_filled_tabs)
+        self.toolBox.currentChanged.connect(self.create_first_tabs)
+
+        self.tabWidget_2.tabCloseRequested.connect(self.closeTab_SO)
+        self.tabWidget_3.tabCloseRequested.connect(self.closeTab_SI)
+
+        self.tabCurrIndex = self.tabWidget.currentIndex()
+
+        #Проверка на-лету вкладка 1
+        self.lineEdit.textChanged.connect(self.check_tab_1)
+        self.lineEdit_2.textChanged.connect(self.check_tab_1)
+        self.lineEdit_4.textChanged.connect(self.check_tab_1)
+        #Проверка на-лету вкладка 2
+        self.lineEdit_7.textChanged.connect(self.check_tab_2)
+        self.lineEdit_9.textChanged.connect(self.check_tab_2)
+        self.lineEdit_10.textChanged.connect(self.check_tab_2)
+        self.lineEdit_11.textChanged.connect(self.check_tab_2)
+        #Проверка на-лету вкладка 3
+        self.lineEdit_12.textChanged.connect(self.check_tab_3)
+        self.lineEdit_13.textChanged.connect(self.check_tab_3)
+        self.lineEdit_16.textChanged.connect(self.check_tab_3)
+        self.lineEdit_19.textChanged.connect(self.check_tab_3)
+        #Проверка на-лету вкладка 4
+        self.lineEdit_21.textChanged.connect(self.check_tab_4)
+        self.lineEdit_22.textChanged.connect(self.check_tab_4)
+        self.lineEdit_23.textChanged.connect(self.check_tab_4)
+        self.textEdit_27.textChanged.connect(self.check_tab_4)
+
+        self.indicator_1 = False
+        self.indicator_2 = False
+        self.indicator_3 = False
+        self.indicator_4 = False
+
+        self.count_1 = 0
+        self.count_2 = 0
+        self.count_3 = 0
+        self.count_4 = 0
+
+    def test_text(self, txt):
+        sender = self.sender()
+        print('sender_id', id(sender))
+        print('sender_text', txt)
+
+
+    #Служебные функции
+    def instruction_page_open(self):
+        self.listWidget.setVisible(True)
+        self.label_29.setVisible(True)
+        self.pushButton_4.setVisible(True)
+
+    def instruction_page_close(self):
+        self.listWidget.setVisible(False)
+        self.label_29.setVisible(False)
+        self.pushButton_4.setVisible(False)
+
     def info_page(self):
-        msg = QMessageBox()
+        msg = QtWidgets.QMessageBox()
         msg.setWindowTitle("Информация")
         msg.setText("Программное обеспечение: Генератор файлов в формате XML для партий СИ")
-        msg.setInformativeText(f"Разработчик: ФГУП \"ВНИИМС\"\nРаспространяется на безвозмездной основе\nВерсия программы: 1.2")
-        #msg.setDetailedText(f"Распространяется на безвозмездной основе\nВерсия программы: 1.0")
-        okButton = msg.addButton('Закрыть', QMessageBox.AcceptRole)
+        msg.setInformativeText(f"Разработчик: ФГУП \"ВНИИМС\"\nРаспространяется на безвозмездной основе\nВерсия программы: 2.0")
+        #msg.setDetailedText(f"Распространяется на безвозмездной основе\nВерсия программы: 2.0")
+        okButton = msg.addButton('Закрыть', QtWidgets.QMessageBox.AcceptRole)
         #msg.addButton('Отмена', QMessageBox.RejectRole)
-        
         msg.exec()
 
     def logoTimer(self):
-        self.timer = QTimer()
+        self.timer = QtCore.QTimer()
         self.timer.start(5000)
         self.timer.timeout.connect(self.label_image)
         self.timer.setSingleShot(True)
@@ -68,9 +207,146 @@ class main_window(QMainWindow, MainWindow_poverki.Ui_MainWindow):
         self.label_23.setVisible(False)
         self.label_24.setVisible(False)
         self.label_25.setVisible(False)
+        self.label_26.setVisible(False)
+        self.label_27.setVisible(False)
         self.menuBar.setVisible(True)
-        self.setWindowTitle("Генератор заявок")
+        self.setWindowTitle("Генератор заявок для партий СИ")
+    #=========================
 
+    #Создание и удаление табов
+    def create_first_tabs(self):
+        if self.toolBox.currentIndex() == 2 and self.tabWidget_2.count() == 0:
+            self.add_tab_SO()
+            self.comboBox.setEnabled(False)
+            count = self.tabWidget_2.count()
+            nb = QtWidgets.QToolButton(text="Добавить СО", autoRaise=True)
+            nb.clicked.connect(self.add_tab_SO)
+            self.tabWidget_2.insertTab(count, QtWidgets.QWidget(), "")
+            self.tabWidget_2.tabBar().setTabButton(count, QtWidgets.QTabBar.RightSide, nb)
+            self.toolBox.setItemText(2, '> Стандартные образцы, применяемые при поверке')
+
+        elif self.toolBox.currentIndex() == 4 and self.tabWidget_3.count() == 0:
+            self.add_tab_SI()
+            self.comboBox.setEnabled(False)
+            count_SI = self.tabWidget_3.count()
+            nb_SI = QtWidgets.QToolButton(text="Добавить СИ", autoRaise=True)
+            nb_SI.clicked.connect(self.add_tab_SI)
+            self.tabWidget_3.insertTab(count_SI, QtWidgets.QWidget(), "")
+            self.tabWidget_3.tabBar().setTabButton(count_SI, QtWidgets.QTabBar.RightSide, nb_SI)
+            self.toolBox.setItemText(4, '> СИ, применяемые при поверке')
+
+    def add_tab_SO(self):
+        self.count_3 = 0
+        text = f'Образец'
+        index = self.tabWidget_2.count() - 1
+        self.tabWidget_2.insertTab(index, TabPage_SO(self), text)
+        self.tabWidget_2.setCurrentIndex(self.tabWidget_2.count() - 2)
+        self.tabWidget_2.currentWidget().lineEditType.textChanged.connect(self.check_tab_3_SO)
+
+    def add_tab_SI(self):
+        self.count_3 = 0
+        text = f'СИ'
+        index = self.tabWidget_3.count() - 1
+        self.tabWidget_3.insertTab(index, TabPage_SI(self), text)
+        self.tabWidget_3.setCurrentIndex(self.tabWidget_3.count() - 2)
+        self.tabWidget_3.currentWidget().lineEditTypeSI.textChanged.connect(self.check_tab_3_SI)
+        self.tabWidget_3.currentWidget().lineEditZavNumber.textChanged.connect(self.check_tab_3_SI)
+        self.tabWidget_3.currentWidget().lineEditInventory.textChanged.connect(self.check_tab_3_SI)
+
+    def closeTab_SO (self, currentIndex):
+        self.tabWidget_2.removeTab(currentIndex)
+        self.tabWidget_2.setCurrentIndex(self.tabWidget_2.count() - 2)
+        if self.tabWidget_2.count() == 1:
+            self.tabWidget_2.removeTab(currentIndex)
+            self.toolBox.setItemText(2, 'Стандартные образцы, применяемые при поверке')
+            self.toolBox.setCurrentIndex(0)
+            self.label_30.setText("Необходимо заполнить хотя бы одно поле")
+            self.comboBox.setEnabled(True)
+            self.check_tab_3()
+        self.check_tab_3_SO
+
+    def closeTab_SI (self, currentIndex):
+        self.tabWidget_3.removeTab(currentIndex)
+        self.tabWidget_3.setCurrentIndex(self.tabWidget_3.count() - 2)
+        if self.tabWidget_3.count() == 1:
+            self.tabWidget_3.removeTab(currentIndex)
+            self.toolBox.setItemText(4, 'СИ, применяемые при поверке')
+            self.toolBox.setCurrentIndex(0)
+            self.label_30.setText("Необходимо заполнить хотя бы одно поле")
+            self.comboBox.setEnabled(True)
+            self.check_tab_3()
+        self.check_tab_3_SI
+    #==========================
+
+    #Тестирование табов на заполнение полей
+    def test_filled_tabs(self):
+        if self.tabCurrIndex == 0:
+            self.indicator_1 = True
+            self.check_tab_1()
+        elif self.tabCurrIndex == 1:
+            self.indicator_2 = True
+            self.check_tab_2()
+        elif self.tabCurrIndex == 2:
+            self.indicator_3 = True
+            self.check_tab_3()
+        elif self.tabCurrIndex == 3:
+            self.indicator_4 = True
+            self.check_tab_4()
+        self.tabCurrIndex = self.tabWidget.currentIndex()
+    #=========================
+
+    #Действия по нажатию на радиобаттоны, чекбоксы и комбобоксы
+    def onClicked_type_SI(self):
+        if self.radioButton_7.isChecked():
+            self.label_4.setText("Тип СИ*")
+        elif self.radioButton_8.isChecked():
+            self.label_4.setText("Метрологическая аттестация*")
+        elif self.radioButton_9.isChecked():
+            self.label_4.setText("СИ ВН или СН*")
+
+    def onClicked_applic_inapplic(self):
+        if self.radioButton_3.isChecked():
+            self.label_17.setEnabled(True)
+            self.lineEdit_8.setEnabled(True)
+            self.checkBox.setEnabled(True)
+            self.checkBox_2.setEnabled(True)
+            self.lineEdit_9.setEnabled(False)
+            self.lineEdit_9.setStyleSheet("")
+            self.label_18.setEnabled(False)
+            self.check_tab_2()
+            print('self.indicator_2', self.indicator_2)
+            print('test_check')
+        else:
+            self.check_tab_2()
+            self.label_18.setEnabled(True)
+            self.lineEdit_9.setEnabled(True)
+            self.label_17.setEnabled(False)
+            self.lineEdit_8.setEnabled(False)
+            self.checkBox.setEnabled(False)
+            self.checkBox_2.setEnabled(False)
+
+    def onClicked_comboBox(self):
+        if self.comboBox.currentIndex() > 0:
+            self.toolBox.setEnabled(False)
+            self.label_30.setVisible(False)
+            self.line_5.setVisible(False)
+        else:
+            self.toolBox.setEnabled(True)
+            self.check_tab_3()
+
+    def onClicked_checkBox_4(self):
+        if self.checkBox_4.isChecked():
+            self.label_44.setEnabled(True)
+            self.textEdit_27.setEnabled(True)
+            self.check_tab_4()
+        else:
+            self.textEdit_27.setStyleSheet("")
+            self.label_44.setEnabled(False)
+            self.textEdit_27.setEnabled(False)
+            self.textEdit_27.clear()
+    #=============================
+
+    #Открытие и закрытие календаря для поля Действительна до
     def open_calend(self):
         self.label_19.setVisible(False)
         self.label_20.setVisible(False)
@@ -83,101 +359,23 @@ class main_window(QMainWindow, MainWindow_poverki.Ui_MainWindow):
         self.pushButton_2.setVisible(True)
         self.calendarWidget.setVisible(False)
         self.pushButton_3.setVisible(False)
+    #=============================
 
+    #Установка даты в формате "yyyy-MM-dd" в поле Действительна до
     def valid_date(self):
         self.close_calend()
         self.lineEdit_6.setText(self.calendarWidget.selectedDate().toString("yyyy-MM-dd"))
+    #=============================
 
+    def applic_constructor(self, filepath, result, part, counter_zav):
+        '''
+        Сборка записи о поверке и сохранение данных в файл
+        '''
 
-    def complete_fields(self):
-        #Тип СИ (№ Гос. реестра)
-        self.mitypeNumber = self.lineEdit.text()
-
-        #Модификация СИ
-        self.modification = self.lineEdit_2.text()
-
-        #Дата производства СИ
-        self.manufactureYear = self.spinBox_3.text()
-        if self.manufactureYear == '-':
-            self.manufactureYear = ''
-        else:
-            self.manufactureYear = int(self.spinBox_3.text())
-
-        #Заводской номер СИ
-        self.prefix_zav_number = self.lineEdit_3.text()
-        self.counter_zav_number = self.lineEdit_4.text()
-        self.tail_zav_number = self.lineEdit_5.text()
-
-        #Номер свидетельства на СИ
-        self.prefix_applic_number = self.lineEdit_8.text()
-        self.counter_applic_number = self.lineEdit_9.text()
-        self.tail_applic_number = self.lineEdit_10.text()
-
-        #Условный шифр знака поверки
-        signCipher = self.lineEdit_7.text()
-        self.signCipher = signCipher.upper()
-
-        #Дата поверки (формат гггг-мм-дд)
-        self.vrfDate = self.dateEdit.text()
-
-        #Дата действия поверки (формат гггг-мм-дд), можно оставить пустое значение ''
-        self.validDate = self.lineEdit_6.text()
-
-        #Методика поверки
-        self.method = self.lineEdit_11.text()
-
-        #Ф.И.О. поверителя
-        self.metrologist = self.lineEdit_20.text()
-
-        #Знак поверки в паспорте (true/false)
-        signPass = f'{self.checkBox.isChecked()}'
-        self.signPass = signPass.lower()
-
-        #Знак поверки на СИ (true/false)
-        signMi = f'{self.checkBox_2.isChecked()}'
-        self.signMi = signMi.lower()
-
-        #ГПЭ
-        self.npe_number = self.lineEdit_12.text()
-
-        #Эталоны
-        self.uve_number = self.lineEdit_13.text()
-
-        #Стандартные образцы
-        self.ses_number = self.lineEdit_14.text()             # Тип СО
-
-        self.ses_manufactureYear = int(self.spinBox_4.text()) # Год производства
-
-        self.ses_manufactureNum = self.lineEdit_15.text()     # Заводской номер
-
-        #СИ, применяемые в качестве эталонов
-        self.mieta_number = self.lineEdit_16.text()
-
-        #СИ, применяемые при поверке
-        self.mis_number = self.lineEdit_17.text()             # Тип СИ (№ Гос. реестра)
-        self.mis_manufactureNum = self.lineEdit_18.text()     # Заводской номер
-
-        #Вещества (материалы)
-        self.reagent_number = self.lineEdit_19.text()
-
-        #Прочие сведения
-        self.additional_info = self.textEdit_23.toPlainText()
-        self.ranges = self.textEdit_19.toPlainText()
-        self.values = self.textEdit_20.toPlainText()
-        self.channels = self.textEdit_21.toPlainText()
-        self.blocks = self.textEdit_22.toPlainText()
-
-        fields = [self.mitypeNumber, self.modification, self.manufactureYear, self.prefix_zav_number, self.counter_zav_number, self.tail_zav_number, self.prefix_applic_number,
-        self.counter_applic_number, self.tail_applic_number, self.signCipher, self.vrfDate, self.validDate, self.method, self.metrologist, self.signPass, self.signMi, self.npe_number,
-        self.uve_number, self.ses_number, self.ses_manufactureYear, self.ses_manufactureNum, self.mieta_number, self.mis_number, self.mis_manufactureNum, self.reagent_number,
-        self.additional_info, self.ranges, self.values, self.channels, self.blocks]
-
-        return fields
-
-    def applic_constructor(self, filepath, result, part, counter_zav, counter_applic):
+        date_stamp = datetime.now().strftime("%Y-%m-%d")
 
         #Название файла
-        name_of_file = r'заявка_' + self.mitypeNumber + '_часть_' + str(part) + '_записей_' + str(result) + '_шифр_' + self.signCipher + '.xml'
+        name_of_file = r'заявка_xml_' + date_stamp + '_' + self.mitypeNumber.strip(" ") + '_часть_' + str(part) + '_записей_' + str(result) + '_шифр_' + self.signCipher.strip(" ") + '.xml'
 
         #Путь сохранения файла
         FileFullPath = os.path.join(filepath, name_of_file)
@@ -185,332 +383,712 @@ class main_window(QMainWindow, MainWindow_poverki.Ui_MainWindow):
         with open (FileFullPath, 'w', encoding='utf-8') as sample:
 
             header_1 = f'<?xml version="1.0" encoding="utf-8" ?>\n'
-            header_2 = f'<gost:application xmlns:gost="urn://fgis-arshin.gost.ru/module-verifications/import/2020-04-14">\n'
-            header = header_1 + header_2
+            header_comment_1 = f'<!--\n'
+            header_comment_2 = f'Данный xml-файл создан при помощи ПО "Генератор заявок для партий СИ"\n'
+            header_comment_3 = f'Версия ПО 2.0\n'
+            header_comment_4 = f'-->\n'
+            header_2 = f'<gost:application xmlns:gost="urn://fgis-arshin.gost.ru/module-verifications/import/2020-06-19">\n'
+            header = header_1 + header_comment_1 + header_comment_2 + header_comment_3 + header_comment_4 + header_2
             sample.write(header)
 
         for n in range(result):
+            #Основное тело записи о поверке
+            body = ''
 
-            manufactureNum = self.prefix_zav_number + str(counter_zav).zfill(self.zav_len) + self.tail_zav_number
-            certNum = self.prefix_applic_number + str(counter_applic).zfill(self.applic_len) + self.tail_applic_number
+            manufactureNum = self.prefix_zav_number.lstrip(" ") + str(counter_zav).zfill(self.zav_len) + self.tail_zav_number.rstrip(" ")
 
             with open (FileFullPath, 'a', encoding='utf-8') as sample_body:
 
-                result_start = f'<gost:result>\n'
-                miInfo_start = f'<gost:miInfo>\n'
-                singleMI_start = f'<gost:singleMI>\n'
-                mitypeNumber_str = f'<gost:mitypeNumber>{self.mitypeNumber}</gost:mitypeNumber>\n'
-                manufactureNum_str = f'<gost:manufactureNum>{manufactureNum}</gost:manufactureNum>\n'
-                manufactureYear_str = f'<gost:manufactureYear>{self.manufactureYear}</gost:manufactureYear>\n'
-                modification_str = f'<gost:modification>{self.modification}</gost:modification>\n'
-                singleMI_close = f'</gost:singleMI>\n'
-                miInfo_close = f'</gost:miInfo>\n'
+                body = f'<gost:result>\n'+ f'<gost:miInfo>\n' + f'<gost:singleMI>\n'
 
-                if self.manufactureYear == '':
-                    miInfo = miInfo_start + singleMI_start + mitypeNumber_str + manufactureNum_str + modification_str + singleMI_close + miInfo_close
+                if self.radioButton_7.isChecked():
+                    body += f'<gost:mitypeNumber>{self.mitypeNumber.strip(" ")}</gost:mitypeNumber>\n'
+                elif self.radioButton_8.isChecked():
+                    body += f'<gost:crtmitypeTitle>{self.mitypeNumber.strip(" ")}</gost:crtmitypeTitle>\n'
+                elif self.radioButton_9.isChecked():
+                    body += f'<gost:milmitypeTitle>{self.mitypeNumber.strip(" ")}</gost:milmitypeTitle>\n'
+
+                if self.radioButton_5.isChecked():
+                    body += f'<gost:manufactureNum>{manufactureNum}</gost:manufactureNum>\n'
                 else:
-                    miInfo = miInfo_start + singleMI_start + mitypeNumber_str + manufactureNum_str + manufactureYear_str + modification_str + singleMI_close + miInfo_close
+                    body += f'<gost:inventoryNum>{manufactureNum}</gost:inventoryNum>\n'
 
-                signCipher_str = f'<gost:signCipher>{self.signCipher}</gost:signCipher>\n'
-                vrfDate_str = f'<gost:vrfDate>{self.vrfDate}+03:00</gost:vrfDate>\n'
-                if self.validDate == '':
-                    valid = signCipher_str + vrfDate_str
+                if self.manufactureYear != '':
+                    body += f'<gost:manufactureYear>{self.manufactureYear}</gost:manufactureYear>\n'
+
+                body += f'<gost:modification>{self.modification.strip(" ")}</gost:modification>\n'
+
+                body += f'</gost:singleMI>\n'
+                body += f'</gost:miInfo>\n'
+                body += f'<gost:signCipher>{self.signCipher.strip(" ")}</gost:signCipher>\n'
+                body += f'<gost:miOwner>{self.miOwner.strip(" ")}</gost:miOwner>\n'
+
+                body += f'<gost:vrfDate>{self.vrfDate}</gost:vrfDate>\n'
+
+                if self.validDate != '':
+                    body += f'<gost:validDate>{self.validDate}</gost:validDate>\n'
+
+                if self.radioButton.isChecked():
+                    body += f'<gost:type>1</gost:type>\n'
                 else:
-                    validDate_str = f'<gost:validDate>{self.validDate}+03:00</gost:validDate>\n'
-                    valid = signCipher_str + vrfDate_str + validDate_str
+                    body += f'<gost:type>2</gost:type>\n'
 
-                applicable_start = f'<gost:applicable>\n'
-                certNum_str = f'<gost:certNum>{certNum}</gost:certNum>\n'
-                signPass_str = f'<gost:signPass>{self.signPass}</gost:signPass>\n'
-                signMi_str = f'<gost:signMi>{self.signMi}</gost:signMi>\n'
-                applicable_close = f'</gost:applicable>\n'
-                verification_res = applicable_start + certNum_str + signPass_str + signMi_str + applicable_close
+                body += f'<gost:calibration>{self.calibration}</gost:calibration>\n'
+                if self.radioButton_3.isChecked():
+                    body += f'<gost:applicable>\n'
+                    if self.stickerNum != '':
+                        body += f'<gost:stickerNum>{self.stickerNum.strip(" ")}</gost:stickerNum>\n'
+                    body += f'<gost:signPass>{self.signPass}</gost:signPass>\n'
+                    body += f'<gost:signMi>{self.signMi}</gost:signMi>\n'
+                    body += f'</gost:applicable>\n'
+                else:
+                    body += f'<gost:inapplicable>\n'
+                    body += f'<gost:reasons>{self.reasons.strip(" ")}</gost:reasons>\n'
+                    body += f'</gost:inapplicable>\n'
 
-                docTitle = f'<gost:docTitle>{self.method}</gost:docTitle>\n'
+                body += f'<gost:docTitle>{self.method.strip(" ")}</gost:docTitle>\n'
 
                 if self.metrologist != '':
-                    poveritel = f'<gost:metrologist>{self.metrologist}</gost:metrologist>\n'
+                    body += f'<gost:metrologist>{self.metrologist.strip(" ")}</gost:metrologist>\n'
+
+                body += f'<gost:means>\n'
+
+                if self.comboBox.currentIndex() == 0:
+                    if self.npe_number != '':
+                        text = self.npe_number.strip(' ')
+                        text = text.split(';')
+                        body += f'<gost:npe>\n'
+                        for t in text:
+                            if t != '' and not t.isspace():
+                                body += f'<gost:number>{t.strip(" ")}</gost:number>\n'
+                        body += f'</gost:npe>\n'
+
+                    if self.uve_number != '':
+                        text = self.uve_number.strip(' ')
+                        text = text.split(';')
+                        body += f'<gost:uve>\n'
+                        for t in text:
+                            if t != '' and not t.isspace():
+                                body += f'<gost:number>{t.strip(" ")}</gost:number>\n'
+                        body += f'</gost:uve>\n'
+
+                    if self.tabWidget_2.count() > 1:
+                        body += f'<gost:ses>\n'
+                        for i in range(self.tabWidget_2.count() - 1):
+                            self.tabWidget_2.setCurrentIndex(i)
+                            body += F'<gost:se>\n'
+                            body += f'<gost:typeNum>{self.tabWidget_2.currentWidget().lineEditType.text().strip(" ")}</gost:typeNum>\n'
+                            body += f'<gost:manufactureYear>{self.tabWidget_2.currentWidget().spinBoxManufYear.value()}</gost:manufactureYear>\n'
+                            if self.tabWidget_2.currentWidget().lineEditSerialNumber.text() != '' and not self.tabWidget_2.currentWidget().lineEditSerialNumber.text().isspace():
+                                body += f'<gost:manufactureNum>{self.tabWidget_2.currentWidget().lineEditSerialNumber.text().strip(" ")}</gost:manufactureNum>\n'
+                            if self.tabWidget_2.currentWidget().lineEditSpecifications.text() != '' and not self.tabWidget_2.currentWidget().lineEditSpecifications.text().isspace():
+                                body += f'<gost:metroChars>{self.tabWidget_2.currentWidget().lineEditSpecifications.text().strip(" ")}</gost:metroChars>\n'
+                            body += F'</gost:se>\n'
+                        body += f'</gost:ses>\n'
+
+                    if self.mieta_number != '':
+                        text = self.mieta_number.strip(' ')
+                        text = text.split(';')
+                        body += f'<gost:mieta>\n'
+                        for t in text:
+                            if t != '' and not t.isspace():
+                                body += f'<gost:number>{t.strip(" ")}</gost:number>\n'
+                        body += f'</gost:mieta>\n'
+
+                    if self.tabWidget_3.count() > 1:
+                        body += f'<gost:mis>\n'
+                        for i in range(self.tabWidget_3.count() - 1):
+                            self.tabWidget_3.setCurrentIndex(i)
+                            body += F'<gost:mi>\n'
+                            body += f'<gost:typeNum>{self.tabWidget_3.currentWidget().lineEditTypeSI.text().strip(" ")}</gost:typeNum>\n'
+                            if self.tabWidget_3.currentWidget().lineEditZavNumber.text() != '':
+                                body += f'<gost:manufactureNum>{self.tabWidget_3.currentWidget().lineEditZavNumber.text().strip(" ")}</gost:manufactureNum>\n'
+                            elif self.tabWidget_3.currentWidget().lineEditInventory.text() != '':
+                                body += f'<gost:inventoryNum>{self.tabWidget_3.currentWidget().lineEditInventory.text().strip(" ")}</gost:inventoryNum>\n'
+                            body += F'</gost:mi>\n'
+                        body += f'</gost:mis>\n'
+
+                    if self.reagent_number != '':
+                        text = self.reagent_number.strip(' ')
+                        text = text.split(';')
+                        body += f'<gost:reagent>\n'
+                        for t in text:
+                            if t != '' and not t.isspace():
+                                body += f'<gost:number>{t.strip(" ")}</gost:number>\n'
+                        body += f'</gost:reagent>\n'
+
                 else:
-                    poveritel = ''
+                    body += f'<gost:oMethod>{self.oMethod}</gost:oMethod>\n'
 
-                means_start = f'<gost:means>\n'
+                body += f'</gost:means>\n'
 
-                npe = ''
-                uve = ''
-                ses = ''
-                mieta = ''
-                mis = ''
-                reagent = ''
+                body += f'<gost:conditions>\n'
+                body += f'<gost:temperature>{self.temperature.strip(" ")}</gost:temperature>\n'
+                body += f'<gost:pressure>{self.pressure.strip(" ")}</gost:pressure>\n'
+                body += f'<gost:hymidity>{self.hymidity.strip(" ")}</gost:hymidity>\n'
+                if self.other != '':
+                    body += f'<gost:other>{self.other.strip(" ")}</gost:other>\n'
+                body += f'</gost:conditions>\n'
 
-                if self.npe_number != '':
-                    npe_start = f'<gost:npe>\n'
-                    npe_number_str = f'<gost:number>{self.npe_number}</gost:number>\n'
-                    npe_close = f'</gost:npe>\n'
-                    npe = npe_start + npe_number_str + npe_close
+                if self.structure != '':
+                    body += f'<gost:structure>{self.structure.strip(" ")}</gost:structure>\n'
 
-                if self.uve_number != '':
-                    uve_start = f'<gost:uve>\n'
-                    uve_number_str = f'<gost:number>{self.uve_number}</gost:number>\n'
-                    uve_close = f'</gost:uve>\n'
-                    uve = uve_start + uve_number_str + uve_close
-
-                if self.ses_number != '':
-                    ses_start = f'<gost:ses>\n'
-                    se_start = f'<gost:se>\n'
-                    ses_number_str = f'<gost:typeNum>{self.ses_number}</gost:typeNum>\n'
-                    ses_manufactureYear_str = f'<gost:manufactureYear>{self.ses_manufactureYear}</gost:manufactureYear>\n'
-                    ses_manufactureNum_str = f'<gost:manufactureNum>{self.ses_manufactureNum}</gost:manufactureNum>\n'
-                    se_close = f'</gost:se>\n'
-                    ses_close = f'</gost:ses>\n'
-                    ses = ses_start + se_start + ses_number_str + ses_manufactureYear_str + ses_manufactureNum_str + se_close + ses_close
-
-                if self.mieta_number != '':
-                    mieta_start = f'<gost:mieta>\n'
-                    mieta_number_str = f'<gost:number>{self.mieta_number}</gost:number>\n'
-                    mieta_close = f'</gost:mieta>\n'
-                    mieta = mieta_start + mieta_number_str + mieta_close
-
-                if self.mis_number != '':
-                    mis_start =	f'<gost:mis>\n'
-                    mi_start = f'<gost:mi>\n'
-                    mis_number_str = f'<gost:typeNum>{self.mis_number}</gost:typeNum>\n'
-                    mis_manufactureNum_str = f'<gost:manufactureNum>{self.mis_manufactureNum}</gost:manufactureNum>\n'
-                    mi_close = f'</gost:mi>\n'
-                    mis_close =	f'</gost:mis>\n'
-                    mis = mis_start + mi_start + mis_number_str + mis_manufactureNum_str + mi_close + mis_close
-
-                if self.reagent_number != '':
-                    reagent_start =	f'<gost:reagent>\n'
-                    reagent_number_str = f'<gost:number>{self.reagent_number}</gost:number>\n'
-                    reagent_close =	f'</gost:reagent>\n'
-                    reagent = reagent_start + reagent_number_str + reagent_close
-
-                means_close = f'</gost:means>\n'
-
-                additional_info_str = ''
-                ranges_str = ''
-                values_str = ''
-                channels_str = ''
-                blocks_str = ''
+                if self.checkBox_4.isChecked():
+                    body += f'<gost:brief_procedure>\n'
+                    body += f'<gost:characteristics>{self.characteristics.strip(" ")}</gost:characteristics>\n'
+                    body += f'</gost:brief_procedure>\n'
 
                 if self.additional_info != '':
-                    additional_info_str = f'<gost:additional_info>{self.additional_info}</gost:additional_info>\n'
+                    body += f'<gost:additional_info>{self.additional_info.strip(" ")}</gost:additional_info>\n'
 
-                if self.ranges != '':
-                    ranges_str = f'<gost:ranges>{self.ranges}</gost:ranges>\n'
-
-                if self.values != '':
-                    values_str = f'<gost:values>{self.values}</gost:values>\n'
-
-                if self.channels != '':
-                    channels_str = f'<gost:channels>{self.channels}</gost:channels>\n'
-
-                if self.blocks != '':
-                    blocks_str = f'<gost:blocks>{self.blocks}</gost:blocks>\n'
-
-                result_close = f'</gost:result>\n'
-
-                body = result_start + miInfo + valid + verification_res + docTitle + poveritel + means_start + npe + uve + ses + mieta + mis + reagent + means_close + additional_info_str + ranges_str + values_str + channels_str + blocks_str + result_close
+                body += f'</gost:result>\n'
                 sample_body.write(body)
 
                 counter_zav += 1
-                counter_applic += 1
-
 
         with open (FileFullPath, 'a', encoding='utf-8') as sample:
             footer = f'</gost:application>\n'
             sample.write(footer)
 
-        return counter_zav, counter_applic
+        return counter_zav
 
+    #Проверка что введенное значение в поле Заводской номер является числом
     def check_zav_number_is_int(self):
-        self.changeable_zav_number = self.lineEdit_4.text()
-        self.zav_len = len(self.changeable_zav_number)
-        self.counter_zav_number = int(self.changeable_zav_number)
-        if type(self.counter_zav_number) == int:
+        try:
+            self.counter_zav_number = int(self.counter_zav_number)
             self.label_9.setVisible(False)
-            return True
+            print('func int')
+        except ValueError:
+            pass
+            #self.label_9.setVisible(True)
+            #self.lineEdit_4.setStyleSheet(self.red_warning)
+            #self.line_3.setVisible(True)
+            #self.pushButton.setText("Необходимо заполнить обязательные поля")
+
+    #Проверка таб 1
+    def check_tab_1(self):
+        #Тип СИ
+        self.mitypeNumber = self.lineEdit.text()
+        #Модификация СИ
+        self.modification = self.lineEdit_2.text()
+        #Дата производства СИ
+        self.manufactureYear = self.spinBox_3.text()
+        if self.manufactureYear == '-':
+            self.manufactureYear = ''
         else:
-            return False
+            self.manufactureYear = int(self.spinBox_3.text())
+        #Заводской номер СИ
+        self.prefix_zav_number = self.lineEdit_3.text()
+        self.counter_zav_number = self.lineEdit_4.text()
+        self.zav_len = len(self.counter_zav_number.strip(' '))
+        if self.counter_zav_number != '':
+            self.check_zav_number_is_int()
+            print('int-not int')
+        self.tail_zav_number = self.lineEdit_5.text()
 
-    def check_applic_number_is_int(self):
-        self.changeable_applic_number = self.lineEdit_9.text()
-        self.applic_len = len(self.changeable_applic_number)
-        self.counter_applic_number = int(self.changeable_applic_number)
-        if type(self.counter_applic_number) == int:
-            self.label_10.setVisible(False)
-            return True
+        if self.indicator_1 == False:
+            print('indicator_1')
+            print('self.counter_zav_number', type(self.counter_zav_number))
+            self.universal_fields_checker_with_sender()
+            if self.mitypeNumber != '' and self.modification != '' and type(self.counter_zav_number) is int:
+                self.count_1 = 1
+            else:
+                #self.pushButton.setEnabled(False)
+                self.count_1 = 0
+
         else:
-            return False
+            field_tab_1 = {'self.mitypeNumber': [self.mitypeNumber, self.lineEdit, self.line_3],
+                           'self.modification': [self.modification, self.lineEdit_2, self.line_3],
+                           'self.counter_zav_number': [str(self.counter_zav_number), self.lineEdit_4, self.line_3]}
 
-    def check_fields(self):
+            self.check_zav_number_is_int()
+            if not type(self.counter_zav_number) is int:
+                self.label_9.setVisible(True)
 
-        self.complete_fields()
+            self.universal_fields_checker(field_tab_1)
 
-        red_warning = "border-color: red; border-style: solid; border-width: 2px; font-weight: normal;"
+            # for field in field_tab_1.keys():
+            #     required_field = field_tab_1[field][1]
+            #     alert_field = field_tab_1[field][2]
+            #     #Проход циклом по всем полям, выявление незаполненных обязательных полей
+            #     if field_tab_1[field][0] == '' or field_tab_1[field][0].isspace():
+            #         required_field.setStyleSheet(self.red_warning)
+            #         alert_field.setVisible(True)
+            #         self.pushButton.setText("Необходимо проверить вкладку Сведения о СИ")
+            #         self.pushButton.setEnabled(False)
+            #     else:
+            #         required_field.setStyleSheet("")
+            #         self.pushButton.setText("Создать заявку")
 
-        field_tab_1 = {'self.mitypeNumber': [self.mitypeNumber, self.lineEdit, self.line_3],
-                       'self.modification': [self.modification, self.lineEdit_2, self.line_3],
-                       'self.counter_zav_number': [self.counter_zav_number, self.lineEdit_4, self.line_3]}
+            if self.mitypeNumber != '' and self.modification != '' and type(self.counter_zav_number) is int:
+                self.line_3.setVisible(False)
+                #self.pushButton.setText("Создать заявку")
+                self.count_1 = 1
+            else:
+                self.line_3.setVisible(True)
+                #self.pushButton.setText("Необходимо проверить вкладку Сведения о СИ")
+                #self.pushButton.setEnabled(False)
+                self.count_1 = 0
 
-        field_tab_2 = {'self.method': [self.method, self.lineEdit_11, self.line_4],
-                       'self.signCipher': [self.signCipher, self.lineEdit_7, self.line_4],
-                       'self.counter_applic_number': [self.counter_applic_number, self.lineEdit_9, self.line_4]}
+        # if self.count_1 == 1:
+        #     return self.count_1
+        self.start_to_create_application()
+        print('self.count_1', self.count_1)
+        return self.count_1
 
-        field_tab_3 = {'self.npe_number': [self.npe_number, self.lineEdit_12, self.line_5],
-                       'self.uve_number': [self.uve_number, self.lineEdit_13, self.line_5],
-                       'self.ses_number': [self.ses_number, self.lineEdit_14, self.line_5],
-                       'self.mieta_number': [self.mieta_number, self.lineEdit_16, self.line_5],
-                       'self.mis_number': [self.mis_number, self.lineEdit_17, self.line_5],
-                       'self.reagent_number': [self.reagent_number, self.lineEdit_19, self.line_5]}
+    #Проверка таб 2
+    def check_tab_2(self):
+        #Условный шифр знака поверки
+        signCipher = self.lineEdit_7.text()
+        self.signCipher = signCipher.upper()
+        #Владелец СИ
+        self.miOwner = self.lineEdit_10.text()
+        #Дата поверки (формат гггг-мм-дд)
+        self.vrfDate = self.dateEdit.text()
+        #Дата действия поверки (формат гггг-мм-дд)
+        self.validDate = self.lineEdit_6.text()
+        #Методика поверки
+        self.method = self.lineEdit_11.text()
+        #Ф.И.О. поверителя
+        self.metrologist = self.lineEdit_20.text()
+        #Результаты калибровки (true/false)
+        calibration = f'{self.checkBox_3.isChecked()}'
+        self.calibration = calibration.lower()
+        #Номер наклейки
+        self.stickerNum = self.lineEdit_8.text()
+        #Знак поверки в паспорте (true/false)
+        signPass = f'{self.checkBox.isChecked()}'
+        self.signPass = signPass.lower()
+        #Знак поверки на СИ (true/false)
+        signMi = f'{self.checkBox_2.isChecked()}'
+        self.signMi = signMi.lower()
+        #Причина непригодности
+        self.reasons = self.lineEdit_9.text()
 
-        ch_fields = [field_tab_1, field_tab_2, field_tab_3]
+        if self.indicator_2 == False:
+            self.universal_fields_checker_with_sender()
 
-        count = 0
+            if self.radioButton_3.isChecked() and self.method != '' and self.signCipher != '' and self.miOwner != '':
+                self.count_2 = 1
+            elif self.radioButton_4.isChecked() and self.reasons != '' and self.method != '' and self.signCipher != '' and self.miOwner != '':
+                self.count_2 = 1
+            else:
+                #self.pushButton.setEnabled(False)
+                self.count_2 = 0
 
-        for i in range(len(ch_fields)):
-            count_1 = 0
-            count_2 = 0
-            count_3 = 0
+        else:
+            field_tab_2 = {'self.method': [self.method, self.lineEdit_11, self.line_4],
+                           'self.signCipher': [self.signCipher, self.lineEdit_7, self.line_4],
+                           'self.miOwner': [self.miOwner, self.lineEdit_10, self.line_4],
+                           'self.reasons': [self.reasons, self.lineEdit_9, self.line_4]}
 
-            test = ch_fields[i]
+            self.universal_fields_checker(field_tab_2)
+            # for field in field_tab_2.keys():
+            #     required_field = field_tab_2[field][1]
+            #     alert_field = field_tab_2[field][2]
+            #     #Проход циклом по всем полям, выявление незаполненных обязательных полей
+            #     if (field == 'self.reasons' and self.radioButton_4.isChecked()) and (field_tab_2[field][0] == '' or field_tab_2[field][0].isspace()):
+            #         required_field.setStyleSheet(self.red_warning)
+            #         alert_field.setVisible(True)
+            #         self.pushButton.setText("Необходимо проверить вкладку Сведения о поверке")
+            #         self.count_2 = 0
+            #     elif field != 'self.reasons' and field_tab_2[field][0] == '' or field_tab_2[field][0].isspace():
+            #         required_field.setStyleSheet(self.red_warning)
+            #         alert_field.setVisible(True)
+            #         self.pushButton.setText("Необходимо проверить вкладку Сведения о поверке")
+            #         self.count_2 = 0
+            #     else:
+            #         alert_field.setVisible(False)
+            #         required_field.setStyleSheet("")
+            #         self.pushButton.setText("Создать заявку")
+            #         self.count_2 = 1
 
-            for k in test.keys():
-                required_field = test[k][1]
-                alert_field = test[k][2]
-                #Проход циклом по всем полям, выявление незаполненных обязательных полей
-                if test[k][0] == '' or test[k][0].isspace():
-                    required_field.setFrame(False)
-                    required_field.setStyleSheet(red_warning)
-                    alert_field.setVisible(True)
-                    self.pushButton.setText("Проверить обязательные поля")
-                    #Для вкладки Средства поверки (если хотя бы одно поле заполнено, то для остальных полей убирается красная рамка и флаг над табом)
-                    if test == field_tab_3 and (self.npe_number != '' or self.uve_number != '' or self.ses_number != '' or self.mieta_number != '' or self.mis_number != '' or self.reagent_number != ''):
-                        self.line_5.setVisible(False)
-                        for p in test.keys():
-                            test[p][1].setFrame(True)
-                            test[p][1].setStyleSheet("")
-                        #Проверка: Если заполнено поле СИ, применяемые при поверке, то обязательно нужно ввести Зав номер СИ.
-                        if self.mis_number != '' and self.mis_manufactureNum == '':
-                            self.lineEdit_18.setFrame(False)
-                            self.lineEdit_18.setStyleSheet(red_warning)
-                            self.line_5.setVisible(True)
-                            self.toolBox.setCurrentIndex(4)
-                            count_3 = 0
-                        else:
-                            self.lineEdit_18.setFrame(True)
-                            self.lineEdit_18.setStyleSheet("")
-
-                else:
-                    required_field.setFrame(True)
-                    required_field.setStyleSheet("")
-                    if self.mitypeNumber != '' and self.modification != '' and type(self.counter_zav_number) == int:
-                        self.line_3.setVisible(False)
-                        count_1 = 1
-                    elif type(self.counter_zav_number) != int and 'self.counter_zav_number' in test:
-                        try:
-                            self.check_zav_number_is_int()
-                        except ValueError:
-                            self.label_9.setVisible(True)
-                            self.lineEdit_4.setFrame(False)
-                            self.lineEdit_4.setStyleSheet(red_warning)
-                            alert_field.setVisible(True)
-                            self.pushButton.setText("Проверить обязательные поля")
-                            count_1 = 0
-                    if self.method != '' and self.signCipher != '' and type(self.counter_applic_number) == int:
-                        self.line_4.setVisible(False)
-                        count_2 = 1
-                    elif type(self.counter_applic_number) != int and 'self.counter_applic_number' in test:
-                        try:
-                            self.check_applic_number_is_int()
-                        except ValueError:
-                            self.label_10.setVisible(True)
-                            self.lineEdit_9.setFrame(False)
-                            self.lineEdit_9.setStyleSheet(red_warning)
-                            alert_field.setVisible(True)
-                            self.pushButton.setText("Проверить обязательные поля")
-                            count_2 = 0
-                    if self.npe_number != '' or self.uve_number != '' or self.ses_number != '' or self.mieta_number != '' or self.mis_number != '' or self.reagent_number != '':
-                        self.line_5.setVisible(False)
-                        count_3 = 1
-                    if self.mis_number != '' and self.mis_manufactureNum == '':
-                        count_3 = 0
-
+            if self.radioButton_3.isChecked() and self.method != '' and self.signCipher != '' and self.miOwner != '' or (self.radioButton_4.isChecked() and self.reasons != '' and self.method != '' and self.signCipher != '' and self.miOwner != ''):
+                self.line_4.setVisible(False)
+                self.count_2 = 1
                 if self.validDate != '' and self.vrfDate == self.validDate:
                     self.label_20.setVisible(False)
                     self.label_19.setVisible(True)
                     self.line_4.setVisible(True)
-                    count_2 = 0
+                    #self.pushButton.setText("Необходимо заполнить обязательные поля")
+                    self.count_2 = 0
                 elif self.validDate != '' and self.vrfDate > self.validDate:
                     self.label_19.setVisible(False)
                     self.label_20.setVisible(True)
                     self.line_4.setVisible(True)
-                    count_2 = 0
+                    #self.pushButton.setText("Необходимо заполнить обязательные поля")
+                    self.count_2 = 0
                 else:
+                    #self.pushButton.setText("Создать заявку")
                     self.label_19.setVisible(False)
                     self.label_20.setVisible(False)
-                    count_2 = 1
+                    self.count_2 = 1
+            else:
+                self.line_4.setVisible(True)
+                #self.pushButton.setText("Необходимо заполнить обязательные поля")
+                self.count_2 = 0
 
-                    count = count_1 + count_2 + count_3
+        # if self.count_2 == 1:
+        #     return self.count_2
+        self.start_to_create_application()
+        print('self.count_2', self.count_2)
+        return self.count_2
 
-        if count == len(ch_fields):
-            self.pushButton.setText("Создать заявки")
-            return True
+    #Проверка таб 3
+    def check_tab_3(self):
+        #ГПЭ
+        self.npe_number = self.lineEdit_12.text()
+        #Эталоны
+        self.uve_number = self.lineEdit_13.text()
+        #СИ, применяемые в качестве эталонов
+        self.mieta_number = self.lineEdit_16.text()
+        #Вещества (материалы)
+        self.reagent_number = self.lineEdit_19.text()
+        #Методы поверки без применения средств поверки
+        self.oMethod = self.comboBox.currentIndex()
+
+        if self.comboBox.currentIndex() == 0:
+            if self.npe_number != '' or self.uve_number != '' or self.tabWidget_2.count() > 0 or self.mieta_number != '' or self.tabWidget_3.count() > 0 or self.reagent_number != '':
+                self.line_5.setVisible(False)
+                self.label_30.setVisible(False)
+                self.comboBox.setEnabled(False)
+                #self.pushButton.setText("Создать заявку")
+                self.count_3 = 1
+            else:
+                self.comboBox.setEnabled(True)
+                self.line_5.setVisible(True)
+                self.label_30.setVisible(True)
+                self.comboBox.setEnabled(True)
+                #self.pushButton.setText("Необходимо проверить вкладку Средства поверки")
+                self.count_3 = 0
+
+            #Проверка: Если заполнено поле СО, применяемые при поверке.
+            if self.tabWidget_2.count() > 0:
+                for i in range(self.tabWidget_2.count() - 1):
+                    self.tabWidget_2.setCurrentIndex(i)
+                    #self.check_tab_3_SO()
+                    if self.tabWidget_2.currentWidget().lineEditType.text() == '' or self.tabWidget_2.currentWidget().lineEditType.text().isspace():
+                        self.tabWidget_2.currentWidget().lineEditType.setStyleSheet(self.red_warning)
+                        self.line_5.setVisible(True)
+                        self.label_30.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
+                        #self.pushButton.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
+                        self.count_3 = 0
+                        return
+                    else:
+                        self.tabWidget_2.currentWidget().lineEditType.setStyleSheet('')
+                        self.tabWidget_2.currentWidget().lineEditType.setFont(self.font_tab3)
+                        self.tabWidget_2.setTabText(self.tabWidget_2.currentIndex(), 'Образец')
+                        self.line_5.setVisible(False)
+                        self.label_30.setVisible(False)
+                        #self.pushButton.setText("Создать заявку")
+                        self.count_3 = 1
+
+            #Проверка: Если заполнено поле СИ, применяемые при поверке.
+            if self.tabWidget_3.count() > 0:
+                for i in range(self.tabWidget_3.count() - 1):
+                    self.tabWidget_3.setCurrentIndex(i)
+                    if self.tabWidget_3.currentWidget().lineEditTypeSI.text() == '' or self.tabWidget_3.currentWidget().lineEditTypeSI.text().isspace():
+                        self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet(self.red_warning)
+                        self.line_5.setVisible(True)
+                        self.label_30.setVisible(True)
+                        self.label_30.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+                        #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+                        self.count_3 = 0
+                        #return
+                        break
+                    else:
+                        self.tabWidget_3.currentWidget().lineEditZavNumber.setStyleSheet('')
+                        self.tabWidget_3.currentWidget().lineEditInventory.setStyleSheet('')
+                        self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet('')
+                        self.line_5.setVisible(False)
+                        self.label_30.setVisible(False)
+                        #self.pushButton.setText("Создать заявку")
+                        self.count_3 = 1
+                        if self.tabWidget_3.currentWidget().lineEditTypeSI.text() != '' and (self.tabWidget_3.currentWidget().lineEditZavNumber.text() == '' and self.tabWidget_3.currentWidget().lineEditInventory.text() == ''):
+                            self.tabWidget_3.currentWidget().lineEditZavNumber.setStyleSheet(self.red_warning)
+                            self.tabWidget_3.currentWidget().lineEditInventory.setStyleSheet(self.red_warning)
+                            self.line_5.setVisible(True)
+                            self.label_30.setVisible(True)
+                            self.label_30.setText("Необходимо заполнить либо буквенно-цифровое обозначение, либо заводской номер")
+                            #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+                            self.count_3 = 0
+                            return
+                            break
+
         else:
-            return False
+            self.line_5.setVisible(False)
+            self.label_30.setVisible(False)
+            #self.pushButton.setText("Создать заявку")
+            self.count_3 = 1
+
+        # if self.count_3 == 1:
+        #     return self.count_3
+        self.start_to_create_application()
+        print('self.count_3', self.count_3)
+        return self.count_3
+
+    #Проверка таб 3 Стандартные образцы
+    def check_tab_3_SO(self):
+        #Проверка: Если заполнено поле СО, применяемые при поверке.
+        #self.tabWidget_2.setCurrentIndex(self.tabWidget_2.currentIndex())
+        if self.tabWidget_2.currentWidget().lineEditType.text() == '' or self.tabWidget_2.currentWidget().lineEditType.text().isspace():
+            self.tabWidget_2.currentWidget().lineEditType.setStyleSheet(self.red_warning)
+            self.line_5.setVisible(True)
+            self.label_30.setVisible(True)
+            self.label_30.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
+            #self.pushButton.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
+            self.count_3 = 0
+            print('self.count_3', self.count_3)
+            return
+        else:
+            self.tabWidget_2.currentWidget().lineEditType.setStyleSheet('')
+            self.tabWidget_2.currentWidget().lineEditType.setFont(self.font_tab3)
+            self.line_5.setVisible(False)
+            self.label_30.setVisible(False)
+            #self.pushButton.setText("Создать заявку")
+            self.count_3 = 1
+
+        # if self.count_3 == 1:
+        #     self.start_to_create_check(self.count_3)
+        #     return self.count_3
+        self.start_to_create_application()
+        print('self.count_3', self.count_3)
+        return self.count_3
+
+    #Проверка таб 3 Средства измерений
+    def check_tab_3_SI(self):
+        #self.tabWidget_3.setCurrentIndex(self.tabWidget_3.currentIndex())
+        if self.tabWidget_3.currentWidget().lineEditTypeSI.text() == '' or self.tabWidget_3.currentWidget().lineEditTypeSI.text().isspace():
+            self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet(self.red_warning)
+            self.line_5.setVisible(True)
+            self.label_30.setVisible(True)
+            self.label_30.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+            #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+            self.count_3 = 0
+            return
+        else:
+            self.tabWidget_3.currentWidget().lineEditZavNumber.setStyleSheet('')
+            self.tabWidget_3.currentWidget().lineEditInventory.setStyleSheet('')
+            self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet('')
+            self.tabWidget_3.currentWidget().lineEditZavNumber.setFont(self.font_tab3)
+            self.tabWidget_3.currentWidget().lineEditInventory.setFont(self.font_tab3)
+            self.tabWidget_3.currentWidget().lineEditTypeSI.setFont(self.font_tab3)
+            self.line_5.setVisible(False)
+            self.label_30.setVisible(False)
+            #self.pushButton.setText("Создать заявку")
+            self.count_3 = 1
+            if self.tabWidget_3.currentWidget().lineEditTypeSI.text() != '' and ((self.tabWidget_3.currentWidget().lineEditZavNumber.text() == '' or self.tabWidget_3.currentWidget().lineEditZavNumber.text().isspace()) and (self.tabWidget_3.currentWidget().lineEditInventory.text() == '' or self.tabWidget_3.currentWidget().lineEditInventory.text().isspace())):
+                self.tabWidget_3.currentWidget().lineEditZavNumber.setStyleSheet(self.red_warning)
+                self.tabWidget_3.currentWidget().lineEditInventory.setStyleSheet(self.red_warning)
+                self.line_5.setVisible(True)
+                self.label_30.setVisible(True)
+                self.label_30.setText("Необходимо заполнить либо буквенно-цифровое обозначение, либо заводской номер")
+                #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+                self.count_3 = 0
+                return
+
+        # if self.count_3 == 1:
+        #     self.start_to_create_check(self.count_3)
+        #     return self.count_3
+        # self.start_to_create_check(self.count_3)
+        self.start_to_create_application()
+        print('self.count_3', self.count_3)
+        return self.count_3
+
+    #Проверка таб 4
+    def check_tab_4(self):
+        #Условия проведения поверки
+        self.temperature = self.lineEdit_21.text()
+        self.pressure = self.lineEdit_22.text()
+        self.hymidity = self.lineEdit_23.text()
+        #Другие факторы
+        self.other = self.textEdit_24.toPlainText()
+        #Состав СИ, представленного на поверку
+        self.structure = self.textEdit_25.toPlainText()
+        #Краткая характеристика объема поверки
+        self.characteristics = self.textEdit_27.toPlainText()
+        #Прочие сведения
+        self.additional_info = self.textEdit_26.toPlainText()
+
+        if self.indicator_4 == False:
+            self.universal_fields_checker_with_sender()
+            if self.checkBox_4.checkState() == 0 and self.temperature != '' and self.pressure != '' and self.hymidity != '':
+                self.count_4 = 1
+            elif self.checkBox_4.isChecked() and self.characteristics != '' and self.temperature != '' and self.pressure != '' and self.hymidity != '':
+                self.count_4 = 1
+            else:
+                #self.pushButton.setEnabled(False)
+                self.count_4 = 0
+        else:
+            field_tab_4 = {'self.temperature': [self.temperature, self.lineEdit_21, self.line_6],
+                           'self.pressure': [self.pressure, self.lineEdit_22, self.line_6],
+                           'self.hymidity': [self.hymidity, self.lineEdit_23, self.line_6],
+                           'self.characteristics': [self.characteristics, self.textEdit_27, self.line_6]}
+
+            self.universal_fields_checker(field_tab_4)
+            print('func_4', self.count_4)
+            # for field in field_tab_4.keys():
+            #     required_field = field_tab_4[field][1]
+            #     alert_field = field_tab_4[field][2]
+            #     #Проход циклом по всем полям, выявление незаполненных обязательных полей
+            #     if (field == 'self.characteristics' and self.checkBox_4.isChecked()) and (field_tab_4[field][0] == '' or field_tab_4[field][0].isspace()):
+            #         required_field.setStyleSheet(self.red_warning)
+            #         alert_field.setVisible(True)
+            #         self.pushButton.setText("Необходимо проверить вкладку Прочие сведения")
+            #         self.pushButton.setEnabled(False)
+            #         self.count_4 = 0
+
+            #     elif field != 'self.characteristics' and field_tab_4[field][0] == '' or field_tab_4[field][0].isspace():
+            #         required_field.setStyleSheet(self.red_warning)
+            #         alert_field.setVisible(True)
+            #         self.pushButton.setText("Необходимо проверить вкладку Прочие сведения")
+            #         self.pushButton.setEnabled(False)
+            #         self.count_4 = 0
+
+            #     else:
+            #         self.pushButton.setText("Создать заявку")
+            #         self.pushButton.setEnabled(True)
+            #         required_field.setStyleSheet("")
+            #         self.count_4 = 1
+
+            if self.checkBox_4.checkState() == 0 and self.temperature != '' and self.pressure != '' and self.hymidity != '':
+                self.line_6.setVisible(False)
+                #self.pushButton.setText("Создать заявку")
+                #self.pushButton.setEnabled(True)
+                self.count_4 = 1
+            elif self.checkBox_4.isChecked() and self.characteristics != '' and self.temperature != '' and self.pressure != '' and self.hymidity != '':
+                self.line_6.setVisible(False)
+                #self.pushButton.setText("Создать заявку")
+                self.count_4 = 1
+            else:
+                self.line_6.setVisible(True)
+                #self.pushButton.setText("Необходимо заполнить обязательные поля")
+                #self.pushButton.setEnabled(False)
+                self.count_4 = 0
+
+        self.start_to_create_application()
+        print('self.count_4', self.count_4)
+        return self.count_4
+
+    def universal_fields_checker(self, field_tab):
+        for field in field_tab.keys():
+            required_field = field_tab[field][1]
+            alert_field = field_tab[field][2]
+            #Проход циклом по всем обязательным полям, выявление незаполненных обязательных полей
+            if (field != 'self.reasons' and field != 'self.characteristics') and field_tab[field][0] == '' or field_tab[field][0].isspace():
+                required_field.setStyleSheet(self.red_warning)
+                alert_field.setVisible(True)
+            elif (field == 'self.reasons' and self.radioButton_4.isChecked()) and (field_tab[field][0] == '' or field_tab[field][0].isspace()):
+                required_field.setStyleSheet(self.red_warning)
+                alert_field.setVisible(True)
+            elif (field == 'self.characteristics' and self.checkBox_4.isChecked()) and (field_tab[field][0] == '' or field_tab[field][0].isspace()):
+                required_field.setStyleSheet(self.red_warning)
+                alert_field.setVisible(True)
+                #self.pushButton.setText("Необходимо заполнить обязательные поля")
+                #self.pushButton.setEnabled(False)
+                #self.count = 0
+                #self.pushButton.setText("Необходимо заполнить обязательные поля")
+                #self.pushButton.setEnabled(False)
+                #self.count = 0
+                #self.pushButton.setText("Необходимо проверить вкладку Сведения о поверке")
+                #self.count_2 = 0
+            # elif field != 'self.reasons' and field_tab[field][0] == '' or field_tab[field][0].isspace():
+            #     required_field.setStyleSheet(self.red_warning)
+            #     alert_field.setVisible(True)
+            #     #self.pushButton.setText("Необходимо проверить вкладку Сведения о поверке")
+            #     #self.count_2 = 0
+
+            else:
+                #self.pushButton.setText("Создать заявку")
+                required_field.setStyleSheet("")
+                alert_field.setVisible(False)
+                #self.count = 1
+        #return self.count
+
+    def universal_fields_checker_with_sender(self):
+        sender = self.sender()
+        print('sender', id(sender))
+        print('self.counter_zav_number_2', type(self.counter_zav_number))
+        if sender == self.lineEdit_4 and not type(self.counter_zav_number) is int:
+            self.check_zav_number_is_int()
+            self.label_9.setVisible(True)
+            print('self.lineEdit_4')
+        elif sender == self.lineEdit_4 and type(self.counter_zav_number) is int:
+            self.label_9.setVisible(False)
+        else:
+            print('not self.lineEdit_4')
+        is_lineEdit = isinstance(sender, QtWidgets.QLineEdit)
+        is_textEdit = isinstance(sender, QtWidgets.QTextEdit)
+        print('is_textEdit', is_textEdit)
+        if is_lineEdit and (sender.text() == '' or sender.text().isspace()):
+            sender.setStyleSheet(self.red_warning)
+            #self.pushButton.setText("Необходимо заполнить обязательные поля")
+            #self.pushButton.setEnabled(False)
+        elif (is_textEdit and self.checkBox_4.isChecked()) and (sender.toPlainText() == '' or sender.toPlainText().isspace()):
+            sender.setStyleSheet(self.red_warning)
+            #self.pushButton.setText("Необходимо заполнить обязательные поля")
+            #self.pushButton.setEnabled(False)
+        else:
+            sender.setStyleSheet("")
+            #self.pushButton.setText("Создать заявку")
+
+    def start_to_create_application(self):
+        self.result = 0
+        self.result = self.count_1 + self.count_2 + self.count_3 + self.count_4
+
+        if self.result == 4:
+            self.pushButton.setText("Создать заявку")
+            self.pushButton.setEnabled(True)
+        else:
+            self.pushButton.setText("Необходимо заполнить обязательные поля")
+            self.pushButton.setEnabled(False)
+
+
+        print('self.result', self.result)
 
     def create(self):
+        #Общее количество записей о поверках СИ
+        TOTAL_RESULTS = int(self.spinBox.text())
 
-        result = self.check_fields()
+        #Количество записей о поверках СИ в одной заявке (не более 4000 записей)
+        RESULTS_IN_APP = int(self.spinBox_2.text())
 
-        if result == True:
+        filepath = QtWidgets.QFileDialog.getExistingDirectory(self, "Каталог сохранения заявок")
+        if filepath != '':
 
-            #Общее количество записей о поверках СИ
-            TOTAL_RESULTS = int(self.spinBox.text())
+            self.pushButton.setVisible(False)
+            self.progressBar.setVisible(True)
 
-            #Количество записей о поверках СИ в одной заявке (не более 5000 записей)
-            RESULTS_IN_APP = int(self.spinBox_2.text())
+            parts = TOTAL_RESULTS // RESULTS_IN_APP # Вычисление количества заявок (Общее количество заявок делится без остатка на желаемое количество в одной заявке)
+            if TOTAL_RESULTS % RESULTS_IN_APP != 0: # Если остаток от деления заявок на части не равен 0, то количество заявок увеличивается на 1.
+                parts += 1
 
+            set_progress = 0
+            progress_value = 100 / (TOTAL_RESULTS / RESULTS_IN_APP)
 
-            filepath = QFileDialog.getExistingDirectory(self, "Каталог сохранения заявок")
-            if filepath != '':
+            #Заводской номер СИ
+            counter_zav_number = self.counter_zav_number
 
-                self.pushButton.setVisible(False)
-                self.progressBar.setVisible(True)
+            for j in range(parts):
+                if TOTAL_RESULTS <= RESULTS_IN_APP:
+                    zav = self.applic_constructor(filepath, TOTAL_RESULTS, j + 1, counter_zav_number)
+                elif TOTAL_RESULTS > RESULTS_IN_APP:
+                    zav = self.applic_constructor(filepath, RESULTS_IN_APP, j + 1, counter_zav_number)
+                    TOTAL_RESULTS -= RESULTS_IN_APP
+                counter_zav_number = zav
 
-                parts = TOTAL_RESULTS // RESULTS_IN_APP # Вычисление количества заявок (Общее количество заявок делится без остатка на желаемое количество в одной заявке)
-                if TOTAL_RESULTS % RESULTS_IN_APP != 0: # Если остаток от деления заявок на части не равен 0, то количество заявок увеличивается на 1.
-                    parts += 1
+                set_progress += progress_value
+                if set_progress > 100:
+                    set_progress = 100
+                self.progressBar.setValue(round(set_progress))
 
-                set_progress = 0
-                progress_value = 100 / (TOTAL_RESULTS / RESULTS_IN_APP)
-
-                #Заводской номер СИ
-                counter_zav_number = self.counter_zav_number
-                #Номер свидетельства СИ
-                counter_applic_number = self.counter_applic_number
-
-                for j in range(parts):
-                    if TOTAL_RESULTS <= RESULTS_IN_APP:
-                        zav, applic = self.applic_constructor(filepath, TOTAL_RESULTS, j + 1, counter_zav_number, counter_applic_number)
-                    elif TOTAL_RESULTS > RESULTS_IN_APP:
-                        zav, applic = self.applic_constructor(filepath, RESULTS_IN_APP, j + 1, counter_zav_number, counter_applic_number)
-                        TOTAL_RESULTS -= RESULTS_IN_APP
-                    counter_zav_number = zav
-                    counter_applic_number = applic
-
-                    set_progress += progress_value
-                    if set_progress > 100:
-                        set_progress = 100
-                    self.progressBar.setValue(round(set_progress))
-
-                self.statusBar().showMessage('Формирование файлов завершено!')
-                self.pushButton.setVisible(True)
-                self.progressBar.setVisible(False)
-                self.statusTimer()
+            self.statusBar().showMessage('Формирование файлов завершено!')
+            self.pushButton.setVisible(True)
+            self.progressBar.setVisible(False)
+            self.statusTimer()
 
     def statusTimer(self):
-        self.timer = QTimer()
+        self.timer = QtCore.QTimer()
         self.timer.start(2500)
         self.timer.timeout.connect(self.clearStatusBar)
         self.timer.setSingleShot(True)                     #Таймер выполняется один раз
@@ -518,26 +1096,64 @@ class main_window(QMainWindow, MainWindow_poverki.Ui_MainWindow):
     def clearStatusBar(self):
         self.statusBar().clearMessage()
 
-    def closeEvent(self, event):                           #Запрос на закрытие программы
-        reply = QMessageBox.question(self, 'Предупреждение',
-            "Закрыть приложение?", QMessageBox.No |
-            QMessageBox.No, QMessageBox.Yes)
+    # def closeEvent(self, event):                           #Запрос на закрытие программы
+    #     reply = QMessageBox.question(self, 'Предупреждение',
+    #         "Закрыть приложение?", QMessageBox.No |
+    #         QMessageBox.No, QMessageBox.Yes)
 
-        if reply == QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
+    #     if reply == QMessageBox.Yes:
+    #         event.accept()
+    #     else:
+    #         event.ignore()
 
     def keyPressEvent(self, e):                            #Выход из программы по Esc
-        if e.key() == Qt.Key_Escape:
+        if e.key() == QtCore.Qt.Key_Escape:
             self.close()
 
-        if e.key() in [Qt.Key_Enter, Qt.Key_Return]:
-            self.create()
+        if e.key() in [QtCore.Qt.Key_Enter, QtCore.Qt.Key_Return]:
+            #self.create()
+            self.start_to_create_application()
 
+
+# StyleSheet
+StyleSheet = """
+
+Window{background: #b8cdee;}
+QLineEdit {
+    border: 2px solid gray;
+    border-radius: 2px;
+    padding: 0 8px;
+    background: yellow;
+    selection-background-color: darkgray;
+}
+QToolBox::tab {
+    background: #009deb;
+    border-radius: 5px;
+    color: black;
+}
+
+QToolBox::tab:first {
+    background: #4ade00;
+    border-radius: 5px;
+    color: black;
+}
+
+QToolBox::tab:last {
+    background: #f95300;
+    border-radius: 5px;
+    color: black;
+}
+
+QToolBox::tab:selected { /* italicize selected tabs */
+    font: italic;
+    color: white;
+}
+
+"""
 
 if __name__ == '__main__':
-    app = QApplication(sys.argv)
-    ex = main_window()
-    ex.show()
-    app.exec()
+    app = QtWidgets.QApplication(sys.argv)
+    #app.setStyleSheet(StyleSheet)
+    window = main_window()
+    window.show()
+    sys.exit(app.exec_())

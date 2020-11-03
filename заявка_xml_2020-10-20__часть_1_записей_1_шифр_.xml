@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<gost:application xmlns:gost="urn://fgis-arshin.gost.ru/module-verifications/import/2020-06-19">
+<gost:result>
+<gost:miInfo>
+<gost:singleMI>
+<gost:mitypeNumber></gost:mitypeNumber>
+<gost:manufactureNum></gost:manufactureNum>
+<gost:modification></gost:modification>
+</gost:singleMI>
+</gost:miInfo>
+<gost:signCipher></gost:signCipher>
+<gost:miOwner></gost:miOwner>
+<gost:vrfDate>2020-10-20</gost:vrfDate>
+<gost:type>1</gost:type>
+<gost:calibration>false</gost:calibration>
+<gost:applicable>
+<gost:signPass>false</gost:signPass>
+<gost:signMi>false</gost:signMi>
+</gost:applicable>
+<gost:docTitle></gost:docTitle>
+<gost:means>
+<gost:mis>
+</gost:mis>
+</gost:means>
+<gost:conditions>
+<gost:temperature></gost:temperature>
+<gost:pressure></gost:pressure>
+<gost:hymidity></gost:hymidity>
+</gost:conditions>
+</gost:result>

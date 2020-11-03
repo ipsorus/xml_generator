@@ -1419,8 +1419,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>679</width>
-         <height>189</height>
+         <width>100</width>
+         <height>30</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2337,7 +2337,57 @@
     <property name="geometry">
      <rect>
       <x>230</x>
-      <y>620</y>
+      <y>380</y>
+      <width>271</width>
+      <height>20</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">color: white;</string>
+    </property>
+    <property name="text">
+     <string>Версия ПО 1.3</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_26">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>630</y>
+      <width>271</width>
+      <height>21</height>
+     </rect>
+    </property>
+    <property name="font">
+     <font>
+      <family>MS Shell Dlg 2</family>
+      <pointsize>8</pointsize>
+     </font>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
+    </property>
+    <property name="text">
+     <string>Разработано ФГУП &quot;ВНИИМС&quot;, 2020 г.</string>
+    </property>
+    <property name="alignment">
+     <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_27">
+    <property name="geometry">
+     <rect>
+      <x>230</x>
+      <y>600</y>
       <width>271</width>
       <height>20</height>
      </rect>
@@ -2349,10 +2399,281 @@
      </font>
     </property>
     <property name="text">
-     <string>Версия ПО 1.2</string>
+     <string>Программа распространяется бесплатно</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
+    </property>
+   </widget>
+   <widget class="QListWidget" name="listWidget">
+    <property name="geometry">
+     <rect>
+      <x>10</x>
+      <y>10</y>
+      <width>710</width>
+      <height>615</height>
+     </rect>
+    </property>
+    <property name="minimumSize">
+     <size>
+      <width>710</width>
+      <height>615</height>
+     </size>
+    </property>
+    <property name="maximumSize">
+     <size>
+      <width>710</width>
+      <height>615</height>
+     </size>
+    </property>
+    <property name="mouseTracking">
+     <bool>false</bool>
+    </property>
+    <property name="tabletTracking">
+     <bool>false</bool>
+    </property>
+    <property name="focusPolicy">
+     <enum>Qt::NoFocus</enum>
+    </property>
+    <property name="contextMenuPolicy">
+     <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="horizontalScrollBarPolicy">
+     <enum>Qt::ScrollBarAlwaysOff</enum>
+    </property>
+    <property name="sizeAdjustPolicy">
+     <enum>QAbstractScrollArea::AdjustToContents</enum>
+    </property>
+    <property name="autoScroll">
+     <bool>false</bool>
+    </property>
+    <property name="editTriggers">
+     <set>QAbstractItemView::NoEditTriggers</set>
+    </property>
+    <property name="showDropIndicator" stdset="0">
+     <bool>false</bool>
+    </property>
+    <property name="selectionMode">
+     <enum>QAbstractItemView::NoSelection</enum>
+    </property>
+    <property name="textElideMode">
+     <enum>Qt::ElideLeft</enum>
+    </property>
+    <property name="verticalScrollMode">
+     <enum>QAbstractItemView::ScrollPerPixel</enum>
+    </property>
+    <property name="horizontalScrollMode">
+     <enum>QAbstractItemView::ScrollPerItem</enum>
+    </property>
+    <property name="isWrapping" stdset="0">
+     <bool>false</bool>
+    </property>
+    <property name="wordWrap">
+     <bool>true</bool>
+    </property>
+    <property name="selectionRectVisible">
+     <bool>false</bool>
+    </property>
+    <item>
+     <property name="text">
+      <string>Краткая инструкция</string>
+     </property>
+     <property name="font">
+      <font>
+       <family>Calibri</family>
+       <pointsize>14</pointsize>
+       <weight>75</weight>
+       <bold>true</bold>
+      </font>
+     </property>
+     <property name="textAlignment">
+      <set>AlignCenter</set>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>   </string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>1. В поле &quot;Общее количество записей&quot; указывается количество СИ в партии.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>2. В поле &quot;Количество записей в одной заявке&quot; указывается количество записей, которое будет сформировано в одной xml-заявке (не более 5000 записей).</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>=====================================================================================</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Пример: пользователю необходимо внести сведения о 13000 шт. средств измерений, чтобы в одной заявке содержались сведения о 3000 СИ.</string>
+     </property>
+     <property name="font">
+      <font>
+       <weight>50</weight>
+       <bold>false</bold>
+      </font>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Пользователь в поле &quot;Общее количество записей&quot; указывает 13000, а вполе &quot;Количество записей в одной заявке&quot; указывает 3000.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>В результате, после создания заявок, сформируется 5 xml-файлов, 4 файла будут содержать по 3000 записей, 5-й файл - 1000 записей.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>=====================================================================================</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3. Далее необходимо заполнить все обязательные поля, находящиеся во вкладках &quot;Сведения о СИ&quot;, &quot;Сведения о поверке&quot;, &quot;Средства поверки&quot;.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3.1. Вкладка &quot;Сведения о СИ&quot;.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    а. Заполнить обязательное поле Тип СИ (№ Гос. реестра);</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    б. Указать модификацию СИ (если нет информации о модификации, нужно указать &quot;Нет&quot;, &quot;Модификации нет&quot; или что-то подобное);</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    в. Заполнить поле &quot;Заводской номер&quot; (пример ниже):</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>=====================================================================================</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Пример: пользователю необходимо внести сведения о партии СИ в количестве 1000 шт. Диапазон заводских номеров начинается с заводского номера А102-Б/Е-000001/2020 и заканчивается номером А102-Б/Е-001000/2020. Изменяемая часть в этом примере является 000001. Также в примере есть неизменяемая часть номера: &quot;А102-Б/Е-&quot;, данная часть указывается в поле &quot;Начало номера до изменяемой части&quot; и &quot;/2020&quot; - эта часть (окончание номера) указывается в поле &quot;Конец номера после изменяемой части&quot;. После заполнения у пользователя должно получится следующее: &quot;А102-Б/Е-&quot;  &quot;000001&quot;   &quot;/2020&quot;. Важное замечание: поле &quot;Изменяемая часть номера&quot; может содержать только числовые значения (возможно указание числа с ведущими нулям, как в примере). </string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>=====================================================================================</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3.2. Вкладка &quot;Сведения о поверке&quot;.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    а. Необходимо убедиться, что в поле Дата поверки выбрана нужная пользователю дата, если нужно изменить дату, нужно нажать пиктограмму &quot;стрелка&quot; в правой части поля для вызова календаря;</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    б. При необходимости можно заполнить поле &quot;Действительна до&quot; (необязательно поле), для этого также нужно нажать по пиктограмме &quot;стрелка&quot; для вызова календаря. Важное замечание: дата в поле &quot;Дата поверки&quot; не должна быть большей или равной дате, указанной в поле &quot;Действительна до&quot;;</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    в. Обязательно указать в поле &quot;Условный шифр знака поверки организации-поверителя&quot; значение шифра организации, от имени которой публикуются сведения из формируемой заявки;</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    г. Аналогично п. 3.1. (в) заполнить сведения о номере свидетельства о поверке;</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    д. Указать наименование методики поверки, в соответствии с которой проводится поверка СИ, не более 128 символов (обязательно поле);</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    е. Если имеется необходимость указывать знак поверки на СИ или в паспорте на СИ, нужно проставить галки в соответствующих пунктах (необязательно);</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3.3. Вкладка &quot;Средства поверки&quot;.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    а. Обязательно заполнить хотя бы одно из полей, указав одно из средств поверки: номер ГПЭ/ номер эталона/ СО, применяемые при поверке/ СИ, применяемые в качестве эталона/ СИ, применяемое при поверке / Вещество (материал);</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>3.4. Вкладка &quot; Прочие сведения&quot;.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    а. Поля в данной вкладке являются нобязательными к заполнению.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string> </string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string> </string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>Сгенерированному xml-файлу с записями автоматически присваивается наименование, в котором содержится наименование типа СИ, количество записей в заявке, порядковый номер заявки и условный шифр знака поверки.</string>
+     </property>
+    </item>
+   </widget>
+   <widget class="QPushButton" name="pushButton_4">
+    <property name="geometry">
+     <rect>
+      <x>330</x>
+      <y>632</y>
+      <width>75</width>
+      <height>31</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Закрыть</string>
+    </property>
+   </widget>
+   <widget class="QLabel" name="label_29">
+    <property name="geometry">
+     <rect>
+      <x>0</x>
+      <y>-30</y>
+      <width>731</width>
+      <height>701</height>
+     </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">background-color: white;</string>
+    </property>
+    <property name="text">
+     <string/>
     </property>
    </widget>
    <zorder>tabWidget</zorder>
@@ -2365,6 +2686,11 @@
    <zorder>label_24</zorder>
    <zorder>label_23</zorder>
    <zorder>label_25</zorder>
+   <zorder>label_26</zorder>
+   <zorder>label_27</zorder>
+   <zorder>label_29</zorder>
+   <zorder>pushButton_4</zorder>
+   <zorder>listWidget</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -2380,6 +2706,7 @@
      <string>Справка</string>
     </property>
     <addaction name="action"/>
+    <addaction name="action_2"/>
     <addaction name="separator"/>
     <addaction name="action_3"/>
    </widget>
@@ -2393,6 +2720,11 @@
   <action name="action_3">
    <property name="text">
     <string>Закрыть</string>
+   </property>
+  </action>
+  <action name="action_2">
+   <property name="text">
+    <string>Инструкция</string>
    </property>
   </action>
  </widget>

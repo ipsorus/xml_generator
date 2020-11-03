@@ -1,1 +1,1 @@
-pyuic5 MainWindow_poverki_1.ui -o MainWindow_poverki.py
+pyuic5 MainWindow_poverki_2020.ui -o MainWindow_poverki_2020.py
