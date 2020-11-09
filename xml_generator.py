@@ -4,7 +4,7 @@ import sys
 import os
 import errno
 
-import res_rc
+import res_rc #файл ресурсов (иконки, стрелки)
 import MainWindow_poverki_2020  #модуль главного окна PyQt
 
 from datetime import datetime, date, time
@@ -138,6 +138,8 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.tabWidget_2.tabCloseRequested.connect(self.closeTab_SO)
         self.tabWidget_3.tabCloseRequested.connect(self.closeTab_SI)
 
+        self.tabWidget_2.currentChanged.connect(self.print_tab)
+
         self.tabCurrIndex = self.tabWidget.currentIndex()
 
         #Проверка на-лету вкладка 1
@@ -170,12 +172,11 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.count_3 = 0
         self.count_4 = 0
 
-    def test_text(self, txt):
-        sender = self.sender()
-        print('sender_id', id(sender))
-        print('sender_text', txt)
+        self.indexes_SO = {}
 
-
+    def print_tab(self):
+        print('currentWidget', self.tabWidget_2.currentIndex())
+    
     #Служебные функции
     def instruction_page_open(self):
         self.listWidget.setVisible(True)
@@ -216,45 +217,60 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
     #Создание и удаление табов
     def create_first_tabs(self):
         if self.toolBox.currentIndex() == 2 and self.tabWidget_2.count() == 0:
-            self.add_tab_SO()
             self.comboBox.setEnabled(False)
             count = self.tabWidget_2.count()
-            nb = QtWidgets.QToolButton(text="Добавить СО", autoRaise=True)
-            nb.clicked.connect(self.add_tab_SO)
+            self.nb_SO = QtWidgets.QToolButton(text="Добавить СО", autoRaise=True)
+            self.nb_SO.clicked.connect(self.add_tab_SO)
             self.tabWidget_2.insertTab(count, QtWidgets.QWidget(), "")
-            self.tabWidget_2.tabBar().setTabButton(count, QtWidgets.QTabBar.RightSide, nb)
+            self.tabWidget_2.tabBar().setTabButton(count, QtWidgets.QTabBar.RightSide, self.nb_SO)
             self.toolBox.setItemText(2, '> Стандартные образцы, применяемые при поверке')
+            self.add_tab_SO()
 
         elif self.toolBox.currentIndex() == 4 and self.tabWidget_3.count() == 0:
-            self.add_tab_SI()
             self.comboBox.setEnabled(False)
             count_SI = self.tabWidget_3.count()
-            nb_SI = QtWidgets.QToolButton(text="Добавить СИ", autoRaise=True)
-            nb_SI.clicked.connect(self.add_tab_SI)
+            self.nb_SI = QtWidgets.QToolButton(text="Добавить СИ", autoRaise=True)
+            self.nb_SI.clicked.connect(self.add_tab_SI)
             self.tabWidget_3.insertTab(count_SI, QtWidgets.QWidget(), "")
-            self.tabWidget_3.tabBar().setTabButton(count_SI, QtWidgets.QTabBar.RightSide, nb_SI)
+            self.tabWidget_3.tabBar().setTabButton(count_SI, QtWidgets.QTabBar.RightSide, self.nb_SI)
             self.toolBox.setItemText(4, '> СИ, применяемые при поверке')
+            self.add_tab_SI()
 
     def add_tab_SO(self):
+        self.indexes_SO[str(self.tabWidget_2.currentIndex())] = 0
+        print('self.indexes_SO_create tab', self.indexes_SO)
+        self.nb_SO.setEnabled(False)
         self.count_3 = 0
+        self.start_to_create_application()
         text = f'Образец'
         index = self.tabWidget_2.count() - 1
         self.tabWidget_2.insertTab(index, TabPage_SO(self), text)
         self.tabWidget_2.setCurrentIndex(self.tabWidget_2.count() - 2)
-        self.tabWidget_2.currentWidget().lineEditType.textChanged.connect(self.check_tab_3_SO)
+        self.tabWidget_2.currentWidget().lineEditType.textChanged.connect(self.check_tab_3)
+
+    # def check_tab_test(self):
+    #     print('1', self.tabWidget_2(1).lineEditType.text())
+    #     print('2', self.tabWidget_2(2).lineEditType.text())
 
     def add_tab_SI(self):
+        self.nb_SI.setEnabled(False)
         self.count_3 = 0
+        self.start_to_create_application()
         text = f'СИ'
         index = self.tabWidget_3.count() - 1
         self.tabWidget_3.insertTab(index, TabPage_SI(self), text)
         self.tabWidget_3.setCurrentIndex(self.tabWidget_3.count() - 2)
-        self.tabWidget_3.currentWidget().lineEditTypeSI.textChanged.connect(self.check_tab_3_SI)
-        self.tabWidget_3.currentWidget().lineEditZavNumber.textChanged.connect(self.check_tab_3_SI)
-        self.tabWidget_3.currentWidget().lineEditInventory.textChanged.connect(self.check_tab_3_SI)
+        self.tabWidget_3.currentWidget().lineEditTypeSI.textChanged.connect(self.check_tab_3)
+        self.tabWidget_3.currentWidget().lineEditZavNumber.textChanged.connect(self.check_tab_3)
+        self.tabWidget_3.currentWidget().lineEditInventory.textChanged.connect(self.check_tab_3)
 
     def closeTab_SO (self, currentIndex):
         self.tabWidget_2.removeTab(currentIndex)
+        deleted_tab = self.indexes_SO.pop(str(currentIndex), None)
+        #del self.indexes_SO[str(self.tabWidget_2.count() - 1)]
+        print('self.indexes_SO_del tab', self.indexes_SO)
+        print('currentIndex', currentIndex)
+        print('deleted_tab', deleted_tab)
         self.tabWidget_2.setCurrentIndex(self.tabWidget_2.count() - 2)
         if self.tabWidget_2.count() == 1:
             self.tabWidget_2.removeTab(currentIndex)
@@ -263,7 +279,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             self.label_30.setText("Необходимо заполнить хотя бы одно поле")
             self.comboBox.setEnabled(True)
             self.check_tab_3()
-        self.check_tab_3_SO
+        self.check_tab_3()
 
     def closeTab_SI (self, currentIndex):
         self.tabWidget_3.removeTab(currentIndex)
@@ -275,7 +291,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             self.label_30.setText("Необходимо заполнить хотя бы одно поле")
             self.comboBox.setEnabled(True)
             self.check_tab_3()
-        self.check_tab_3_SI
+        self.check_tab_3()
     #==========================
 
     #Тестирование табов на заполнение полей
@@ -557,7 +573,6 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         try:
             self.counter_zav_number = int(self.counter_zav_number)
             self.label_9.setVisible(False)
-            print('func int')
         except ValueError:
             pass
             #self.label_9.setVisible(True)
@@ -583,23 +598,19 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.zav_len = len(self.counter_zav_number.strip(' '))
         if self.counter_zav_number != '':
             self.check_zav_number_is_int()
-            print('int-not int')
         self.tail_zav_number = self.lineEdit_5.text()
 
         if self.indicator_1 == False:
-            print('indicator_1')
-            print('self.counter_zav_number', type(self.counter_zav_number))
             self.universal_fields_checker_with_sender()
             if self.mitypeNumber != '' and self.modification != '' and type(self.counter_zav_number) is int:
                 self.count_1 = 1
             else:
-                #self.pushButton.setEnabled(False)
                 self.count_1 = 0
 
         else:
             field_tab_1 = {'self.mitypeNumber': [self.mitypeNumber, self.lineEdit, self.line_3],
-                           'self.modification': [self.modification, self.lineEdit_2, self.line_3],
-                           'self.counter_zav_number': [str(self.counter_zav_number), self.lineEdit_4, self.line_3]}
+                        'self.modification': [self.modification, self.lineEdit_2, self.line_3],
+                        'self.counter_zav_number': [str(self.counter_zav_number), self.lineEdit_4, self.line_3]}
 
             self.check_zav_number_is_int()
             if not type(self.counter_zav_number) is int:
@@ -678,9 +689,9 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
         else:
             field_tab_2 = {'self.method': [self.method, self.lineEdit_11, self.line_4],
-                           'self.signCipher': [self.signCipher, self.lineEdit_7, self.line_4],
-                           'self.miOwner': [self.miOwner, self.lineEdit_10, self.line_4],
-                           'self.reasons': [self.reasons, self.lineEdit_9, self.line_4]}
+                        'self.signCipher': [self.signCipher, self.lineEdit_7, self.line_4],
+                        'self.miOwner': [self.miOwner, self.lineEdit_10, self.line_4],
+                        'self.reasons': [self.reasons, self.lineEdit_9, self.line_4]}
 
             self.universal_fields_checker(field_tab_2)
             # for field in field_tab_2.keys():
@@ -736,6 +747,9 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
     #Проверка таб 3
     def check_tab_3(self):
+        self.full_count = self.tabWidget_2.count() - 1
+        print('self.full_count_начало функции', self.full_count)
+
         #ГПЭ
         self.npe_number = self.lineEdit_12.text()
         #Эталоны
@@ -762,58 +776,67 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 #self.pushButton.setText("Необходимо проверить вкладку Средства поверки")
                 self.count_3 = 0
 
-            #Проверка: Если заполнено поле СО, применяемые при поверке.
+            # #Проверка: Если создана вкладка СО, применяемые при поверке.
             if self.tabWidget_2.count() > 0:
                 for i in range(self.tabWidget_2.count() - 1):
-                    self.tabWidget_2.setCurrentIndex(i)
-                    #self.check_tab_3_SO()
-                    if self.tabWidget_2.currentWidget().lineEditType.text() == '' or self.tabWidget_2.currentWidget().lineEditType.text().isspace():
-                        self.tabWidget_2.currentWidget().lineEditType.setStyleSheet(self.red_warning)
+                    if self.tabWidget_2.widget(i).lineEditType.text() == '' or self.tabWidget_2.widget(i).lineEditType.text().isspace():
+                        self.tabWidget_2.widget(i).lineEditType.setStyleSheet(self.red_warning)
+                        self.nb_SO.setEnabled(False)
                         self.line_5.setVisible(True)
                         self.label_30.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
                         #self.pushButton.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
                         self.count_3 = 0
+                        self.start_to_create_application()
                         return
                     else:
-                        self.tabWidget_2.currentWidget().lineEditType.setStyleSheet('')
-                        self.tabWidget_2.currentWidget().lineEditType.setFont(self.font_tab3)
-                        self.tabWidget_2.setTabText(self.tabWidget_2.currentIndex(), 'Образец')
+                        self.tabWidget_2.widget(i).lineEditType.setStyleSheet('')
+                        self.tabWidget_2.widget(i).lineEditType.setFont(self.font_tab3)
+                        #self.tabWidget_2.setTabText(self.tabWidget_2.currentIndex(), 'Образец')
+                        self.nb_SO.setEnabled(True)
                         self.line_5.setVisible(False)
                         self.label_30.setVisible(False)
                         #self.pushButton.setText("Создать заявку")
                         self.count_3 = 1
+                        self.start_to_create_application()
 
-            #Проверка: Если заполнено поле СИ, применяемые при поверке.
+            #Проверка: Если создана вкладка СИ, применяемые при поверке.
             if self.tabWidget_3.count() > 0:
                 for i in range(self.tabWidget_3.count() - 1):
-                    self.tabWidget_3.setCurrentIndex(i)
-                    if self.tabWidget_3.currentWidget().lineEditTypeSI.text() == '' or self.tabWidget_3.currentWidget().lineEditTypeSI.text().isspace():
-                        self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet(self.red_warning)
+                    if self.tabWidget_3.widget(i).lineEditTypeSI.text() == '' or self.tabWidget_3.widget(i).lineEditTypeSI.text().isspace():
+                        self.tabWidget_3.widget(i).lineEditTypeSI.setStyleSheet(self.red_warning)
                         self.line_5.setVisible(True)
                         self.label_30.setVisible(True)
                         self.label_30.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+                        self.nb_SI.setEnabled(False)
                         #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
                         self.count_3 = 0
-                        #return
-                        break
+                        self.start_to_create_application()
+                        return
                     else:
-                        self.tabWidget_3.currentWidget().lineEditZavNumber.setStyleSheet('')
-                        self.tabWidget_3.currentWidget().lineEditInventory.setStyleSheet('')
-                        self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet('')
+                        self.tabWidget_3.widget(i).lineEditZavNumber.setStyleSheet('')
+                        self.tabWidget_3.widget(i).lineEditZavNumber.setFont(self.font_tab3)
+                        self.tabWidget_3.widget(i).lineEditInventory.setStyleSheet('')
+                        self.tabWidget_3.widget(i).lineEditInventory.setFont(self.font_tab3)
+                        self.tabWidget_3.widget(i).lineEditTypeSI.setStyleSheet('')
+                        self.tabWidget_3.widget(i).lineEditTypeSI.setFont(self.font_tab3)
                         self.line_5.setVisible(False)
                         self.label_30.setVisible(False)
                         #self.pushButton.setText("Создать заявку")
+                        self.nb_SI.setEnabled(True)
                         self.count_3 = 1
-                        if self.tabWidget_3.currentWidget().lineEditTypeSI.text() != '' and (self.tabWidget_3.currentWidget().lineEditZavNumber.text() == '' and self.tabWidget_3.currentWidget().lineEditInventory.text() == ''):
-                            self.tabWidget_3.currentWidget().lineEditZavNumber.setStyleSheet(self.red_warning)
-                            self.tabWidget_3.currentWidget().lineEditInventory.setStyleSheet(self.red_warning)
+                        self.start_to_create_application()
+                        #Если заполнено поле Тип СИ, то проверка заполнения зав. № или буквенно-цифрового обозначения
+                        if self.tabWidget_3.widget(i).lineEditTypeSI.text() != '' and (self.tabWidget_3.widget(i).lineEditZavNumber.text() == '' and self.tabWidget_3.widget(i).lineEditInventory.text() == ''):
+                            self.tabWidget_3.widget(i).lineEditZavNumber.setStyleSheet(self.red_warning)
+                            self.tabWidget_3.widget(i).lineEditInventory.setStyleSheet(self.red_warning)
                             self.line_5.setVisible(True)
                             self.label_30.setVisible(True)
                             self.label_30.setText("Необходимо заполнить либо буквенно-цифровое обозначение, либо заводской номер")
                             #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+                            self.nb_SI.setEnabled(False)
                             self.count_3 = 0
+                            self.start_to_create_application()
                             return
-                            break
 
         else:
             self.line_5.setVisible(False)
@@ -829,6 +852,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
     #Проверка таб 3 Стандартные образцы
     def check_tab_3_SO(self):
+
         #Проверка: Если заполнено поле СО, применяемые при поверке.
         #self.tabWidget_2.setCurrentIndex(self.tabWidget_2.currentIndex())
         if self.tabWidget_2.currentWidget().lineEditType.text() == '' or self.tabWidget_2.currentWidget().lineEditType.text().isspace():
@@ -838,6 +862,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             self.label_30.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
             #self.pushButton.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
             self.count_3 = 0
+            self.start_to_create_application()
             print('self.count_3', self.count_3)
             return
         else:
@@ -857,6 +882,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
     #Проверка таб 3 Средства измерений
     def check_tab_3_SI(self):
+
         #self.tabWidget_3.setCurrentIndex(self.tabWidget_3.currentIndex())
         if self.tabWidget_3.currentWidget().lineEditTypeSI.text() == '' or self.tabWidget_3.currentWidget().lineEditTypeSI.text().isspace():
             self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet(self.red_warning)
@@ -864,6 +890,8 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             self.label_30.setVisible(True)
             self.label_30.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
             #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
+            print('self.count_3', self.count_3)
+            self.start_to_create_application()
             self.count_3 = 0
             return
         else:
@@ -885,6 +913,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 self.label_30.setText("Необходимо заполнить либо буквенно-цифровое обозначение, либо заводской номер")
                 #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
                 self.count_3 = 0
+                self.start_to_create_application()
                 return
 
         # if self.count_3 == 1:
@@ -921,9 +950,9 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 self.count_4 = 0
         else:
             field_tab_4 = {'self.temperature': [self.temperature, self.lineEdit_21, self.line_6],
-                           'self.pressure': [self.pressure, self.lineEdit_22, self.line_6],
-                           'self.hymidity': [self.hymidity, self.lineEdit_23, self.line_6],
-                           'self.characteristics': [self.characteristics, self.textEdit_27, self.line_6]}
+                        'self.pressure': [self.pressure, self.lineEdit_22, self.line_6],
+                        'self.hymidity': [self.hymidity, self.lineEdit_23, self.line_6],
+                        'self.characteristics': [self.characteristics, self.textEdit_27, self.line_6]}
 
             self.universal_fields_checker(field_tab_4)
             print('func_4', self.count_4)
@@ -1119,34 +1148,112 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 StyleSheet = """
 
 Window{background: #b8cdee;}
+
 QLineEdit {
     border: 2px solid gray;
-    border-radius: 2px;
+    border-radius: 3px;
     padding: 0 8px;
-    background: yellow;
+    background: #ffffff;
     selection-background-color: darkgray;
 }
 QToolBox::tab {
-    background: #009deb;
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
     border-radius: 5px;
-    color: black;
-}
-
-QToolBox::tab:first {
-    background: #4ade00;
-    border-radius: 5px;
-    color: black;
-}
-
-QToolBox::tab:last {
-    background: #f95300;
-    border-radius: 5px;
-    color: black;
+    color: darkgray;
 }
 
 QToolBox::tab:selected { /* italicize selected tabs */
     font: italic;
     color: white;
+}
+
+QComboBox {
+    border: 1px solid gray;
+    border-radius: 3px;
+    padding: 1px 18px 1px 3px;
+    min-width: 6em;
+    background: white;
+}
+
+QComboBox:editable {
+    background: white;
+}
+
+QComboBox:!editable, QComboBox::drop-down:editable {
+     background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                 stop: 0 #E1E1E1, stop: 0.4 #DDDDDD,
+                                 stop: 0.5 #D8D8D8, stop: 1.0 #D3D3D3);
+}
+
+/* QComboBox gets the "on" state when the popup is open */
+QComboBox:!editable:on, QComboBox::drop-down:editable:on {
+    background: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                stop: 0 #D3D3D3, stop: 0.4 #D8D8D8,
+                                stop: 0.5 #DDDDDD, stop: 1.0 #E1E1E1);
+}
+
+QComboBox:on { /* shift the text when the popup opens */
+    padding-top: 3px;
+    padding-left: 4px;
+}
+
+QComboBox::drop-down {
+    subcontrol-origin: padding;
+    subcontrol-position: top right;
+    width: 15px;
+
+    border-left-width: 1px;
+    border-left-color: darkgray;
+    border-left-style: solid; /* just a single line */
+    border-top-right-radius: 3px; /* same radius as the QComboBox */
+    border-bottom-right-radius: 3px;
+}
+
+QComboBox::down-arrow {
+    image: url(:/icons/strelka.ico);
+}
+
+QComboBox::down-arrow:on { /* shift the arrow when popup is open */
+    top: 1px;
+    left: 1px;
+}
+
+QComboBox QAbstractItemView {
+    border: 2px solid darkgray;
+    selection-background-color: lightgray;
+}
+
+QProgressBar {
+    border: 2px solid grey;
+    border-radius: 5px;
+}
+
+QProgressBar::chunk {
+    background-color: #05B8CC;
+    width: 20px;
+}
+
+QPushButton {
+    border: 2px solid #8f8f91;
+    border-radius: 6px;
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #f6f7fa, stop: 1 #dadbde);
+    min-width: 80px;
+}
+
+QPushButton:pressed {
+    background-color: qlineargradient(x1: 0, y1: 0, x2: 0, y2: 1,
+                                      stop: 0 #dadbde, stop: 1 #f6f7fa);
+}
+
+QPushButton:flat {
+    border: none; /* no border for a flat push button */
+}
+
+QPushButton:default {
+    border-color: navy; /* make the default button prominent */
 }
 
 """

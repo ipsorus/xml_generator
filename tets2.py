@@ -470,303 +470,705 @@ import sys
 # sys.exit(app.exec_())
 
 #====================
+# import sys
+# from PyQt5 import QtWidgets, QtCore, QtGui
+# from PyQt5.Qt import *
+
+
+# class MyToolBoxWidget(QtWidgets.QWidget):
+#     def __init__(self, parent=None):
+#         QtWidgets.QWidget.__init__(self, parent=parent)
+#         self.vertical_layout = QtWidgets.QVBoxLayout(self)
+#         self.vertical_layout.setContentsMargins(0, 0, 0, 0)
+#         self.vertical_layout.setSpacing(0)
+#         self.pages = []
+#         self.tabs = []
+
+#         self._first_v_spacerItem = QtWidgets.QSpacerItem(
+#             20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
+
+#     def addItem(self, page, name, color=None):
+#         tab_button = QtWidgets.QPushButton(name)
+#         font = QtGui.QFont()
+#         font.setBold(True)
+#         tab_button.setFont(font)
+#         page.setSizePolicy(QtWidgets.QSizePolicy(
+#             QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding))
+#         page.hide()
+#         self.pages.append(page)
+#         self.tabs.append(tab_button)
+#         self.vertical_layout.addWidget(tab_button)
+#         self.vertical_layout.addWidget(page)
+#         tab_button.clicked.connect(self._button_clicked)
+
+#         if color:
+#             self.setColor( (len(self.pages) - 1), color  )
+
+#     def setColor(self, index, color):
+#         palette = self.get_palette(color)
+#         self.pages[index].setPalette(palette)
+#         self.tabs[index].setPalette(palette)
+#         self.pages[index].setAutoFillBackground(True)
+
+#     def check_if_all_pages_are_hidden(self):
+#         areHidden = True
+#         for page in self.pages:
+#             if not page.isHidden():
+#                 areHidden = False
+#                 break
+#         if areHidden:
+#             self.vertical_layout.addItem(self._first_v_spacerItem)
+#         else:
+#             self.vertical_layout.removeItem(self._first_v_spacerItem)
+
+#     def _button_clicked(self):
+#         i = self.tabs.index(self.sender())
+#         if self.pages[i].isHidden():
+#             self.pages[i].show()
+#         else:
+#             self.pages[i].hide()
+#         self.check_if_all_pages_are_hidden()
+
+#     def get_palette(self, color):
+#         palette = QtGui.QPalette()
+#         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Light, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Midlight, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Dark, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Mid, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.BrightText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Shadow, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.AlternateBase, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipBase, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Light, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Midlight, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Dark, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Mid, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.BrightText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Shadow, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.AlternateBase, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipBase, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(42, 85, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Light, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Midlight, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Dark, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Mid, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(42, 85, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.BrightText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(42, 85, 0))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Shadow, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipBase, brush)
+
+#         brush = QtGui.QBrush(QtGui.QColor(color))
+#         brush.setStyle(QtCore.Qt.SolidPattern)
+#         palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
+
+#         return palette
+        
+
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.centralWidget = QWidget()
+#         self.setCentralWidget(self.centralWidget)        
+
+#         self.my_tool_box = MyToolBoxWidget()
+
+#         page1 = QtWidgets.QLineEdit()
+#         self.my_tool_box.addItem(page=page1, name="Вкладка 1", color="#4ade00")
+#         page2 = QtWidgets.QLineEdit()
+#         self.my_tool_box.addItem(page=page2, name="Вкладка 2", color="#009deb")
+#         page3 = QtWidgets.QLineEdit()
+#         self.my_tool_box.addItem(page=page3, name="Вкладка 3", color="#f95300")
+#         page4 = QtWidgets.QLineEdit()
+#         self.my_tool_box.addItem(page=page4, name="Вкладка 4", color="#ccc")
+
+#         # Добавить проставку в конце
+#         self.my_tool_box.check_if_all_pages_are_hidden()
+        
+#         self.buttonAdd = QPushButton('Проверить')
+#         self.buttonAdd.clicked.connect(self.check)
+
+#         vbox = QGridLayout(self.centralWidget)
+#         vbox.addWidget(self.my_tool_box, 0, 0, 1, 2)
+#         vbox.addWidget(self.buttonAdd, 2, 1)
+        
+#         self.red_warning = """
+#                 border-color: red; 
+#                 border-style: solid; 
+#                 border-width: 2px; 
+#                 font-weight: normal;
+#         """
+#         self.fields = [page1, page2, page3, page4]
+
+#     def check(self):
+# #        fields = [page1, page2, page3, page4]
+# #        for field in self.fields:
+#         for index, field in enumerate(self.fields):
+#             if field.text() == '' or (field.text() != '' and field.text().isspace()):
+#                 field.setStyleSheet(self.red_warning)
+#                 self.my_tool_box.setColor(index, 'red')
+# #            elif field.text() == '':
+# #                field.setStyleSheet(self.red_warning)
+#             else:
+#                 field.setStyleSheet('')
+#                 self.my_tool_box.setColor(index, '#00FF00')
+
+ 
+# if __name__ == '__main__':
+#     import sys
+#     app = QApplication(sys.argv)
+#     app.setStyle('Fusion')                        # !!! Важно !!!
+#     window = MainWindow()
+#     window.show()
+#     sys.exit(app.exec_())
+
+#======================
+# import sys
+# from PyQt5 import QtCore, QtGui, QtWidgets
+# from PyQt5.Qt import *
+
+
+# class TabPage_SO(QWidget):
+#     def __init__(self, parent=None):
+#         super().__init__(parent)
+
+#         self.labelType = QLabel("№ типа", self)
+#         self.lineEditType = QLineEdit(self)
+#         self.lineEditType.setClearButtonEnabled(True)
+
+#         self.labelYearOfIssue = QLabel("Год выпуска *", self)
+#         self.spinBox = QSpinBox(self)
+#         self.spinBox.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+#         self.spinBox.setAlignment(QtCore.Qt.AlignCenter)
+#         self.spinBox.setMinimum(1917)
+#         self.spinBox.setMaximum(2060)
+#         self.spinBox.setProperty("value", 2020)
+
+#         self.labelSerialNumber = QLabel("Заводской №", self)
+#         self.lineEditSerialNumber = QLineEdit(self)
+#         self.lineEditSerialNumber.setClearButtonEnabled(True)
+
+#         self.labelSpecifications = QLabel("Характеристики", self)
+#         self.lineEditSpecifications = QLineEdit(self)
+#         self.lineEditSpecifications.setClearButtonEnabled(True)
+
+#         grid = QGridLayout(self)
+#         grid.addWidget(self.labelType, 0, 0)
+#         grid.addWidget(self.labelYearOfIssue, 0, 1)
+#         grid.addWidget(self.labelSerialNumber, 0, 2)
+#         grid.addWidget(self.lineEditType, 1, 0)
+#         grid.addWidget(self.spinBox, 1, 1)
+#         grid.addWidget(self.lineEditSerialNumber, 1, 2)
+#         grid.addWidget(self.labelSpecifications, 2, 0)
+#         grid.addWidget(self.lineEditSpecifications, 3, 0, 1, 3)
+#         grid.setRowStretch(4, 1)
+
+
+# class TabWidget(QTabWidget):
+#     def __init__(self):
+#         super().__init__()
+#         self.addTab(TabPage_SO(self), "Tab Zero")
+#         count = self.count()
+#         nb = QToolButton(text="Добавить", autoRaise=True)
+#         nb.clicked.connect(self.new_tab)
+#         self.insertTab(count, QWidget(), "")
+#         self.tabBar().setTabButton(count, QTabBar.RightSide, nb)
+
+#     def new_tab(self):
+#         index = self.count() - 1
+#         self.insertTab(index, TabPage_SO(self), "Tab %d" % index)
+#         self.setCurrentIndex(index)
+
+
+# class MainWindow(QMainWindow):
+#     def __init__(self):
+#         super().__init__()
+#         self.centralWidget = QWidget()
+#         self.setCentralWidget(self.centralWidget)
+
+#         self.red_warning = "border-color: red; border-style: solid; border-width: 2px; font-weight: normal;"
+
+#         self.tableWidget = QTableWidget(0, 4)
+#         self.tableWidget.setHorizontalHeaderLabels(
+#             ["№ типа", "Год выпуска *", "Заводской №", "Характеристики"])
+#         self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
+#         self.tableWidget.setSortingEnabled(True)
+#         self.tableWidget.setAlternatingRowColors(True)
+
+#         self.buttonAdd = QPushButton('Добавить из всех вкладок в таблицу')
+#         self.buttonAdd.clicked.connect(self.addRowTable)
+#         self.buttonDel = QPushButton('Удалить выбранную строку в таблице')
+#         self.buttonDel.clicked.connect(self.delRowTable)
+
+#         self.tabWidget = QTabWidget()
+#         self.tabWidget.setTabsClosable(True)
+#         count = self.tabWidget.count()
+#         self.nb = QToolButton(text="Добавить", autoRaise=True)
+#         self.nb.clicked.connect(self.new_tab)
+#         self.tabWidget.insertTab(count, QWidget(), "")
+#         self.tabWidget.tabBar().setTabButton(count, QTabBar.RightSide, self.nb)
+#         self.new_tab()
+#         self.tabWidget.tabCloseRequested.connect(self.closeTab_SO)
+
+#         self.button_activate()
+
+#         vbox = QGridLayout(self.centralWidget)
+#         vbox.addWidget(self.tabWidget, 0, 0, 1, 2)
+#         vbox.addWidget(self.tableWidget, 1, 0, 1, 2)
+#         vbox.addWidget(self.buttonAdd, 2, 0)
+#         vbox.addWidget(self.buttonDel, 2, 1)
+
+#     def new_tab(self):
+#         '''
+#         Создание нового ТАБа
+#         '''
+#         index = self.tabWidget.count() - 1
+#         self.tabWidget.insertTab(index, TabPage_SO(self), "Tab %d" % index)
+#         self.tabWidget.setCurrentIndex(index)
+#         self.nb.setEnabled(False)
+#         self.count = 0
+#         self.button_activate()
+
+#         self.tabWidget.currentWidget().lineEditType.textChanged.connect(self.check_tabs)
+#         self.tabWidget.currentWidget().lineEditSerialNumber.textChanged.connect(self.check_tabs)
+#         self.tabWidget.currentWidget().lineEditSpecifications.textChanged.connect(self.check_tabs)
+
+#     def closeTab_SO(self, currentIndex):
+#         '''
+#         Удаление ТАБов
+#         '''
+#         self.tabWidget.removeTab(currentIndex)
+#         self.tabWidget.setCurrentIndex(self.tabWidget.count() - 2)
+#         self.check_tabs()
+
+#     def addRowTable(self):
+#         for i in range(self.tabWidget.count()-1):
+#             self.tabWidget.setCurrentIndex(i)
+#             editType = self.tabWidget.currentWidget().lineEditType.text()
+#             spinYearOfIssue = str(self.tabWidget.currentWidget().spinBox.value())
+#             editSerialNumber = self.tabWidget.currentWidget().lineEditSerialNumber.text()
+#             editSpecifications = self.tabWidget.currentWidget().lineEditSpecifications.text()
+
+#             if not editType:
+#                 msg = QMessageBox.information(self, 'Внимание', 'Заполните поле!')
+#                 return
+#             self.tableWidget.setSortingEnabled(False)
+#             rows = self.tableWidget.rowCount()
+#             self.tableWidget.insertRow(rows)
+#             self.tableWidget.setItem(rows, 0, QTableWidgetItem(editType))
+#             self.tableWidget.setItem(rows, 1, QTableWidgetItem(spinYearOfIssue))
+#             self.tableWidget.setItem(rows, 2, QTableWidgetItem(editSerialNumber))
+#             self.tableWidget.setItem(rows, 3, QTableWidgetItem(editSpecifications))
+#             self.tableWidget.setSortingEnabled(True)
+
+#     def delRowTable(self):
+#         row = self.tableWidget.currentRow()
+#         if row == -1:
+#             msg = QMessageBox.information(self, 'Внимание', 'Выберите строку для удаления')
+#             return
+#         self.tableWidget.removeRow(row)
+
+#     def check_tabs(self):
+#         '''
+#         Проверка заполнения поля lineEditType и проход по всем вкладкам для проверки заполнения
+#         '''
+#         for i in range(self.tabWidget.count()-1):
+#             self.tabWidget.setCurrentIndex(i)
+#             if self.tabWidget.currentWidget().lineEditType.text() == '' or self.tabWidget.currentWidget().lineEditType.text().isspace():
+#                 self.tabWidget.currentWidget().lineEditType.setStyleSheet(self.red_warning)
+#                 self.nb.setEnabled(False)
+#                 self.count = 0
+#                 self.button_activate()
+#                 return
+#             else:
+#                 self.tabWidget.currentWidget().lineEditType.setStyleSheet('')
+#                 self.nb.setEnabled(True)
+#                 self.count = 1
+
+#         self.button_activate()
+
+
+#     def button_activate(self):
+#         '''
+#         Активация кнопки self.buttonAdd
+#         '''
+#         if self.count == 1:
+#             self.buttonAdd.setEnabled(True)
+#         else:
+#             self.buttonAdd.setEnabled(False)
+
+
+# qss = """
+# QLabel {
+#     font: 8pt "MS Shell Dlg 2";
+# }
+# QLineEdit {
+#     font: 12pt "Calibri";
+# }
+# QSpinBox {
+#     font: 12pt "Calibri";
+# }
+# """
+
+
+# if __name__ == "__main__":
+#     import sys
+#     app = QApplication(sys.argv)
+#     app.setStyleSheet(qss)
+#     window = MainWindow()
+#     window.show()
+#     sys.exit(app.exec_())
+
+#===========================
 import sys
-from PyQt5 import QtWidgets, QtCore, QtGui
+from PyQt5 import QtCore, QtGui, QtWidgets
 from PyQt5.Qt import *
 
 
-class MyToolBoxWidget(QtWidgets.QWidget):
+class TabPage_SO(QWidget):
     def __init__(self, parent=None):
-        QtWidgets.QWidget.__init__(self, parent=parent)
-        self.vertical_layout = QtWidgets.QVBoxLayout(self)
-        self.vertical_layout.setContentsMargins(0, 0, 0, 0)
-        self.vertical_layout.setSpacing(0)
-        self.pages = []
-        self.tabs = []
+        super().__init__(parent)
 
-        self._first_v_spacerItem = QtWidgets.QSpacerItem(
-            20, 40, QtWidgets.QSizePolicy.Minimum, QtWidgets.QSizePolicy.Expanding)
-
-    def addItem(self, page, name, color=None):
-        tab_button = QtWidgets.QPushButton(name)
-        font = QtGui.QFont()
-        font.setBold(True)
-        tab_button.setFont(font)
-        page.setSizePolicy(QtWidgets.QSizePolicy(
-            QtWidgets.QSizePolicy.Expanding, QtWidgets.QSizePolicy.Expanding))
-        page.hide()
-        self.pages.append(page)
-        self.tabs.append(tab_button)
-        self.vertical_layout.addWidget(tab_button)
-        self.vertical_layout.addWidget(page)
-        tab_button.clicked.connect(self._button_clicked)
-
-        if color:
-            self.setColor( (len(self.pages) - 1), color  )
-
-    def setColor(self, index, color):
-        palette = self.get_palette(color)
-        self.pages[index].setPalette(palette)
-        self.tabs[index].setPalette(palette)
-        self.pages[index].setAutoFillBackground(True)
-
-    def check_if_all_pages_are_hidden(self):
-        areHidden = True
-        for page in self.pages:
-            if not page.isHidden():
-                areHidden = False
-                break
-        if areHidden:
-            self.vertical_layout.addItem(self._first_v_spacerItem)
-        else:
-            self.vertical_layout.removeItem(self._first_v_spacerItem)
-
-    def _button_clicked(self):
-        i = self.tabs.index(self.sender())
-        if self.pages[i].isHidden():
-            self.pages[i].show()
-        else:
-            self.pages[i].hide()
-        self.check_if_all_pages_are_hidden()
-
-    def get_palette(self, color):
-        palette = QtGui.QPalette()
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.WindowText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Button, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Light, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Midlight, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Dark, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Mid, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Text, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.BrightText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ButtonText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Base, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Window, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.Shadow, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.AlternateBase, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipBase, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Active, QtGui.QPalette.ToolTipText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.WindowText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Button, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Light, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Midlight, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Dark, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Mid, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Text, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.BrightText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(0, 0, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ButtonText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Base, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Window, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.Shadow, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.AlternateBase, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipBase, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Inactive, QtGui.QPalette.ToolTipText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(42, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.WindowText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Button, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Light, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Midlight, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Dark, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Mid, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(42, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Text, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(255, 255, 255))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.BrightText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(42, 85, 0))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ButtonText, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Base, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Window, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.Shadow, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.AlternateBase, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipBase, brush)
-
-        brush = QtGui.QBrush(QtGui.QColor(color))
-        brush.setStyle(QtCore.Qt.SolidPattern)
-        palette.setBrush(QtGui.QPalette.Disabled, QtGui.QPalette.ToolTipText, brush)
-
-        return palette
+        self.labelType = QLabel("№ типа", self)
         
+        self.lineEditType = QLineEdit(self)
+        self.lineEditType.setClearButtonEnabled(True)
+
+        self.labelYearOfIssue = QLabel("Год выпуска *", self)
+        self.spinBox = QSpinBox(self)
+        self.spinBox.setCursor(QtGui.QCursor(QtCore.Qt.ArrowCursor))
+        self.spinBox.setAlignment(QtCore.Qt.AlignCenter)
+        self.spinBox.setMinimum(1917)
+        self.spinBox.setMaximum(2060)
+        self.spinBox.setProperty("value", 2020)
+
+        self.labelSerialNumber = QLabel("Заводской №", self)
+        self.lineEditSerialNumber = QLineEdit(self)
+        self.lineEditSerialNumber.setClearButtonEnabled(True)
+
+        self.labelSpecifications = QLabel("Характеристики", self)
+        self.lineEditSpecifications = QLineEdit(self)
+        self.lineEditSpecifications.setClearButtonEnabled(True)
+
+        grid = QGridLayout(self)
+        grid.addWidget(self.labelType, 0, 0)
+        grid.addWidget(self.labelYearOfIssue, 0, 1)
+        grid.addWidget(self.labelSerialNumber, 0, 2)
+        grid.addWidget(self.lineEditType, 1, 0)
+        grid.addWidget(self.spinBox, 1, 1)
+        grid.addWidget(self.lineEditSerialNumber, 1, 2)
+        grid.addWidget(self.labelSpecifications, 2, 0)
+        grid.addWidget(self.lineEditSpecifications, 3, 0, 1, 3)
+        grid.setRowStretch(4, 1)
+
 
 class MainWindow(QMainWindow):
     def __init__(self):
         super().__init__()
         self.centralWidget = QWidget()
-        self.setCentralWidget(self.centralWidget)        
+        self.setCentralWidget(self.centralWidget)
 
-        self.my_tool_box = MyToolBoxWidget()
+        self.red_warning = "border-color: red; border-style: solid; border-width: 2px; font-weight: normal;"
 
-        page1 = QtWidgets.QLineEdit()
-        self.my_tool_box.addItem(page=page1, name="Вкладка 1", color="#4ade00")
-        page2 = QtWidgets.QLineEdit()
-        self.my_tool_box.addItem(page=page2, name="Вкладка 2", color="#009deb")
-        page3 = QtWidgets.QLineEdit()
-        self.my_tool_box.addItem(page=page3, name="Вкладка 3", color="#f95300")
-        page4 = QtWidgets.QLineEdit()
-        self.my_tool_box.addItem(page=page4, name="Вкладка 4", color="#ccc")
+        self.tableWidget = QTableWidget(0, 4)
+        self.tableWidget.setHorizontalHeaderLabels(
+            ["№ типа", "Год выпуска *", "Заводской №", "Характеристики"])
+        self.tableWidget.horizontalHeader().setSectionResizeMode(3, QHeaderView.Stretch)
+        self.tableWidget.setSortingEnabled(True)
+        self.tableWidget.setAlternatingRowColors(True)
 
-        # Добавить проставку в конце
-        self.my_tool_box.check_if_all_pages_are_hidden()
-        
-        self.buttonAdd = QPushButton('Проверить')
-        self.buttonAdd.clicked.connect(self.check)
+        self.buttonAdd = QPushButton('Добавить из всех вкладок в таблицу')
+        self.buttonAdd.clicked.connect(self.addRowTable)
+        self.buttonDel = QPushButton('Удалить выбранную строку в таблице')
+        self.buttonDel.clicked.connect(self.delRowTable)
+
+        self.tabWidget = QTabWidget()
+        self.tabWidget.setTabsClosable(True)
+        count = self.tabWidget.count()
+        self.nb = QToolButton(text="Добавить", autoRaise=True)
+        self.nb.clicked.connect(self.new_tab)
+        self.tabWidget.insertTab(count, QWidget(), "")
+        self.tabWidget.tabBar().setTabButton(count, QTabBar.RightSide, self.nb)
+        self.new_tab()
+        self.tabWidget.tabCloseRequested.connect(self.closeTab_SO)
+
+# -        self.button_activate()
 
         vbox = QGridLayout(self.centralWidget)
-        vbox.addWidget(self.my_tool_box, 0, 0, 1, 2)
-        vbox.addWidget(self.buttonAdd, 2, 1)
+        vbox.addWidget(self.tabWidget, 0, 0, 1, 2)
+        vbox.addWidget(self.tableWidget, 1, 0, 1, 2)
+        vbox.addWidget(self.buttonAdd, 2, 0)
+        vbox.addWidget(self.buttonDel, 2, 1)
         
-        self.red_warning = """
-                border-color: red; 
-                border-style: solid; 
-                border-width: 2px; 
-                font-weight: normal;
-        """
-        self.fields = [page1, page2, page3, page4]
+# +++ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+        self.timer = QTimer()
+        self.timer.setInterval(200)
+        self.timer.timeout.connect(self.check_tabs)
+        self.timer.start()
+# +++ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^        
 
-    def check(self):
-#        fields = [page1, page2, page3, page4]
-#        for field in self.fields:
-        for index, field in enumerate(self.fields):
-            if field.text() == '' or (field.text() != '' and field.text().isspace()):
-                field.setStyleSheet(self.red_warning)
-                self.my_tool_box.setColor(index, 'red')
-#            elif field.text() == '':
-#                field.setStyleSheet(self.red_warning)
+    def new_tab(self):
+        ''' Создание нового ТАБа
+        '''
+        index = self.tabWidget.count() - 1
+        
+#        self.tabWidget.insertTab(index, TabPage_SO(self), "Tab %d" % index)
+        tabPage_SO = TabPage_SO(self)                                       # +            
+        self.tabWidget.insertTab(index, tabPage_SO, "Tab %d" % index)       # +
+        
+        self.tabWidget.setCurrentIndex(index)
+        self.nb.setEnabled(False)
+        self.count = 0
+        self.button_activate(False)                                         # +++ False
+###
+#-        self.tabWidget.currentWidget().lineEditType.textChanged.connect(self.check_tabs)
+#?        self.tabWidget.currentWidget().lineEditSerialNumber.textChanged.connect(self.check_tabs)
+#?        self.tabWidget.currentWidget().lineEditSpecifications.textChanged.connect(self.check_tabs)
+
+    def closeTab_SO(self, currentIndex):
+        ''' Удаление ТАБов
+        '''
+        self.tabWidget.removeTab(currentIndex)
+        self.tabWidget.setCurrentIndex(self.tabWidget.count() - 2)
+#-        self.check_tabs()
+
+    def addRowTable(self):
+        for i in range(self.tabWidget.count()-1):
+            self.tabWidget.setCurrentIndex(i)
+            editType = self.tabWidget.currentWidget().lineEditType.text()
+            spinYearOfIssue = str(self.tabWidget.currentWidget().spinBox.value())
+            editSerialNumber = self.tabWidget.currentWidget().lineEditSerialNumber.text()
+            editSpecifications = self.tabWidget.currentWidget().lineEditSpecifications.text()
+
+            if not editType:
+                msg = QMessageBox.information(self, 'Внимание', 'Заполните поле!')
+                return
+            self.tableWidget.setSortingEnabled(False)
+            rows = self.tableWidget.rowCount()
+            self.tableWidget.insertRow(rows)
+            self.tableWidget.setItem(rows, 0, QTableWidgetItem(editType))
+            self.tableWidget.setItem(rows, 1, QTableWidgetItem(spinYearOfIssue))
+            self.tableWidget.setItem(rows, 2, QTableWidgetItem(editSerialNumber))
+            self.tableWidget.setItem(rows, 3, QTableWidgetItem(editSpecifications))
+            self.tableWidget.setSortingEnabled(True)
+
+    def delRowTable(self):
+        row = self.tableWidget.currentRow()
+        if row == -1:
+            msg = QMessageBox.information(self, 'Внимание', 'Выберите строку для удаления')
+            return
+        self.tableWidget.removeRow(row)
+
+# !!!
+    def check_tabs(self):
+        '''
+        Проверка заполнения поля lineEditType и проход по всем вкладкам для проверки заполнения
+        '''
+        print('timer')
+# +++ vvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvvv
+        flag = True
+        for i in range(self.tabWidget.count()-1):
+            line_edit_type = self.tabWidget.widget(i).lineEditType.text()
+            if not line_edit_type:
+                flag = False
+                self.nb.setEnabled(False)
+                break
+        if flag: self.nb.setEnabled(True), self.tabWidget.currentWidget().lineEditType.setStyleSheet('')
+        else: self.nb.setEnabled(False), self.tabWidget.currentWidget().lineEditType.setStyleSheet(self.red_warning)
+        self.button_activate(flag)
+# +++ ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+        
+        '''
+        for i in range(self.tabWidget.count()-1):
+            self.tabWidget.setCurrentIndex(i)
+            if self.tabWidget.currentWidget().lineEditType.text() == '' or self.tabWidget.currentWidget().lineEditType.text().isspace():
+                self.tabWidget.currentWidget().lineEditType.setStyleSheet(self.red_warning)
+                self.nb.setEnabled(False)
+                self.count = 0
+                self.button_activate()
+                return
             else:
-                field.setStyleSheet('')
-                self.my_tool_box.setColor(index, '#00FF00')
+                self.tabWidget.currentWidget().lineEditType.setStyleSheet('')
+                self.nb.setEnabled(True)
+                self.count = 1
+        self.button_activate()
+        '''
 
- 
-if __name__ == '__main__':
+    def button_activate(self, flag):                                        # +++ flag  
+        ''' Активация кнопки self.buttonAdd
+        '''
+        if flag:                                                            # flag 
+            self.buttonAdd.setEnabled(True)                                 # показать
+        else:
+            self.buttonAdd.setEnabled(False)
+
+
+qss = """
+QLabel {
+    font: 8pt "MS Shell Dlg 2";
+}
+QLineEdit {
+    font: 12pt "Calibri";
+}
+QSpinBox {
+    font: 12pt "Calibri";
+}
+"""
+
+
+if __name__ == "__main__":
     import sys
     app = QApplication(sys.argv)
-    app.setStyle('Fusion')                        # !!! Важно !!!
+    app.setStyleSheet(qss)
     window = MainWindow()
     window.show()
     sys.exit(app.exec_())
