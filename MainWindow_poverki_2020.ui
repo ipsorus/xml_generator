@@ -38,6 +38,9 @@
    <iconset resource="../poverki/res.qrc">
     <normaloff>:/icons/IconBook.ico</normaloff>:/icons/IconBook.ico</iconset>
   </property>
+  <property name="styleSheet">
+   <string notr="true"/>
+  </property>
   <property name="toolButtonStyle">
    <enum>Qt::ToolButtonIconOnly</enum>
   </property>
@@ -65,6 +68,7 @@
       <family>Calibri</family>
       <pointsize>12</pointsize>
       <weight>75</weight>
+      <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
@@ -76,6 +80,9 @@
     </property>
     <property name="styleSheet">
      <string notr="true"/>
+    </property>
+    <property name="inputMethodHints">
+     <set>Qt::ImhNone</set>
     </property>
     <property name="currentIndex">
      <number>0</number>
@@ -98,6 +105,7 @@
         <family>Calibri</family>
         <pointsize>12</pointsize>
         <weight>75</weight>
+        <italic>false</italic>
         <bold>true</bold>
        </font>
       </property>
@@ -131,6 +139,7 @@
          <family>MS Shell Dlg 2</family>
          <pointsize>8</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -161,6 +170,7 @@
          <family>MS Shell Dlg 2</family>
          <pointsize>8</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -191,6 +201,7 @@
          <family>MS Shell Dlg 2</family>
          <pointsize>8</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -218,12 +229,18 @@
        </property>
        <property name="font">
         <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="maxLength">
         <number>64</number>
@@ -246,6 +263,7 @@
          <family>Calibri</family>
          <pointsize>12</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -254,6 +272,12 @@
        </property>
        <property name="whatsThis">
         <string>Разрешен ввод чисел с ведущими нулям (например 0001)</string>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="inputMethodHints">
+        <set>Qt::ImhDigitsOnly</set>
        </property>
        <property name="maxLength">
         <number>64</number>
@@ -276,12 +300,18 @@
        </property>
        <property name="font">
         <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
        <property name="focusPolicy">
         <enum>Qt::ClickFocus</enum>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="maxLength">
         <number>64</number>
@@ -296,9 +326,9 @@
       <widget class="QLabel" name="label_9">
        <property name="geometry">
         <rect>
-         <x>240</x>
-         <y>150</y>
-         <width>191</width>
+         <x>270</x>
+         <y>140</y>
+         <width>201</width>
          <height>16</height>
         </rect>
        </property>
@@ -307,6 +337,7 @@
          <family>MS Shell Dlg 2</family>
          <pointsize>8</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -322,6 +353,14 @@
          <width>131</width>
          <height>17</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="cursor">
         <cursorShape>ArrowCursor</cursorShape>
@@ -348,6 +387,14 @@
          <height>16</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>Буквенно-цифровое обозначение*</string>
        </property>
@@ -370,12 +417,24 @@
       </property>
       <property name="font">
        <font>
+        <family>Calibri</family>
+        <pointsize>12</pointsize>
         <weight>75</weight>
+        <italic>false</italic>
         <bold>true</bold>
        </font>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="title">
        <string>Тип СИ и модификация СИ</string>
+      </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
+      <property name="checkable">
+       <bool>false</bool>
       </property>
       <widget class="QLineEdit" name="lineEdit_2">
        <property name="geometry">
@@ -399,6 +458,9 @@
        </property>
        <property name="acceptDrops">
         <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="maxLength">
         <number>256</number>
@@ -452,6 +514,15 @@
          <height>17</height>
         </rect>
        </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
+       </property>
        <property name="text">
         <string>СИ ВН или СН *</string>
        </property>
@@ -467,6 +538,15 @@
          <width>241</width>
          <height>17</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="text">
         <string>Метрологическая аттестация *</string>
@@ -489,6 +569,7 @@
          <family>Calibri</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -510,6 +591,7 @@
          <family>Calibri</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -525,6 +607,15 @@
          <width>91</width>
          <height>17</height>
         </rect>
+       </property>
+       <property name="font">
+        <font>
+         <family>Calibri</family>
+         <pointsize>12</pointsize>
+         <weight>75</weight>
+         <italic>false</italic>
+         <bold>true</bold>
+        </font>
        </property>
        <property name="text">
         <string>Тип СИ *</string>
@@ -577,14 +668,32 @@
        <property name="accessibleName">
         <string/>
        </property>
+       <property name="autoFillBackground">
+        <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
+       <property name="wrapping">
+        <bool>false</bool>
+       </property>
+       <property name="frame">
+        <bool>true</bool>
+       </property>
        <property name="alignment">
         <set>Qt::AlignCenter</set>
        </property>
+       <property name="readOnly">
+        <bool>false</bool>
+       </property>
        <property name="buttonSymbols">
-        <enum>QAbstractSpinBox::PlusMinus</enum>
+        <enum>QAbstractSpinBox::UpDownArrows</enum>
        </property>
        <property name="specialValueText">
         <string>-</string>
+       </property>
+       <property name="accelerated">
+        <bool>false</bool>
        </property>
        <property name="showGroupSeparator" stdset="0">
         <bool>false</bool>
@@ -613,6 +722,7 @@
          <family>Calibri</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -653,6 +763,7 @@
         <family>Calibri</family>
         <pointsize>12</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -661,6 +772,9 @@
       </property>
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="buttonSymbols">
        <enum>QAbstractSpinBox::UpDownArrows</enum>
@@ -715,6 +829,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -736,6 +851,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -757,6 +873,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -778,6 +895,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -796,8 +914,10 @@
       </property>
       <property name="font">
        <font>
+        <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -816,8 +936,10 @@
       </property>
       <property name="font">
        <font>
+        <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -844,6 +966,9 @@
       </property>
       <property name="focusPolicy">
        <enum>Qt::StrongFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="inputMask">
        <string/>
@@ -881,6 +1006,9 @@
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="maxLength">
        <number>32</number>
       </property>
@@ -907,6 +1035,9 @@
       </property>
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="maxLength">
        <number>128</number>
@@ -937,6 +1068,9 @@
       </property>
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="inputMask">
        <string/>
@@ -974,6 +1108,9 @@
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="maxLength">
        <number>512</number>
       </property>
@@ -1003,6 +1140,9 @@
       </property>
       <property name="acceptDrops">
        <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
       </property>
       <property name="maxLength">
        <number>128</number>
@@ -1067,14 +1207,26 @@
         <x>250</x>
         <y>150</y>
         <width>281</width>
-        <height>171</height>
+        <height>191</height>
        </rect>
       </property>
       <property name="font">
        <font>
+        <family>Segoe UI</family>
+        <pointsize>9</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
+      </property>
+      <property name="autoFillBackground">
+       <bool>false</bool>
+      </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
+      <property name="inputMethodHints">
+       <set>Qt::ImhNone</set>
       </property>
       <property name="minimumDate">
        <date>
@@ -1147,9 +1299,9 @@
       <property name="geometry">
        <rect>
         <x>140</x>
-        <y>150</y>
+        <y>151</y>
         <width>181</width>
-        <height>16</height>
+        <height>20</height>
        </rect>
       </property>
       <property name="font">
@@ -1157,6 +1309,7 @@
         <family>MS Shell Dlg 2</family>
         <pointsize>8</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1168,9 +1321,9 @@
       <property name="geometry">
        <rect>
         <x>250</x>
-        <y>150</y>
+        <y>151</y>
         <width>231</width>
-        <height>16</height>
+        <height>20</height>
        </rect>
       </property>
       <property name="font">
@@ -1178,6 +1331,7 @@
         <family>MS Shell Dlg 2</family>
         <pointsize>8</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1208,6 +1362,9 @@
       <property name="acceptDrops">
        <bool>false</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="maxLength">
        <number>128</number>
       </property>
@@ -1232,6 +1389,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1253,6 +1411,7 @@
         <family>Calibri</family>
         <pointsize>12</pointsize>
         <weight>75</weight>
+        <italic>false</italic>
         <bold>true</bold>
        </font>
       </property>
@@ -1274,6 +1433,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1301,8 +1461,10 @@
       </property>
       <property name="font">
        <font>
+        <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1330,8 +1492,10 @@
       </property>
       <property name="font">
        <font>
+        <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1347,6 +1511,15 @@
         <width>111</width>
         <height>17</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Пригодно</string>
@@ -1375,6 +1548,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1390,6 +1564,15 @@
         <width>111</width>
         <height>17</height>
        </rect>
+      </property>
+      <property name="font">
+       <font>
+        <family>Calibri</family>
+        <pointsize>12</pointsize>
+        <weight>75</weight>
+        <italic>false</italic>
+        <bold>true</bold>
+       </font>
       </property>
       <property name="text">
        <string>Непригодно</string>
@@ -1418,6 +1601,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1439,6 +1623,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -1487,9 +1672,9 @@
       <property name="geometry">
        <rect>
         <x>10</x>
-        <y>20</y>
+        <y>30</y>
         <width>681</width>
-        <height>411</height>
+        <height>381</height>
        </rect>
       </property>
       <property name="font">
@@ -1497,6 +1682,7 @@
         <family>Calibri</family>
         <pointsize>12</pointsize>
         <weight>75</weight>
+        <italic>false</italic>
         <bold>true</bold>
        </font>
       </property>
@@ -1507,7 +1693,7 @@
        <string notr="true"/>
       </property>
       <property name="frameShape">
-       <enum>QFrame::StyledPanel</enum>
+       <enum>QFrame::NoFrame</enum>
       </property>
       <property name="frameShadow">
        <enum>QFrame::Raised</enum>
@@ -1529,8 +1715,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>679</width>
-         <height>229</height>
+         <width>681</width>
+         <height>201</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1550,6 +1736,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1577,6 +1764,9 @@
         <property name="focusPolicy">
          <enum>Qt::ClickFocus</enum>
         </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="maxLength">
          <number>512</number>
         </property>
@@ -1598,6 +1788,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1619,6 +1810,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1632,8 +1824,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>98</width>
-         <height>28</height>
+         <width>681</width>
+         <height>201</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1653,6 +1845,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1680,6 +1873,9 @@
         <property name="focusPolicy">
          <enum>Qt::ClickFocus</enum>
         </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="maxLength">
          <number>512</number>
         </property>
@@ -1701,6 +1897,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1722,6 +1919,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1735,8 +1933,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>98</width>
-         <height>28</height>
+         <width>681</width>
+         <height>201</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1748,7 +1946,7 @@
           <x>0</x>
           <y>10</y>
           <width>681</width>
-          <height>211</height>
+          <height>181</height>
          </rect>
         </property>
         <property name="font">
@@ -1756,6 +1954,7 @@
           <family>Calibri</family>
           <pointsize>11</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1793,8 +1992,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>98</width>
-         <height>28</height>
+         <width>681</width>
+         <height>201</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1814,6 +2013,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1838,6 +2038,9 @@
           <bold>false</bold>
          </font>
         </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="maxLength">
          <number>512</number>
         </property>
@@ -1859,6 +2062,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1880,6 +2084,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1893,8 +2098,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>98</width>
-         <height>28</height>
+         <width>681</width>
+         <height>201</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1906,7 +2111,7 @@
           <x>0</x>
           <y>10</y>
           <width>681</width>
-          <height>211</height>
+          <height>181</height>
          </rect>
         </property>
         <property name="font">
@@ -1914,6 +2119,7 @@
           <family>Calibri</family>
           <pointsize>11</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1930,8 +2136,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>98</width>
-         <height>28</height>
+         <width>681</width>
+         <height>201</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1951,6 +2157,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -1978,6 +2185,9 @@
         <property name="focusPolicy">
          <enum>Qt::ClickFocus</enum>
         </property>
+        <property name="styleSheet">
+         <string notr="true"/>
+        </property>
         <property name="maxLength">
          <number>512</number>
         </property>
@@ -1999,6 +2209,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -2020,6 +2231,7 @@
           <family>MS Shell Dlg 2</family>
           <pointsize>10</pointsize>
           <weight>50</weight>
+          <italic>false</italic>
           <bold>false</bold>
          </font>
         </property>
@@ -2062,10 +2274,11 @@
        <number>-1</number>
       </property>
       <property name="autoFillBackground">
-       <bool>true</bool>
+       <bool>false</bool>
       </property>
       <property name="styleSheet">
-       <string notr="true"/>
+       <string notr="true">background-color: #ffffff; border: 1px solid gray;
+border-radius: 3px;</string>
       </property>
       <property name="editable">
        <bool>false</bool>
@@ -2084,6 +2297,9 @@
       </property>
       <property name="insertPolicy">
        <enum>QComboBox::InsertAtCurrent</enum>
+      </property>
+      <property name="frame">
+       <bool>true</bool>
       </property>
       <item>
        <property name="text">
@@ -2125,6 +2341,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -2147,6 +2364,7 @@
         <family>MS Shell Dlg 2</family>
         <pointsize>10</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -2155,6 +2373,19 @@
       </property>
       <property name="alignment">
        <set>Qt::AlignCenter</set>
+      </property>
+     </widget>
+     <widget class="Line" name="line_8">
+      <property name="geometry">
+       <rect>
+        <x>10</x>
+        <y>420</y>
+        <width>681</width>
+        <height>16</height>
+       </rect>
+      </property>
+      <property name="orientation">
+       <enum>Qt::Horizontal</enum>
       </property>
      </widget>
     </widget>
@@ -2176,6 +2407,7 @@
         <family>Calibri</family>
         <pointsize>12</pointsize>
         <weight>75</weight>
+        <italic>false</italic>
         <bold>true</bold>
        </font>
       </property>
@@ -2209,6 +2441,7 @@
          <family>Calibri</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -2239,6 +2472,7 @@
          <family>Calibri</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -2269,6 +2503,7 @@
          <family>Calibri</family>
          <pointsize>11</pointsize>
          <weight>50</weight>
+         <italic>false</italic>
          <bold>false</bold>
         </font>
        </property>
@@ -2311,6 +2546,9 @@
        <property name="acceptDrops">
         <bool>false</bool>
        </property>
+       <property name="styleSheet">
+        <string notr="true"/>
+       </property>
        <property name="maxLength">
         <number>128</number>
        </property>
@@ -2343,6 +2581,9 @@
        </property>
        <property name="acceptDrops">
         <bool>false</bool>
+       </property>
+       <property name="styleSheet">
+        <string notr="true"/>
        </property>
        <property name="maxLength">
         <number>128</number>
@@ -2378,6 +2619,9 @@
       <property name="acceptDrops">
        <bool>false</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="maxLength">
        <number>128</number>
       </property>
@@ -2408,6 +2652,9 @@
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
@@ -2426,6 +2673,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -2465,6 +2713,9 @@
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
@@ -2483,6 +2734,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -2522,6 +2774,9 @@
       <property name="focusPolicy">
        <enum>Qt::ClickFocus</enum>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="horizontalScrollBarPolicy">
        <enum>Qt::ScrollBarAlwaysOff</enum>
       </property>
@@ -2555,6 +2810,9 @@
       <property name="acceptDrops">
        <bool>false</bool>
       </property>
+      <property name="styleSheet">
+       <string notr="true"/>
+      </property>
       <property name="frameShape">
        <enum>QFrame::StyledPanel</enum>
       </property>
@@ -2579,6 +2837,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -2612,6 +2871,7 @@
         <family>Calibri</family>
         <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -2640,7 +2900,9 @@
       <property name="font">
        <font>
         <family>Calibri</family>
+        <pointsize>11</pointsize>
         <weight>50</weight>
+        <italic>false</italic>
         <bold>false</bold>
        </font>
       </property>
@@ -2727,6 +2989,9 @@
      <property name="accessibleName">
       <string/>
      </property>
+     <property name="styleSheet">
+      <string notr="true"/>
+     </property>
      <property name="keyboardTracking">
       <bool>true</bool>
      </property>
@@ -2763,6 +3028,9 @@
      </property>
      <property name="focusPolicy">
       <enum>Qt::ClickFocus</enum>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"/>
      </property>
      <property name="accelerated">
       <bool>true</bool>
@@ -2853,8 +3121,9 @@
     <property name="font">
      <font>
       <family>Calibri</family>
-      <pointsize>12</pointsize>
+      <pointsize>14</pointsize>
       <weight>75</weight>
+      <italic>false</italic>
       <bold>true</bold>
      </font>
     </property>
@@ -2876,6 +3145,16 @@
       <width>711</width>
       <height>41</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true">QProgressBar {
+    border: 1px solid grey;
+  }
+
+QProgressBar::chunk {
+    background-color: #03d85c;
+    width: 20px;
+}</string>
     </property>
     <property name="value">
      <number>100</number>
@@ -2901,6 +3180,9 @@
       <width>21</width>
       <height>20</height>
      </rect>
+    </property>
+    <property name="styleSheet">
+     <string notr="true"/>
     </property>
     <property name="frameShadow">
      <enum>QFrame::Plain</enum>
@@ -3155,12 +3437,12 @@
     </item>
     <item>
      <property name="text">
-      <string>1. В поле &quot;Общее количество записей&quot; указывается количество СИ в партии.</string>
+      <string>1. В поле &quot;Всего СИ в партии&quot; указывается количество СИ в партии.</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>2. В поле &quot;Количество записей в одной заявке&quot; указывается количество записей, которое будет сформировано в одной xml-заявке (не более 5000 записей).</string>
+      <string>2. В поле &quot;Записей о поверках в одной заявке&quot; указывается количество записей, которое будет сформировано в одной xml-заявке (не более 4000 записей).</string>
      </property>
     </item>
     <item>
@@ -3181,7 +3463,7 @@
     </item>
     <item>
      <property name="text">
-      <string>Пользователь в поле &quot;Общее количество записей&quot; указывает 13000, а вполе &quot;Количество записей в одной заявке&quot; указывает 3000.</string>
+      <string>Пользователь в поле &quot;Всего СИ в партии&quot; указывает 13000, а в поле &quot;Записей о поверках в одной заявке&quot; указывает 3000.</string>
      </property>
     </item>
     <item>
@@ -3196,7 +3478,7 @@
     </item>
     <item>
      <property name="text">
-      <string>3. Далее необходимо заполнить все обязательные поля, находящиеся во вкладках &quot;Сведения о СИ&quot;, &quot;Сведения о поверке&quot;, &quot;Средства поверки&quot;.</string>
+      <string>3. Далее необходимо заполнить все обязательные поля, находящиеся во вкладках &quot;Сведения о СИ&quot;, &quot;Сведения о поверке&quot;, &quot;Средства поверки&quot;, &quot;Прочие сведения&quot;.</string>
      </property>
     </item>
     <item>
@@ -3251,12 +3533,12 @@
     </item>
     <item>
      <property name="text">
-      <string>    в. Обязательно указать в поле &quot;Условный шифр знака поверки организации-поверителя&quot; значение шифра организации, от имени которой публикуются сведения из формируемой заявки;</string>
+      <string>    в. Обязательно указать в поле &quot;Условный шифр знака поверки организации-поверителя&quot; значение шифра организации, от имени которой публикуются сведения из формируемой заявки (ввод на русском языке);</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>    г. Аналогично п. 3.1. (в) заполнить сведения о номере свидетельства о поверке;</string>
+      <string>    г. Заполнить поле Владелец СИ (обязательное поле);</string>
      </property>
     </item>
     <item>
@@ -3271,6 +3553,21 @@
     </item>
     <item>
      <property name="text">
+      <string>   ж. Выбрать тип поверки;</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    з. При необходимости указать об использовании результатов калибровки;</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    и. Если по результатам проведения поверки СИ признано непригодным, выбрать пункт Непригодно и указать причину непригодности (обязательное поле);</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>3.3. Вкладка &quot;Средства поверки&quot;.</string>
      </property>
     </item>
@@ -3281,12 +3578,42 @@
     </item>
     <item>
      <property name="text">
+      <string>    б. В случае проведения поверки без применения средств поверки, необходимо выбрать один из методов поверки из выпадающего списка.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>        При этом заполнение других полей будет недоступно. Чтобы активировать возможность внесения средств поверки в другие поля, необходимо в выпадающем списке &quot;Методы поверки без применения средств поверки&quot; выбрать пустую строку (первая строка в выпадающем списке).</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>        Для внесения нескольких средств поверки в поля &quot;Государственный первичный эталон&quot;, &quot;Эталон единицы величины&quot;, &quot;СИ, применяемое в качестве эталона&quot;, &quot;Вещество (материал), применяемое при поверке&quot;, необходимо разделять записи символом &quot;;&quot; (точка с запятой).</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>        При заполнении полей &quot;Стандартные образцы, применяемые при поверке&quot; и &quot;СИ, применяемые при поверке&quot; для добавления нескольких средств поверки нужно добавить вкладки нажав кнопку Добавить и заполнить нужные поля.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>3.4. Вкладка &quot; Прочие сведения&quot;.</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>    а. Поля в данной вкладке являются нобязательными к заполнению.</string>
+      <string>    а. Обязательно заполнить поля в разделе &quot;Условия проведения поверки&quot; (обязательные поля).</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>    б. При проведении поверки в сокращенном объеме, нужно установить галку на чекбоксе &quot;Поверка в сокращенном объеме&quot; и заполнить поле &quot;Краткая характеристика объема поверки&quot;.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
+      <string>     в. Остальные поля заполняются по необходимости. </string>
      </property>
     </item>
     <item>
@@ -3296,12 +3623,17 @@
     </item>
     <item>
      <property name="text">
+      <string>Сгенерированному xml-файлу с записями автоматически присваивается наименование, в котором содержится дата, наименование типа СИ, количество записей в заявке, порядковый номер заявки и условный шифр знака поверки.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string/>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>Сгенерированному xml-файлу с записями автоматически присваивается наименование, в котором содержится наименование типа СИ, количество записей в заявке, порядковый номер заявки и условный шифр знака поверки.</string>
+      <string>Сформированные файлы по структуре отвечают требованиям схемы. За корректность сведений в сформированных xml-файлах ответственность несет лицо,  вносившее сведения.</string>
      </property>
     </item>
    </widget>
@@ -3358,7 +3690,6 @@
    </widget>
    <zorder>tabWidget</zorder>
    <zorder>groupBox_3</zorder>
-   <zorder>pushButton</zorder>
    <zorder>progressBar</zorder>
    <zorder>line_3</zorder>
    <zorder>line_4</zorder>
@@ -3372,6 +3703,7 @@
    <zorder>pushButton_4</zorder>
    <zorder>listWidget</zorder>
    <zorder>line_6</zorder>
+   <zorder>pushButton</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
@@ -3415,9 +3747,9 @@
  </resources>
  <connections/>
  <buttongroups>
-  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_2"/>
   <buttongroup name="buttonGroup_3"/>
   <buttongroup name="buttonGroup_4"/>
+  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>
