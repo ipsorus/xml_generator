@@ -79,6 +79,9 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         super(main_window, self).__init__()
         self.setupUi(self)
 
+        #Указатель версии ПО (для заставки и раздела Информация)
+        self.label_25.setText("Версия программы: 2.0")
+
         self.menuBar.setVisible(False)
         self.setWindowTitle("")
         self.logoTimer()
@@ -185,7 +188,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         msg = QtWidgets.QMessageBox()
         msg.setWindowTitle("Информация")
         msg.setText("Программное обеспечение: Генератор файлов в формате XML для партий СИ")
-        msg.setInformativeText(f"Разработчик: ФГУП \"ВНИИМС\"\nРаспространяется на безвозмездной основе\nВерсия программы: 2.0\n\nТехническая поддержка: fgis2@gost.ru")
+        msg.setInformativeText(f"Разработчик: ФГУП \"ВНИИМС\"\nРаспространяется на безвозмездной основе\n{self.label_25.text()}\n\nТехническая поддержка: fgis2@gost.ru")
         #msg.setDetailedText(f"Распространяется на безвозмездной основе\nВерсия программы: 2.0")
         okButton = msg.addButton('Закрыть', QtWidgets.QMessageBox.AcceptRole)
         #msg.addButton('Отмена', QMessageBox.RejectRole)
@@ -204,7 +207,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.label_26.setVisible(False)
         self.label_27.setVisible(False)
         self.menuBar.setVisible(True)
-        self.setWindowTitle("Генератор заявок для партий СИ")
+        self.setWindowTitle("Генератор xml-файлов для партий СИ")
     #=========================
 
     #Создание и удаление табов
@@ -373,7 +376,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         date_stamp = datetime.now().strftime("%Y-%m-%d")
 
         #Название файла
-        name_of_file = r'заявка_xml_' + date_stamp + '_' + self.mitypeNumber.strip(" ") + '_часть_' + str(part) + '_записей_' + str(result) + '_шифр_' + self.signCipher.strip(" ") + '.xml'
+        name_of_file = r'xml_' + date_stamp + '_' + self.mitypeNumber.strip(" ") + '_часть_' + str(part) + '_записей_' + str(result) + '_шифр_' + self.signCipher.strip(" ") + '.xml'
 
         #Путь сохранения файла
         FileFullPath = os.path.join(filepath, name_of_file)
@@ -385,7 +388,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             header_comment_2 = f'Данный xml-файл создан при помощи ПО "Генератор заявок для партий СИ"\n'
             header_comment_3 = f'Версия ПО 2.0\n'
             header_comment_4 = f'-->\n'
-            header_2 = f'<gost:application xmlns:gost="urn://fgis-arshin.gost.ru/module-verifications/import/2020-06-19">\n'
+            header_2 = f'<application xmlns="urn://fgis-arshin.gost.ru/module-verifications/import/2020-06-19">\n'
             header = header_1 + header_comment_1 + header_comment_2 + header_comment_3 + header_comment_4 + header_2
             sample.write(header)
 
@@ -397,153 +400,153 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
             with open (FileFullPath, 'a', encoding='utf-8') as sample_body:
 
-                body = f'<gost:result>\n'+ f'<gost:miInfo>\n' + f'<gost:singleMI>\n'
+                body = f'<result>\n'+ f'<miInfo>\n' + f'<singleMI>\n'
 
                 if self.radioButton_7.isChecked():
-                    body += f'<gost:mitypeNumber>{self.mitypeNumber.strip(" ")}</gost:mitypeNumber>\n'
+                    body += f'<mitypeNumber>{self.mitypeNumber.strip(" ")}</mitypeNumber>\n'
                 elif self.radioButton_8.isChecked():
-                    body += f'<gost:crtmitypeTitle>{self.mitypeNumber.strip(" ")}</gost:crtmitypeTitle>\n'
+                    body += f'<crtmitypeTitle>{self.mitypeNumber.strip(" ")}</crtmitypeTitle>\n'
                 elif self.radioButton_9.isChecked():
-                    body += f'<gost:milmitypeTitle>{self.mitypeNumber.strip(" ")}</gost:milmitypeTitle>\n'
+                    body += f'<milmitypeTitle>{self.mitypeNumber.strip(" ")}</milmitypeTitle>\n'
 
                 if self.radioButton_5.isChecked():
-                    body += f'<gost:manufactureNum>{manufactureNum}</gost:manufactureNum>\n'
+                    body += f'<manufactureNum>{manufactureNum}</manufactureNum>\n'
                 else:
-                    body += f'<gost:inventoryNum>{manufactureNum}</gost:inventoryNum>\n'
+                    body += f'<inventoryNum>{manufactureNum}</inventoryNum>\n'
 
                 if self.manufactureYear != '':
-                    body += f'<gost:manufactureYear>{self.manufactureYear}</gost:manufactureYear>\n'
+                    body += f'<manufactureYear>{self.manufactureYear}</manufactureYear>\n'
 
-                body += f'<gost:modification>{self.modification.strip(" ")}</gost:modification>\n'
+                body += f'<modification>{self.modification.strip(" ")}</modification>\n'
 
-                body += f'</gost:singleMI>\n'
-                body += f'</gost:miInfo>\n'
-                body += f'<gost:signCipher>{self.signCipher.strip(" ")}</gost:signCipher>\n'
-                body += f'<gost:miOwner>{self.miOwner.strip(" ")}</gost:miOwner>\n'
+                body += f'</singleMI>\n'
+                body += f'</miInfo>\n'
+                body += f'<signCipher>{self.signCipher.strip(" ")}</signCipher>\n'
+                body += f'<miOwner>{self.miOwner.strip(" ")}</miOwner>\n'
 
-                body += f'<gost:vrfDate>{self.vrfDate}</gost:vrfDate>\n'
+                body += f'<vrfDate>{self.vrfDate}</vrfDate>\n'
 
                 if self.validDate != '':
-                    body += f'<gost:validDate>{self.validDate}</gost:validDate>\n'
+                    body += f'<validDate>{self.validDate}</validDate>\n'
 
                 if self.radioButton.isChecked():
-                    body += f'<gost:type>1</gost:type>\n'
+                    body += f'<type>1</type>\n'
                 else:
-                    body += f'<gost:type>2</gost:type>\n'
+                    body += f'<type>2</type>\n'
 
-                body += f'<gost:calibration>{self.calibration}</gost:calibration>\n'
+                body += f'<calibration>{self.calibration}</calibration>\n'
                 if self.radioButton_3.isChecked():
-                    body += f'<gost:applicable>\n'
+                    body += f'<applicable>\n'
                     if self.stickerNum != '':
-                        body += f'<gost:stickerNum>{self.stickerNum.strip(" ")}</gost:stickerNum>\n'
-                    body += f'<gost:signPass>{self.signPass}</gost:signPass>\n'
-                    body += f'<gost:signMi>{self.signMi}</gost:signMi>\n'
-                    body += f'</gost:applicable>\n'
+                        body += f'<stickerNum>{self.stickerNum.strip(" ")}</stickerNum>\n'
+                    body += f'<signPass>{self.signPass}</signPass>\n'
+                    body += f'<signMi>{self.signMi}</signMi>\n'
+                    body += f'</applicable>\n'
                 else:
-                    body += f'<gost:inapplicable>\n'
-                    body += f'<gost:reasons>{self.reasons.strip(" ")}</gost:reasons>\n'
-                    body += f'</gost:inapplicable>\n'
+                    body += f'<inapplicable>\n'
+                    body += f'<reasons>{self.reasons.strip(" ")}</reasons>\n'
+                    body += f'</inapplicable>\n'
 
-                body += f'<gost:docTitle>{self.method.strip(" ")}</gost:docTitle>\n'
+                body += f'<docTitle>{self.method.strip(" ")}</docTitle>\n'
 
                 if self.metrologist != '':
-                    body += f'<gost:metrologist>{self.metrologist.strip(" ")}</gost:metrologist>\n'
+                    body += f'<metrologist>{self.metrologist.strip(" ")}</metrologist>\n'
 
-                body += f'<gost:means>\n'
+                body += f'<means>\n'
 
                 if self.comboBox.currentIndex() == 0:
                     if self.npe_number != '':
                         text = self.npe_number.strip(' ')
                         text = text.split(';')
-                        body += f'<gost:npe>\n'
+                        body += f'<npe>\n'
                         for t in text:
                             if t != '' and not t.isspace():
-                                body += f'<gost:number>{t.strip(" ")}</gost:number>\n'
-                        body += f'</gost:npe>\n'
+                                body += f'<number>{t.strip(" ")}</number>\n'
+                        body += f'</npe>\n'
 
                     if self.uve_number != '':
                         text = self.uve_number.strip(' ')
                         text = text.split(';')
-                        body += f'<gost:uve>\n'
+                        body += f'<uve>\n'
                         for t in text:
                             if t != '' and not t.isspace():
-                                body += f'<gost:number>{t.strip(" ")}</gost:number>\n'
-                        body += f'</gost:uve>\n'
+                                body += f'<number>{t.strip(" ")}</number>\n'
+                        body += f'</uve>\n'
 
                     if self.tabWidget_2.count() > 1:
-                        body += f'<gost:ses>\n'
+                        body += f'<ses>\n'
                         for i in range(self.tabWidget_2.count() - 1):
-                            body += F'<gost:se>\n'
-                            body += f'<gost:typeNum>{self.tabWidget_2.widget(i).lineEditType.text().strip(" ")}</gost:typeNum>\n'
-                            body += f'<gost:manufactureYear>{self.tabWidget_2.widget(i).spinBoxManufYear.value()}</gost:manufactureYear>\n'
+                            body += F'<se>\n'
+                            body += f'<typeNum>{self.tabWidget_2.widget(i).lineEditType.text().strip(" ")}</typeNum>\n'
+                            body += f'<manufactureYear>{self.tabWidget_2.widget(i).spinBoxManufYear.value()}</manufactureYear>\n'
                             if self.tabWidget_2.widget(i).lineEditSerialNumber.text() != '' and not self.tabWidget_2.widget(i).lineEditSerialNumber.text().isspace():
-                                body += f'<gost:manufactureNum>{self.tabWidget_2.widget(i).lineEditSerialNumber.text().strip(" ")}</gost:manufactureNum>\n'
+                                body += f'<manufactureNum>{self.tabWidget_2.widget(i).lineEditSerialNumber.text().strip(" ")}</manufactureNum>\n'
                             if self.tabWidget_2.widget(i).lineEditSpecifications.text() != '' and not self.tabWidget_2.widget(i).lineEditSpecifications.text().isspace():
-                                body += f'<gost:metroChars>{self.tabWidget_2.widget(i).lineEditSpecifications.text().strip(" ")}</gost:metroChars>\n'
-                            body += F'</gost:se>\n'
-                        body += f'</gost:ses>\n'
+                                body += f'<metroChars>{self.tabWidget_2.widget(i).lineEditSpecifications.text().strip(" ")}</metroChars>\n'
+                            body += F'</se>\n'
+                        body += f'</ses>\n'
 
                     if self.mieta_number != '':
                         text = self.mieta_number.strip(' ')
                         text = text.split(';')
-                        body += f'<gost:mieta>\n'
+                        body += f'<mieta>\n'
                         for t in text:
                             if t != '' and not t.isspace():
-                                body += f'<gost:number>{t.strip(" ")}</gost:number>\n'
-                        body += f'</gost:mieta>\n'
+                                body += f'<number>{t.strip(" ")}</number>\n'
+                        body += f'</mieta>\n'
 
                     if self.tabWidget_3.count() > 1:
-                        body += f'<gost:mis>\n'
+                        body += f'<mis>\n'
                         for i in range(self.tabWidget_3.count() - 1):
-                            body += F'<gost:mi>\n'
-                            body += f'<gost:typeNum>{self.tabWidget_3.widget(i).lineEditTypeSI.text().strip(" ")}</gost:typeNum>\n'
+                            body += F'<mi>\n'
+                            body += f'<typeNum>{self.tabWidget_3.widget(i).lineEditTypeSI.text().strip(" ")}</typeNum>\n'
                             if self.tabWidget_3.widget(i).lineEditZavNumber.text() != '':
-                                body += f'<gost:manufactureNum>{self.tabWidget_3.widget(i).lineEditZavNumber.text().strip(" ")}</gost:manufactureNum>\n'
+                                body += f'<manufactureNum>{self.tabWidget_3.widget(i).lineEditZavNumber.text().strip(" ")}</manufactureNum>\n'
                             elif self.tabWidget_3.widget(i).lineEditInventory.text() != '':
-                                body += f'<gost:inventoryNum>{self.tabWidget_3.widget(i).lineEditInventory.text().strip(" ")}</gost:inventoryNum>\n'
-                            body += F'</gost:mi>\n'
-                        body += f'</gost:mis>\n'
+                                body += f'<inventoryNum>{self.tabWidget_3.widget(i).lineEditInventory.text().strip(" ")}</inventoryNum>\n'
+                            body += F'</mi>\n'
+                        body += f'</mis>\n'
 
                     if self.reagent_number != '':
                         text = self.reagent_number.strip(' ')
                         text = text.split(';')
-                        body += f'<gost:reagent>\n'
+                        body += f'<reagent>\n'
                         for t in text:
                             if t != '' and not t.isspace():
-                                body += f'<gost:number>{t.strip(" ")}</gost:number>\n'
-                        body += f'</gost:reagent>\n'
+                                body += f'<number>{t.strip(" ")}</number>\n'
+                        body += f'</reagent>\n'
 
                 else:
-                    body += f'<gost:oMethod>{self.oMethod}</gost:oMethod>\n'
+                    body += f'<oMethod>{self.oMethod}</oMethod>\n'
 
-                body += f'</gost:means>\n'
+                body += f'</means>\n'
 
-                body += f'<gost:conditions>\n'
-                body += f'<gost:temperature>{self.temperature.strip(" ")}</gost:temperature>\n'
-                body += f'<gost:pressure>{self.pressure.strip(" ")}</gost:pressure>\n'
-                body += f'<gost:hymidity>{self.hymidity.strip(" ")}</gost:hymidity>\n'
+                body += f'<conditions>\n'
+                body += f'<temperature>{self.temperature.strip(" ")}</temperature>\n'
+                body += f'<pressure>{self.pressure.strip(" ")}</pressure>\n'
+                body += f'<hymidity>{self.hymidity.strip(" ")}</hymidity>\n'
                 if self.other != '':
-                    body += f'<gost:other>{self.other.strip(" ")}</gost:other>\n'
-                body += f'</gost:conditions>\n'
+                    body += f'<other>{self.other.strip(" ")}</other>\n'
+                body += f'</conditions>\n'
 
                 if self.structure != '':
-                    body += f'<gost:structure>{self.structure.strip(" ")}</gost:structure>\n'
+                    body += f'<structure>{self.structure.strip(" ")}</structure>\n'
 
                 if self.checkBox_4.isChecked():
-                    body += f'<gost:brief_procedure>\n'
-                    body += f'<gost:characteristics>{self.characteristics.strip(" ")}</gost:characteristics>\n'
-                    body += f'</gost:brief_procedure>\n'
+                    body += f'<brief_procedure>\n'
+                    body += f'<characteristics>{self.characteristics.strip(" ")}</characteristics>\n'
+                    body += f'</brief_procedure>\n'
 
                 if self.additional_info != '':
-                    body += f'<gost:additional_info>{self.additional_info.strip(" ")}</gost:additional_info>\n'
+                    body += f'<additional_info>{self.additional_info.strip(" ")}</additional_info>\n'
 
-                body += f'</gost:result>\n'
+                body += f'</result>\n'
                 sample_body.write(body)
 
                 counter_zav += 1
 
         with open (FileFullPath, 'a', encoding='utf-8') as sample:
-            footer = f'</gost:application>\n'
+            footer = f'</application>\n'
             sample.write(footer)
 
         return counter_zav
@@ -555,10 +558,6 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             self.label_9.setVisible(False)
         except ValueError:
             pass
-            #self.label_9.setVisible(True)
-            #self.lineEdit_4.setStyleSheet(self.red_warning)
-            #self.line_3.setVisible(True)
-            #self.pushButton.setText("Необходимо заполнить обязательные поля")
 
     #Проверка таб 1
     def check_tab_1(self):
@@ -598,31 +597,13 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
             self.universal_fields_checker(field_tab_1)
 
-            # for field in field_tab_1.keys():
-            #     required_field = field_tab_1[field][1]
-            #     alert_field = field_tab_1[field][2]
-            #     #Проход циклом по всем полям, выявление незаполненных обязательных полей
-            #     if field_tab_1[field][0] == '' or field_tab_1[field][0].isspace():
-            #         required_field.setStyleSheet(self.red_warning)
-            #         alert_field.setVisible(True)
-            #         self.pushButton.setText("Необходимо проверить вкладку Сведения о СИ")
-            #         self.pushButton.setEnabled(False)
-            #     else:
-            #         required_field.setStyleSheet("")
-            #         self.pushButton.setText("Создать заявку")
-
             if self.mitypeNumber != '' and self.modification != '' and type(self.counter_zav_number) is int:
                 self.line_3.setVisible(False)
-                #self.pushButton.setText("Создать заявку")
                 self.count_1 = 1
             else:
                 self.line_3.setVisible(True)
-                #self.pushButton.setText("Необходимо проверить вкладку Сведения о СИ")
-                #self.pushButton.setEnabled(False)
                 self.count_1 = 0
 
-        # if self.count_1 == 1:
-        #     return self.count_1
         self.start_to_create_application()
         return self.count_1
 
@@ -663,7 +644,6 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             elif self.radioButton_4.isChecked() and self.reasons != '' and self.method != '' and self.signCipher != '' and self.miOwner != '':
                 self.count_2 = 1
             else:
-                #self.pushButton.setEnabled(False)
                 self.count_2 = 0
 
         else:
@@ -673,25 +653,6 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                            'self.reasons': [self.reasons, self.lineEdit_9, self.line_4]}
 
             self.universal_fields_checker(field_tab_2)
-            # for field in field_tab_2.keys():
-            #     required_field = field_tab_2[field][1]
-            #     alert_field = field_tab_2[field][2]
-            #     #Проход циклом по всем полям, выявление незаполненных обязательных полей
-            #     if (field == 'self.reasons' and self.radioButton_4.isChecked()) and (field_tab_2[field][0] == '' or field_tab_2[field][0].isspace()):
-            #         required_field.setStyleSheet(self.red_warning)
-            #         alert_field.setVisible(True)
-            #         self.pushButton.setText("Необходимо проверить вкладку Сведения о поверке")
-            #         self.count_2 = 0
-            #     elif field != 'self.reasons' and field_tab_2[field][0] == '' or field_tab_2[field][0].isspace():
-            #         required_field.setStyleSheet(self.red_warning)
-            #         alert_field.setVisible(True)
-            #         self.pushButton.setText("Необходимо проверить вкладку Сведения о поверке")
-            #         self.count_2 = 0
-            #     else:
-            #         alert_field.setVisible(False)
-            #         required_field.setStyleSheet("")
-            #         self.pushButton.setText("Создать заявку")
-            #         self.count_2 = 1
 
             if (self.radioButton_3.isChecked() and self.method != '' and self.signCipher != '' and self.miOwner != '') or (self.radioButton_4.isChecked() and self.reasons != '' and self.method != '' and self.signCipher != '' and self.miOwner != ''):
                 self.line_4.setVisible(False)
@@ -700,26 +661,20 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                     self.label_20.setVisible(False)
                     self.label_19.setVisible(True)
                     self.line_4.setVisible(True)
-                    #self.pushButton.setText("Необходимо заполнить обязательные поля")
                     self.count_2 = 0
                 elif self.validDate != '' and self.vrfDate > self.validDate:
                     self.label_19.setVisible(False)
                     self.label_20.setVisible(True)
                     self.line_4.setVisible(True)
-                    #self.pushButton.setText("Необходимо заполнить обязательные поля")
                     self.count_2 = 0
                 else:
-                    #self.pushButton.setText("Создать заявку")
                     self.label_19.setVisible(False)
                     self.label_20.setVisible(False)
                     self.count_2 = 1
             else:
                 self.line_4.setVisible(True)
-                #self.pushButton.setText("Необходимо заполнить обязательные поля")
                 self.count_2 = 0
 
-        # if self.count_2 == 1:
-        #     return self.count_2
         self.start_to_create_application()
         return self.count_2
 
@@ -741,15 +696,17 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 self.line_5.setVisible(False)
                 self.label_30.setVisible(False)
                 self.comboBox.setEnabled(False)
-                #self.pushButton.setText("Создать заявку")
                 self.count_3 = 1
+                self.count_3_1 = True
+                self.count_3_2 = True
             else:
                 self.comboBox.setEnabled(True)
                 self.line_5.setVisible(True)
                 self.label_30.setVisible(True)
                 self.comboBox.setEnabled(True)
-                #self.pushButton.setText("Необходимо проверить вкладку Средства поверки")
                 self.count_3 = 0
+                self.count_3_1 = False
+                self.count_3_2 = False
 
             # #Проверка: Если создана вкладка СО, применяемые при поверке.
             if self.tabWidget_2.count() > 0:
@@ -761,8 +718,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                         self.label_30.setVisible(True)
                         self.label_30.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
                         self.tabWidget_2.setTabText(i, '!Образец!')
-                        #self.pushButton.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
-                        self.count_3 = 0
+                        self.count_3_1 = False
                         self.start_to_create_application()
                         break
                     else:
@@ -772,8 +728,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                         self.nb_SO.setEnabled(True)
                         self.line_5.setVisible(False)
                         self.label_30.setVisible(False)
-                        #self.pushButton.setText("Создать заявку")
-                        self.count_3 = 1
+                        self.count_3_1 = True
                         self.start_to_create_application()
 
             #Проверка: Если создана вкладка СИ, применяемые при поверке.
@@ -786,8 +741,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                         self.label_30.setVisible(True)
                         self.label_30.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
                         self.tabWidget_3.setTabText(i, '!СИ!')
-                        #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
-                        self.count_3 = 0
+                        self.count_3_2 = False
                         self.start_to_create_application()
                         break
                     else:
@@ -800,9 +754,8 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                         self.nb_SI.setEnabled(True)
                         self.line_5.setVisible(False)
                         self.label_30.setVisible(False)
-                        #self.pushButton.setText("Создать заявку")
                         self.tabWidget_3.setTabText(i, 'СИ')
-                        self.count_3 = 1
+                        self.count_3_2 = True
                         self.start_to_create_application()
                         #Если заполнено поле Тип СИ, то проверка заполнения зав. № или буквенно-цифрового обозначения
                         if self.tabWidget_3.widget(i).lineEditTypeSI.text() != '' and (self.tabWidget_3.widget(i).lineEditZavNumber.text() == '' and self.tabWidget_3.widget(i).lineEditInventory.text() == ''):
@@ -815,8 +768,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                             self.label_30.setVisible(True)
                             self.label_30.setText("Необходимо заполнить либо буквенно-цифровое обозначение, либо заводской номер")
                             self.tabWidget_3.setTabText(i, '!СИ!')
-                            #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
-                            self.count_3 = 0
+                            self.count_3_2 = False
                             self.start_to_create_application()
                             break
                         if self.tabWidget_3.widget(i).lineEditZavNumber.text() != '':
@@ -824,90 +776,19 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                         elif self.tabWidget_3.widget(i).lineEditInventory.text() != '':
                             self.tabWidget_3.widget(i).lineEditZavNumber.setEnabled(False)
 
-        else:
-            self.line_5.setVisible(False)
-            self.label_30.setVisible(False)
-            #self.pushButton.setText("Создать заявку")
-            self.count_3 = 1
-
-        # if self.count_3 == 1:
-        #     return self.count_3
-        self.start_to_create_application()
-        print('self.count_3', self.count_3)
-        return self.count_3
-
-    #Проверка таб 3 Стандартные образцы
-    def check_tab_3_SO(self):
-
-        #Проверка: Если заполнено поле СО, применяемые при поверке.
-        #self.tabWidget_2.setCurrentIndex(self.tabWidget_2.currentIndex())
-        if self.tabWidget_2.currentWidget().lineEditType.text() == '' or self.tabWidget_2.currentWidget().lineEditType.text().isspace():
-            self.tabWidget_2.currentWidget().lineEditType.setStyleSheet(self.red_warning)
-            self.line_5.setVisible(True)
-            self.label_30.setVisible(True)
-            self.label_30.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
-            #self.pushButton.setText("Необходимо проверить вкладку Стандартные образцы, применяемые при поверке")
-            self.count_3 = 0
-            self.start_to_create_application()
-            print('self.count_3', self.count_3)
-            return
-        else:
-            self.tabWidget_2.currentWidget().lineEditType.setStyleSheet('')
-            self.tabWidget_2.currentWidget().lineEditType.setFont(self.font_tab3)
-            self.line_5.setVisible(False)
-            self.label_30.setVisible(False)
-            #self.pushButton.setText("Создать заявку")
-            self.count_3 = 1
-
-        # if self.count_3 == 1:
-        #     self.start_to_create_check(self.count_3)
-        #     return self.count_3
-        self.start_to_create_application()
-        print('self.count_3', self.count_3)
-        return self.count_3
-
-    #Проверка таб 3 Средства измерений
-    def check_tab_3_SI(self):
-
-        #self.tabWidget_3.setCurrentIndex(self.tabWidget_3.currentIndex())
-        if self.tabWidget_3.currentWidget().lineEditTypeSI.text() == '' or self.tabWidget_3.currentWidget().lineEditTypeSI.text().isspace():
-            self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet(self.red_warning)
-            self.line_5.setVisible(True)
-            self.label_30.setVisible(True)
-            self.label_30.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
-            #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
-            print('self.count_3', self.count_3)
-            self.start_to_create_application()
-            self.count_3 = 0
-            return
-        else:
-            self.tabWidget_3.currentWidget().lineEditZavNumber.setStyleSheet('')
-            self.tabWidget_3.currentWidget().lineEditInventory.setStyleSheet('')
-            self.tabWidget_3.currentWidget().lineEditTypeSI.setStyleSheet('')
-            self.tabWidget_3.currentWidget().lineEditZavNumber.setFont(self.font_tab3)
-            self.tabWidget_3.currentWidget().lineEditInventory.setFont(self.font_tab3)
-            self.tabWidget_3.currentWidget().lineEditTypeSI.setFont(self.font_tab3)
-            self.line_5.setVisible(False)
-            self.label_30.setVisible(False)
-            #self.pushButton.setText("Создать заявку")
-            self.count_3 = 1
-            if self.tabWidget_3.currentWidget().lineEditTypeSI.text() != '' and ((self.tabWidget_3.currentWidget().lineEditZavNumber.text() == '' or self.tabWidget_3.currentWidget().lineEditZavNumber.text().isspace()) and (self.tabWidget_3.currentWidget().lineEditInventory.text() == '' or self.tabWidget_3.currentWidget().lineEditInventory.text().isspace())):
-                self.tabWidget_3.currentWidget().lineEditZavNumber.setStyleSheet(self.red_warning)
-                self.tabWidget_3.currentWidget().lineEditInventory.setStyleSheet(self.red_warning)
+            if self.count_3_1 and self.count_3_2:
+                self.count_3 = 1
+            else:
                 self.line_5.setVisible(True)
                 self.label_30.setVisible(True)
-                self.label_30.setText("Необходимо заполнить либо буквенно-цифровое обозначение, либо заводской номер")
-                #self.pushButton.setText("Необходимо проверить вкладку СИ, применяемые при поверке")
                 self.count_3 = 0
-                self.start_to_create_application()
-                return
 
-        # if self.count_3 == 1:
-        #     self.start_to_create_check(self.count_3)
-        #     return self.count_3
-        # self.start_to_create_check(self.count_3)
+        else:
+            self.line_5.setVisible(False)
+            self.label_30.setVisible(False)
+            self.count_3 = 1
+
         self.start_to_create_application()
-        print('self.count_3', self.count_3)
         return self.count_3
 
     #Проверка таб 4
@@ -932,7 +813,6 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             elif self.checkBox_4.isChecked() and self.characteristics != '' and self.temperature != '' and self.pressure != '' and self.hymidity != '':
                 self.count_4 = 1
             else:
-                #self.pushButton.setEnabled(False)
                 self.count_4 = 0
         else:
             field_tab_4 = {'self.temperature': [self.temperature, self.lineEdit_21, self.line_6],
@@ -941,51 +821,24 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                         'self.characteristics': [self.characteristics, self.textEdit_27, self.line_6]}
 
             self.universal_fields_checker(field_tab_4)
-            print('func_4', self.count_4)
-            # for field in field_tab_4.keys():
-            #     required_field = field_tab_4[field][1]
-            #     alert_field = field_tab_4[field][2]
-            #     #Проход циклом по всем полям, выявление незаполненных обязательных полей
-            #     if (field == 'self.characteristics' and self.checkBox_4.isChecked()) and (field_tab_4[field][0] == '' or field_tab_4[field][0].isspace()):
-            #         required_field.setStyleSheet(self.red_warning)
-            #         alert_field.setVisible(True)
-            #         self.pushButton.setText("Необходимо проверить вкладку Прочие сведения")
-            #         self.pushButton.setEnabled(False)
-            #         self.count_4 = 0
-
-            #     elif field != 'self.characteristics' and field_tab_4[field][0] == '' or field_tab_4[field][0].isspace():
-            #         required_field.setStyleSheet(self.red_warning)
-            #         alert_field.setVisible(True)
-            #         self.pushButton.setText("Необходимо проверить вкладку Прочие сведения")
-            #         self.pushButton.setEnabled(False)
-            #         self.count_4 = 0
-
-            #     else:
-            #         self.pushButton.setText("Создать заявку")
-            #         self.pushButton.setEnabled(True)
-            #         required_field.setStyleSheet("")
-            #         self.count_4 = 1
 
             if self.checkBox_4.checkState() == 0 and self.temperature != '' and self.pressure != '' and self.hymidity != '':
                 self.line_6.setVisible(False)
-                #self.pushButton.setText("Создать заявку")
-                #self.pushButton.setEnabled(True)
                 self.count_4 = 1
             elif self.checkBox_4.isChecked() and self.characteristics != '' and self.temperature != '' and self.pressure != '' and self.hymidity != '':
                 self.line_6.setVisible(False)
-                #self.pushButton.setText("Создать заявку")
                 self.count_4 = 1
             else:
                 self.line_6.setVisible(True)
-                #self.pushButton.setText("Необходимо заполнить обязательные поля")
-                #self.pushButton.setEnabled(False)
                 self.count_4 = 0
 
         self.start_to_create_application()
-        print('self.count_4', self.count_4)
         return self.count_4
 
     def universal_fields_checker(self, field_tab):
+        '''
+        Универсальная функция проверки заполнения полей использующая словари с указанными полями (переменные, виджеты, сигнальные линии над вкладками)
+        '''
         for field in field_tab.keys():
             required_field = field_tab[field][1]
             alert_field = field_tab[field][2]
@@ -999,55 +852,33 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             elif (field == 'self.characteristics' and self.checkBox_4.isChecked()) and (field_tab[field][0] == '' or field_tab[field][0].isspace()):
                 required_field.setStyleSheet(self.red_warning)
                 alert_field.setVisible(True)
-                #self.pushButton.setText("Необходимо заполнить обязательные поля")
-                #self.pushButton.setEnabled(False)
-                #self.count = 0
-                #self.pushButton.setText("Необходимо заполнить обязательные поля")
-                #self.pushButton.setEnabled(False)
-                #self.count = 0
-                #self.pushButton.setText("Необходимо проверить вкладку Сведения о поверке")
-                #self.count_2 = 0
-            # elif field != 'self.reasons' and field_tab[field][0] == '' or field_tab[field][0].isspace():
-            #     required_field.setStyleSheet(self.red_warning)
-            #     alert_field.setVisible(True)
-            #     #self.pushButton.setText("Необходимо проверить вкладку Сведения о поверке")
-            #     #self.count_2 = 0
-
             else:
-                #self.pushButton.setText("Создать заявку")
                 required_field.setStyleSheet("")
                 alert_field.setVisible(False)
-                #self.count = 1
-        #return self.count
 
     def universal_fields_checker_with_sender(self):
+        '''
+        Универсальная функция проверки заполнения полей использующая sender в качестве источника сигнала (sender получает данные от разных переменных)
+        '''
         sender = self.sender()
-        print('sender', id(sender))
-        print('self.counter_zav_number_2', type(self.counter_zav_number))
         if sender == self.lineEdit_4 and not type(self.counter_zav_number) is int:
             self.check_zav_number_is_int()
             self.label_9.setVisible(True)
-            print('self.lineEdit_4')
         elif sender == self.lineEdit_4 and type(self.counter_zav_number) is int:
             self.label_9.setVisible(False)
-        else:
-            print('not self.lineEdit_4')
         is_lineEdit = isinstance(sender, QtWidgets.QLineEdit)
         is_textEdit = isinstance(sender, QtWidgets.QTextEdit)
-        print('is_textEdit', is_textEdit)
         if is_lineEdit and (sender.text() == '' or sender.text().isspace()):
             sender.setStyleSheet(self.red_warning)
-            #self.pushButton.setText("Необходимо заполнить обязательные поля")
-            #self.pushButton.setEnabled(False)
         elif (is_textEdit and self.checkBox_4.isChecked()) and (sender.toPlainText() == '' or sender.toPlainText().isspace()):
             sender.setStyleSheet(self.red_warning)
-            #self.pushButton.setText("Необходимо заполнить обязательные поля")
-            #self.pushButton.setEnabled(False)
         else:
             sender.setStyleSheet("")
-            #self.pushButton.setText("Создать заявку")
 
     def start_to_create_application(self):
+        '''
+        Функция проверяет все ли условия выполнены для допуска к формированию xml-файла
+        '''
         self.result = 0
         self.result = self.count_1 + self.count_2 + self.count_3 + self.count_4
 
@@ -1057,9 +888,6 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         else:
             self.pushButton.setText("Необходимо заполнить обязательные поля")
             self.pushButton.setEnabled(False)
-
-
-        print('self.result', self.result)
 
     def create(self):
         #Общее количество записей о поверках СИ

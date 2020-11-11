@@ -6,20 +6,20 @@
    <rect>
     <x>0</x>
     <y>0</y>
-    <width>1800</width>
-    <height>900</height>
+    <width>730</width>
+    <height>780</height>
    </rect>
   </property>
   <property name="minimumSize">
    <size>
-    <width>1800</width>
-    <height>900</height>
+    <width>730</width>
+    <height>780</height>
    </size>
   </property>
   <property name="maximumSize">
    <size>
-    <width>1800</width>
-    <height>900</height>
+    <width>730</width>
+    <height>780</height>
    </size>
   </property>
   <property name="font">
@@ -32,7 +32,7 @@
    <enum>Qt::NoContextMenu</enum>
   </property>
   <property name="windowTitle">
-   <string>Генератор заявок</string>
+   <string>Генератор xml-файлов для партий СИ</string>
   </property>
   <property name="windowIcon">
    <iconset resource="../poverki/res.qrc">
@@ -54,6 +54,18 @@
    <bool>false</bool>
   </property>
   <widget class="QWidget" name="centralwidget">
+   <property name="minimumSize">
+    <size>
+     <width>730</width>
+     <height>780</height>
+    </size>
+   </property>
+   <property name="maximumSize">
+    <size>
+     <width>730</width>
+     <height>780</height>
+    </size>
+   </property>
    <widget class="QTabWidget" name="tabWidget">
     <property name="geometry">
      <rect>
@@ -110,7 +122,7 @@
        </font>
       </property>
       <property name="title">
-       <string>Заводской/Инвентарный номер</string>
+       <string>Заводской номер/Буквенно-цифровое обозначение</string>
       </property>
       <widget class="Line" name="line">
        <property name="geometry">
@@ -1824,8 +1836,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>681</width>
-         <height>201</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1933,8 +1945,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>681</width>
-         <height>201</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -1992,8 +2004,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>681</width>
-         <height>201</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2098,8 +2110,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>681</width>
-         <height>201</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2136,8 +2148,8 @@
         <rect>
          <x>0</x>
          <y>0</y>
-         <width>681</width>
-         <height>201</height>
+         <width>98</width>
+         <height>28</height>
         </rect>
        </property>
        <attribute name="label">
@@ -2916,7 +2928,7 @@ border-radius: 3px;</string>
     <property name="geometry">
      <rect>
       <x>10</x>
-      <y>0</y>
+      <y>10</y>
       <width>711</width>
       <height>121</height>
      </rect>
@@ -2936,7 +2948,7 @@ border-radius: 3px;</string>
      <bool>false</bool>
     </property>
     <property name="styleSheet">
-     <string notr="true"/>
+     <string notr="true">background-color: white;</string>
     </property>
     <property name="title">
      <string>Сведения о заявках</string>
@@ -2973,7 +2985,10 @@ border-radius: 3px;</string>
      </property>
      <property name="font">
       <font>
+       <family>Calibri</family>
+       <pointsize>12</pointsize>
        <weight>50</weight>
+       <italic>false</italic>
        <bold>false</bold>
       </font>
      </property>
@@ -3013,6 +3028,8 @@ border-radius: 3px;</string>
      </property>
      <property name="font">
       <font>
+       <family>Calibri</family>
+       <pointsize>12</pointsize>
        <weight>50</weight>
        <bold>false</bold>
       </font>
@@ -3131,7 +3148,7 @@ border-radius: 3px;</string>
      <string notr="true"/>
     </property>
     <property name="text">
-     <string>Создать заявку</string>
+     <string>Создать xml-файл</string>
     </property>
    </widget>
    <widget class="QProgressBar" name="progressBar">
@@ -3176,7 +3193,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>60</x>
-      <y>120</y>
+      <y>130</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -3201,7 +3218,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>210</x>
-      <y>120</y>
+      <y>130</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -3223,7 +3240,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>370</x>
-      <y>120</y>
+      <y>130</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -3241,8 +3258,8 @@ QProgressBar::chunk {
    <widget class="QLabel" name="label_23">
     <property name="geometry">
      <rect>
-      <x>1080</x>
-      <y>300</y>
+      <x>230</x>
+      <y>230</y>
       <width>271</width>
       <height>221</height>
      </rect>
@@ -3260,10 +3277,10 @@ QProgressBar::chunk {
    <widget class="QLabel" name="label_24">
     <property name="geometry">
      <rect>
-      <x>810</x>
-      <y>80</y>
-      <width>841</width>
-      <height>711</height>
+      <x>-40</x>
+      <y>-60</y>
+      <width>811</width>
+      <height>861</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -3276,8 +3293,8 @@ QProgressBar::chunk {
    <widget class="QLabel" name="label_25">
     <property name="geometry">
      <rect>
-      <x>1080</x>
-      <y>490</y>
+      <x>230</x>
+      <y>420</y>
       <width>271</width>
       <height>20</height>
      </rect>
@@ -3292,7 +3309,7 @@ QProgressBar::chunk {
      <string notr="true">color: white;</string>
     </property>
     <property name="text">
-     <string>Версия ПО 1.3</string>
+     <string>Версия ПО 2.0</string>
     </property>
     <property name="alignment">
      <set>Qt::AlignCenter</set>
@@ -3301,8 +3318,8 @@ QProgressBar::chunk {
    <widget class="QLabel" name="label_26">
     <property name="geometry">
      <rect>
-      <x>1080</x>
-      <y>740</y>
+      <x>230</x>
+      <y>670</y>
       <width>271</width>
       <height>21</height>
      </rect>
@@ -3326,8 +3343,8 @@ QProgressBar::chunk {
    <widget class="QLabel" name="label_27">
     <property name="geometry">
      <rect>
-      <x>1080</x>
-      <y>710</y>
+      <x>230</x>
+      <y>640</y>
       <width>271</width>
       <height>20</height>
      </rect>
@@ -3348,8 +3365,8 @@ QProgressBar::chunk {
    <widget class="QListWidget" name="listWidget">
     <property name="geometry">
      <rect>
-      <x>860</x>
-      <y>120</y>
+      <x>10</x>
+      <y>30</y>
       <width>710</width>
       <height>615</height>
      </rect>
@@ -3367,7 +3384,7 @@ QProgressBar::chunk {
      </size>
     </property>
     <property name="mouseTracking">
-     <bool>false</bool>
+     <bool>true</bool>
     </property>
     <property name="tabletTracking">
      <bool>false</bool>
@@ -3377,6 +3394,12 @@ QProgressBar::chunk {
     </property>
     <property name="contextMenuPolicy">
      <enum>Qt::NoContextMenu</enum>
+    </property>
+    <property name="frameShape">
+     <enum>QFrame::StyledPanel</enum>
+    </property>
+    <property name="lineWidth">
+     <number>1</number>
     </property>
     <property name="horizontalScrollBarPolicy">
      <enum>Qt::ScrollBarAlwaysOff</enum>
@@ -3416,6 +3439,11 @@ QProgressBar::chunk {
     </property>
     <item>
      <property name="text">
+      <string/>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>Краткая инструкция</string>
      </property>
      <property name="font">
@@ -3437,12 +3465,12 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>1. В поле &quot;Всего СИ в партии&quot; указывается количество СИ в партии.</string>
+      <string>1. В поле &quot;Всего СИ в партии&quot; указывается общее количество СИ в партии, для которых создаются записи о поверке.</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>2. В поле &quot;Записей о поверках в одной заявке&quot; указывается количество записей, которое будет сформировано в одной xml-заявке (не более 4000 записей).</string>
+      <string>2. В поле &quot;Записей о поверках в одной заявке&quot; указывается количество записей, которое будет сформировано в однм xml-файле (не более 4000 записей).</string>
      </property>
     </item>
     <item>
@@ -3468,7 +3496,7 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>В результате, после создания заявок, сформируется 5 xml-файлов, 4 файла будут содержать по 3000 записей, 5-й файл - 1000 записей.</string>
+      <string>В результате, после нажатия кнопки &quot;Создать xml-файл&quot;, сформируется 5 xml-файлов, 4 файла будут содержать по 3000 записей, 5-й файл - 1000 записей.</string>
      </property>
     </item>
     <item>
@@ -3488,7 +3516,7 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>    а. Заполнить обязательное поле Тип СИ (№ Гос. реестра);</string>
+      <string>    а. Заполнить обязательное поле Тип СИ (Метрологическая аттестация, СИ ВН или СН), подробнее в примечании ниже;</string>
      </property>
     </item>
     <item>
@@ -3498,7 +3526,7 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>    в. Заполнить поле &quot;Заводской номер&quot; (пример ниже):</string>
+      <string>    в. Заполнить поле &quot;Заводской номер/Буквенно-цифровое обозначение&quot; (пример ниже):</string>
      </property>
     </item>
     <item>
@@ -3518,12 +3546,20 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
+      <string>Примечание: для внесения сведений о единственном СИ, необходимо выбрать одну из трех опций:
+− «Тип СИ» для внесения сведений о результатах поверки СИ утвержденного типа, при заполнении поля в данном случае выбирается значение из реестра утвержденных типов СИ ФИФ ОЕИ.
+− «Метрологическая аттестация» для внесения сведений о результатах поверки средства измерений неутвержденного типа, но прошедшего метрологическую аттестацию в соответствии с ГОСТ 8.326-89 «Государственная система обеспечения единства измерений (ГСИ). Метрологическая аттестация средств измерений», в рамках которой на данное СИ была утверждена Методика метрологической аттестации, при заполнении поля в данном случае указывается наименование СИ.
+− «СИ ВН или СН» для внесения сведений о результатах поверки средства измерений военного назначения или специального назначения, при заполнении поля в данном случае указывается наименование типа СИ, а также номер в реестре утвержденных типов СИ раздела ФИФ ОЕИ в области обороны и безопасности государства.</string>
+     </property>
+    </item>
+    <item>
+     <property name="text">
       <string>3.2. Вкладка &quot;Сведения о поверке&quot;.</string>
      </property>
     </item>
     <item>
      <property name="text">
-      <string>    а. Необходимо убедиться, что в поле Дата поверки выбрана нужная пользователю дата, если нужно изменить дату, нужно нажать пиктограмму &quot;стрелка&quot; в правой части поля для вызова календаря;</string>
+      <string>    а. Необходимо убедиться, что в поле &quot;Дата поверки&quot; выбрана нужная пользователю дата, если нужно изменить дату, нужно нажать пиктограмму &quot;стрелка&quot; в правой части поля для вызова календаря;</string>
      </property>
     </item>
     <item>
@@ -3538,7 +3574,7 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>    г. Заполнить поле Владелец СИ (обязательное поле);</string>
+      <string>    г. Заполнить поле &quot;Владелец СИ&quot; (обязательное поле);</string>
      </property>
     </item>
     <item>
@@ -3563,7 +3599,7 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>    и. Если по результатам проведения поверки СИ признано непригодным, выбрать пункт Непригодно и указать причину непригодности (обязательное поле);</string>
+      <string>    и. Если по результатам проведения поверки СИ признано непригодным, выбрать пункт &quot;Непригодно&quot; и указать причину непригодности (обязательное поле);</string>
      </property>
     </item>
     <item>
@@ -3593,7 +3629,7 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>        При заполнении полей &quot;Стандартные образцы, применяемые при поверке&quot; и &quot;СИ, применяемые при поверке&quot; для добавления нескольких средств поверки нужно добавить вкладки нажав кнопку Добавить и заполнить нужные поля.</string>
+      <string>        При заполнении полей &quot;Стандартные образцы, применяемые при поверке&quot; и &quot;СИ, применяемые при поверке&quot; для добавления нескольких средств поверки нужно добавить вкладки, нажав кнопку &quot;Добавить&quot; и заполнить нужные поля.</string>
      </property>
     </item>
     <item>
@@ -3608,7 +3644,7 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>    б. При проведении поверки в сокращенном объеме, нужно установить галку на чекбоксе &quot;Поверка в сокращенном объеме&quot; и заполнить поле &quot;Краткая характеристика объема поверки&quot;.</string>
+      <string>    б. При проведении поверки в сокращенном объеме, нужно установить галку на пункте &quot;Поверка в сокращенном объеме&quot; и заполнить поле &quot;Краткая характеристика объема поверки&quot;.</string>
      </property>
     </item>
     <item>
@@ -3623,7 +3659,7 @@ QProgressBar::chunk {
     </item>
     <item>
      <property name="text">
-      <string>Сгенерированному xml-файлу с записями автоматически присваивается наименование, в котором содержится дата, наименование типа СИ, количество записей в заявке, порядковый номер заявки и условный шифр знака поверки.</string>
+      <string>Сгенерированному xml-файлу с записями автоматически присваивается наименование, в котором содержатся: дата, наименование типа СИ, количество записей в заявке, порядковый номер заявки и условный шифр знака поверки.</string>
      </property>
     </item>
     <item>
@@ -3636,13 +3672,18 @@ QProgressBar::chunk {
       <string>Сформированные файлы по структуре отвечают требованиям схемы. За корректность сведений в сформированных xml-файлах ответственность несет лицо,  вносившее сведения.</string>
      </property>
     </item>
+    <item>
+     <property name="text">
+      <string/>
+     </property>
+    </item>
    </widget>
    <widget class="QPushButton" name="pushButton_4">
     <property name="geometry">
      <rect>
-      <x>1180</x>
-      <y>742</y>
-      <width>75</width>
+      <x>320</x>
+      <y>660</y>
+      <width>91</width>
       <height>31</height>
      </rect>
     </property>
@@ -3653,10 +3694,10 @@ QProgressBar::chunk {
    <widget class="QLabel" name="label_29">
     <property name="geometry">
      <rect>
-      <x>840</x>
-      <y>82</y>
-      <width>731</width>
-      <height>701</height>
+      <x>-10</x>
+      <y>-30</y>
+      <width>751</width>
+      <height>791</height>
      </rect>
     </property>
     <property name="styleSheet">
@@ -3673,7 +3714,7 @@ QProgressBar::chunk {
     <property name="geometry">
      <rect>
       <x>520</x>
-      <y>120</y>
+      <y>130</y>
       <width>21</width>
       <height>20</height>
      </rect>
@@ -3688,29 +3729,29 @@ QProgressBar::chunk {
      <enum>Qt::Horizontal</enum>
     </property>
    </widget>
-   <zorder>tabWidget</zorder>
    <zorder>groupBox_3</zorder>
-   <zorder>progressBar</zorder>
-   <zorder>line_3</zorder>
-   <zorder>line_4</zorder>
    <zorder>line_5</zorder>
-   <zorder>label_24</zorder>
-   <zorder>label_23</zorder>
-   <zorder>label_25</zorder>
-   <zorder>label_26</zorder>
-   <zorder>label_27</zorder>
-   <zorder>label_29</zorder>
-   <zorder>pushButton_4</zorder>
-   <zorder>listWidget</zorder>
+   <zorder>line_4</zorder>
    <zorder>line_6</zorder>
+   <zorder>line_3</zorder>
+   <zorder>tabWidget</zorder>
+   <zorder>progressBar</zorder>
    <zorder>pushButton</zorder>
+   <zorder>label_29</zorder>
+   <zorder>listWidget</zorder>
+   <zorder>pushButton_4</zorder>
+   <zorder>label_24</zorder>
+   <zorder>label_27</zorder>
+   <zorder>label_23</zorder>
+   <zorder>label_26</zorder>
+   <zorder>label_25</zorder>
   </widget>
   <widget class="QMenuBar" name="menuBar">
    <property name="geometry">
     <rect>
      <x>0</x>
      <y>0</y>
-     <width>1800</width>
+     <width>730</width>
      <height>21</height>
     </rect>
    </property>
@@ -3748,8 +3789,8 @@ QProgressBar::chunk {
  <connections/>
  <buttongroups>
   <buttongroup name="buttonGroup_2"/>
+  <buttongroup name="buttonGroup"/>
   <buttongroup name="buttonGroup_3"/>
   <buttongroup name="buttonGroup_4"/>
-  <buttongroup name="buttonGroup"/>
  </buttongroups>
 </ui>
