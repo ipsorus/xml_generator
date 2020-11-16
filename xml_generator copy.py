@@ -8,6 +8,11 @@ import res_rc #файл ресурсов (иконки, стрелки)
 import MainWindow_poverki_2020  #модуль главного окна PyQt
 
 from datetime import datetime, date, time
+#from PyQt5.QtCore import Qt, QDate, QDateTime, QTimer, QRect
+#from PyQt5.QtWidgets import QMainWindow, QWidget, QFileDialog, QToolTip, QPushButton, QApplication, QMessageBox, QLineEdit, QLabel, QProgressBar, QSpinBox, QTabBar, QTextEdit, QToolButton
+#from PyQt5.QtGui import *
+
+#from PyQt5.QtGui import QFont
 
 from PyQt5 import QtCore, QtGui, QtWidgets
 
@@ -87,7 +92,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.font_tab3.setBold(False)
         self.font_tab3.setWeight(50)
 
-        self.red_warning = "background-color: #FFC0CB; border-color: red; border-style: solid; border-width: 2px; font-weight: normal;"
+        self.red_warning = "border-color: red; border-style: solid; border-width: 2px; font-weight: normal;"
 
         self.label_29.setVisible(False)
         self.progressBar.setVisible(False)
@@ -95,21 +100,21 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.pushButton_4.setVisible(False)
         self.dateEdit.setDate(QtCore.QDate.currentDate())
         self.line_3.setVisible(False)
-        #self.line_3.setStyleSheet('color: red;')
+        self.line_3.setStyleSheet('color: red;')
         self.line_4.setVisible(False)
-        #self.line_4.setStyleSheet('color: red;')
+        self.line_4.setStyleSheet('color: red;')
         self.line_5.setVisible(False)
-        #self.line_5.setStyleSheet('color: red;')
+        self.line_5.setStyleSheet('color: red;')
         self.line_6.setVisible(False)
-        #self.line_6.setStyleSheet('color: red;')
+        self.line_6.setStyleSheet('color: red;')
         self.label_9.setVisible(False)
-        #self.label_9.setStyleSheet('color: red;')
+        self.label_9.setStyleSheet('color: red;')
         self.label_19.setVisible(False)
-        #self.label_19.setStyleSheet('color: red;')
+        self.label_19.setStyleSheet('color: red;')
         self.label_20.setVisible(False)
-        #self.label_20.setStyleSheet('color: red;')
+        self.label_20.setStyleSheet('color: red;')
         self.label_30.setVisible(False)
-        #self.label_30.setStyleSheet('color: red;')
+        self.label_30.setStyleSheet('color: red;')
         self.calendarWidget.setVisible(False)
         self.pushButton_3.setVisible(False)
         self.pushButton.setEnabled(False)
@@ -194,7 +199,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
     def logoTimer(self):
         self.timer = QtCore.QTimer()
-        self.timer.start(5000)
+        self.timer.start(50)
         self.timer.timeout.connect(self.label_image)
         self.timer.setSingleShot(True)
 
@@ -208,7 +213,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.setWindowTitle("Генератор xml-файлов для партий СИ")
     #=========================
 
-    #Создание и удаление табов (вкладок)
+    #Создание и удаление табов
     def create_first_tabs(self):
         if self.toolBox.currentIndex() == 2 and self.tabWidget_2.count() == 0:
             self.comboBox.setEnabled(False)
@@ -281,9 +286,6 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
     #Тестирование табов на заполнение полей
     def test_filled_tabs(self):
-        '''
-        При переходе от одного таба к другому происходит проверка того таба, с которого пользователь ушел
-        '''
         if self.tabCurrIndex == 0:
             self.indicator_1 = True
             self.check_tab_1()
@@ -369,160 +371,11 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.lineEdit_6.setText(self.calendarWidget.selectedDate().toString("yyyy-MM-dd"))
     #=============================
 
-    #Сбор данных для дальнейшей сборки заявки в цикле
-    def collecting_data(self):
-        '''
-        Функция создана с целью оптимизации процесса формирования файлов,
-        т.к. единожды записывает все данные в переменные (self.body_part_1, self.body_part_2 - для записи изменяемой части зав. номера, self.body_part_3) 
-        и далее в цикле уже подставляет готовые данные, вместо постоянного прохода по строкам и дозапись в переменную self.main_body
-        '''
-
-        self.body_part_1 = ''
-        self.body_part_3 = ''
-
-        #Первая часть формируемой заявки
-        self.body_part_1 = f'<result>\n'+ f'<miInfo>\n' + f'<singleMI>\n'
-
-        if self.radioButton_7.isChecked():
-            self.body_part_1 += f'<mitypeNumber>{self.mitypeNumber.strip(" ")}</mitypeNumber>\n'
-        elif self.radioButton_8.isChecked():
-            self.body_part_1 += f'<crtmitypeTitle>{self.mitypeNumber.strip(" ")}</crtmitypeTitle>\n'
-        elif self.radioButton_9.isChecked():
-            self.body_part_1 += f'<milmitypeTitle>{self.mitypeNumber.strip(" ")}</milmitypeTitle>\n'
-
-        #Третья часть формируемой заявки
-        if self.manufactureYear != '':
-            self.body_part_3 += f'<manufactureYear>{self.manufactureYear}</manufactureYear>\n'
-
-        self.body_part_3 += f'<modification>{self.modification.strip(" ")}</modification>\n'
-
-        self.body_part_3 += f'</singleMI>\n'
-        self.body_part_3 += f'</miInfo>\n'
-        self.body_part_3 += f'<signCipher>{self.signCipher.strip(" ")}</signCipher>\n'
-        self.body_part_3 += f'<miOwner>{self.miOwner.strip(" ")}</miOwner>\n'
-
-        self.body_part_3 += f'<vrfDate>{self.vrfDate}+03:00</vrfDate>\n'
-
-        if self.validDate != '':
-            self.body_part_3 += f'<validDate>{self.validDate}+03:00</validDate>\n'
-
-        if self.radioButton.isChecked():
-            self.body_part_3 += f'<type>1</type>\n'
-        else:
-            self.body_part_3 += f'<type>2</type>\n'
-
-        self.body_part_3 += f'<calibration>{self.calibration}</calibration>\n'
-        if self.radioButton_3.isChecked():
-            self.body_part_3 += f'<applicable>\n'
-            if self.stickerNum != '':
-                self.body_part_3 += f'<stickerNum>{self.stickerNum.strip(" ")}</stickerNum>\n'
-            self.body_part_3 += f'<signPass>{self.signPass}</signPass>\n'
-            self.body_part_3 += f'<signMi>{self.signMi}</signMi>\n'
-            self.body_part_3 += f'</applicable>\n'
-        else:
-            self.body_part_3 += f'<inapplicable>\n'
-            self.body_part_3 += f'<reasons>{self.reasons.strip(" ")}</reasons>\n'
-            self.body_part_3 += f'</inapplicable>\n'
-
-        self.body_part_3 += f'<docTitle>{self.method.strip(" ")}</docTitle>\n'
-
-        if self.metrologist != '':
-            self.body_part_3 += f'<metrologist>{self.metrologist.strip(" ")}</metrologist>\n'
-
-        self.body_part_3 += f'<means>\n'
-
-        if self.comboBox.currentIndex() == 0:
-            if self.npe_number != '':
-                text = self.npe_number.strip(' ')
-                text = text.split(';')
-                self.body_part_3 += f'<npe>\n'
-                for t in text:
-                    if t != '' and not t.isspace():
-                        self.body_part_3 += f'<number>{t.strip(" ")}</number>\n'
-                self.body_part_3 += f'</npe>\n'
-
-            if self.uve_number != '':
-                text = self.uve_number.strip(' ')
-                text = text.split(';')
-                self.body_part_3 += f'<uve>\n'
-                for t in text:
-                    if t != '' and not t.isspace():
-                        self.body_part_3 += f'<number>{t.strip(" ")}</number>\n'
-                self.body_part_3 += f'</uve>\n'
-
-            if self.tabWidget_2.count() > 1:
-                self.body_part_3 += f'<ses>\n'
-                for i in range(self.tabWidget_2.count() - 1):
-                    self.body_part_3 += F'<se>\n'
-                    self.body_part_3 += f'<typeNum>{self.tabWidget_2.widget(i).lineEditType.text().strip(" ")}</typeNum>\n'
-                    self.body_part_3 += f'<manufactureYear>{self.tabWidget_2.widget(i).spinBoxManufYear.value()}</manufactureYear>\n'
-                    if self.tabWidget_2.widget(i).lineEditSerialNumber.text() != '' and not self.tabWidget_2.widget(i).lineEditSerialNumber.text().isspace():
-                        self.body_part_3 += f'<manufactureNum>{self.tabWidget_2.widget(i).lineEditSerialNumber.text().strip(" ")}</manufactureNum>\n'
-                    if self.tabWidget_2.widget(i).lineEditSpecifications.text() != '' and not self.tabWidget_2.widget(i).lineEditSpecifications.text().isspace():
-                        self.body_part_3 += f'<metroChars>{self.tabWidget_2.widget(i).lineEditSpecifications.text().strip(" ")}</metroChars>\n'
-                    self.body_part_3 += F'</se>\n'
-                self.body_part_3 += f'</ses>\n'
-
-            if self.mieta_number != '':
-                text = self.mieta_number.strip(' ')
-                text = text.split(';')
-                self.body_part_3 += f'<mieta>\n'
-                for t in text:
-                    if t != '' and not t.isspace():
-                        self.body_part_3 += f'<number>{t.strip(" ")}</number>\n'
-                self.body_part_3 += f'</mieta>\n'
-
-            if self.tabWidget_3.count() > 1:
-                self.body_part_3 += f'<mis>\n'
-                for i in range(self.tabWidget_3.count() - 1):
-                    self.body_part_3 += F'<mi>\n'
-                    self.body_part_3 += f'<typeNum>{self.tabWidget_3.widget(i).lineEditTypeSI.text().strip(" ")}</typeNum>\n'
-                    if self.tabWidget_3.widget(i).lineEditZavNumber.text() != '':
-                        self.body_part_3 += f'<manufactureNum>{self.tabWidget_3.widget(i).lineEditZavNumber.text().strip(" ")}</manufactureNum>\n'
-                    elif self.tabWidget_3.widget(i).lineEditInventory.text() != '':
-                        self.body_part_3 += f'<inventoryNum>{self.tabWidget_3.widget(i).lineEditInventory.text().strip(" ")}</inventoryNum>\n'
-                    self.body_part_3 += F'</mi>\n'
-                self.body_part_3 += f'</mis>\n'
-
-            if self.reagent_number != '':
-                text = self.reagent_number.strip(' ')
-                text = text.split(';')
-                self.body_part_3 += f'<reagent>\n'
-                for t in text:
-                    if t != '' and not t.isspace():
-                        self.body_part_3 += f'<number>{t.strip(" ")}</number>\n'
-                self.body_part_3 += f'</reagent>\n'
-
-        else:
-            self.body_part_3 += f'<oMethod>{self.oMethod}</oMethod>\n'
-
-        self.body_part_3 += f'</means>\n'
-
-        self.body_part_3 += f'<conditions>\n'
-        self.body_part_3 += f'<temperature>{self.temperature.strip(" ")}</temperature>\n'
-        self.body_part_3 += f'<pressure>{self.pressure.strip(" ")}</pressure>\n'
-        self.body_part_3 += f'<hymidity>{self.hymidity.strip(" ")}</hymidity>\n'
-        if self.other != '':
-            self.body_part_3 += f'<other>{self.other.strip(" ")}</other>\n'
-        self.body_part_3 += f'</conditions>\n'
-
-        if self.structure != '':
-            self.body_part_3 += f'<structure>{self.structure.strip(" ")}</structure>\n'
-
-        if self.checkBox_4.isChecked():
-            self.body_part_3 += f'<brief_procedure>\n'
-            self.body_part_3 += f'<characteristics>{self.characteristics.strip(" ")}</characteristics>\n'
-            self.body_part_3 += f'</brief_procedure>\n'
-
-        if self.additional_info != '':
-            self.body_part_3 += f'<additional_info>{self.additional_info.strip(" ")}</additional_info>\n'
-
-        self.body_part_3 += f'</result>\n'
-
     def applic_constructor(self, filepath, result, part, counter_zav):
         '''
         Сборка записи о поверке и сохранение данных в файл
         '''
+
         date_stamp = datetime.now().strftime("%Y-%m-%d")
 
         #Название файла
@@ -544,24 +397,166 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
 
         for n in range(result):
             #Основное тело записи о поверке
-            self.main_body = ''
-            self.body_part_2 = ''
-            #self.body_part_3 = ''
+            #self.main_body = ''
+            #self.body_2 = ''
+            self.body_3 = ''
 
             manufactureNum = self.prefix_zav_number.lstrip(' ') + str(counter_zav).zfill(self.zav_len) + self.tail_zav_number.rstrip(' ')
 
-            #Вторая часть формируемой заявки
-            if self.radioButton_5.isChecked():
-                self.body_part_2 += f'<manufactureNum>{manufactureNum}</manufactureNum>\n'
-            else:
-                self.body_part_2 += f'<inventoryNum>{manufactureNum}</inventoryNum>\n'
+            # #Вторая часть формируемой заявки
+            # if self.radioButton_5.isChecked():
+            #     self.body_2 += f'<manufactureNum>{manufactureNum}</manufactureNum>\n'
+            # else:
+            #     self.body_2 += f'<inventoryNum>{manufactureNum}</inventoryNum>\n'
 
             with open (FileFullPath, 'a', encoding='utf-8') as sample_body:
-                self.main_body += self.body_part_1
-                self.main_body += self.body_part_2
-                self.main_body += self.body_part_3
+                # self.main_body += self.body_1
+                # self.main_body += self.body_2
+                # self.main_body += self.body_3
 
-                sample_body.write(self.main_body)
+                self.body_3 = f'<result>\n'+ f'<miInfo>\n' + f'<singleMI>\n'
+
+                if self.radioButton_7.isChecked():
+                    self.body_3 += f'<mitypeNumber>{self.mitypeNumber.strip(" ")}</mitypeNumber>\n'
+                elif self.radioButton_8.isChecked():
+                    self.body_3 += f'<crtmitypeTitle>{self.mitypeNumber.strip(" ")}</crtmitypeTitle>\n'
+                elif self.radioButton_9.isChecked():
+                    self.body_3 += f'<milmitypeTitle>{self.mitypeNumber.strip(" ")}</milmitypeTitle>\n'
+
+                if self.radioButton_5.isChecked():
+                    self.body_3 += f'<manufactureNum>{manufactureNum}</manufactureNum>\n'
+                else:
+                    self.body_3 += f'<inventoryNum>{manufactureNum}</inventoryNum>\n'
+
+                if self.manufactureYear != '':
+                    self.body_3 += f'<manufactureYear>{self.manufactureYear}</manufactureYear>\n'
+
+                self.body_3 += f'<modification>{self.modification.strip(" ")}</modification>\n'
+
+                self.body_3 += f'</singleMI>\n'
+                self.body_3 += f'</miInfo>\n'
+                self.body_3 += f'<signCipher>{self.signCipher.strip(" ")}</signCipher>\n'
+                self.body_3 += f'<miOwner>{self.miOwner.strip(" ")}</miOwner>\n'
+
+                self.body_3 += f'<vrfDate>{self.vrfDate}</vrfDate>\n'
+
+                if self.validDate != '':
+                    self.body_3 += f'<validDate>{self.validDate}</validDate>\n'
+
+                if self.radioButton.isChecked():
+                    self.body_3 += f'<type>1</type>\n'
+                else:
+                    self.body_3 += f'<type>2</type>\n'
+
+                self.body_3 += f'<calibration>{self.calibration}</calibration>\n'
+                if self.radioButton_3.isChecked():
+                    self.body_3 += f'<applicable>\n'
+                    if self.stickerNum != '':
+                        self.body_3 += f'<stickerNum>{self.stickerNum.strip(" ")}</stickerNum>\n'
+                    self.body_3 += f'<signPass>{self.signPass}</signPass>\n'
+                    self.body_3 += f'<signMi>{self.signMi}</signMi>\n'
+                    self.body_3 += f'</applicable>\n'
+                else:
+                    self.body_3 += f'<inapplicable>\n'
+                    self.body_3 += f'<reasons>{self.reasons.strip(" ")}</reasons>\n'
+                    self.body_3 += f'</inapplicable>\n'
+
+                self.body_3 += f'<docTitle>{self.method.strip(" ")}</docTitle>\n'
+
+                if self.metrologist != '':
+                    self.body_3 += f'<metrologist>{self.metrologist.strip(" ")}</metrologist>\n'
+
+                self.body_3 += f'<means>\n'
+
+                if self.comboBox.currentIndex() == 0:
+                    if self.npe_number != '':
+                        text = self.npe_number.strip(' ')
+                        text = text.split(';')
+                        self.body_3 += f'<npe>\n'
+                        for t in text:
+                            if t != '' and not t.isspace():
+                                self.body_3 += f'<number>{t.strip(" ")}</number>\n'
+                        self.body_3 += f'</npe>\n'
+
+                    if self.uve_number != '':
+                        text = self.uve_number.strip(' ')
+                        text = text.split(';')
+                        self.body_3 += f'<uve>\n'
+                        for t in text:
+                            if t != '' and not t.isspace():
+                                self.body_3 += f'<number>{t.strip(" ")}</number>\n'
+                        self.body_3 += f'</uve>\n'
+
+                    if self.tabWidget_2.count() > 1:
+                        self.body_3 += f'<ses>\n'
+                        for i in range(self.tabWidget_2.count() - 1):
+                            self.body_3 += F'<se>\n'
+                            self.body_3 += f'<typeNum>{self.tabWidget_2.widget(i).lineEditType.text().strip(" ")}</typeNum>\n'
+                            self.body_3 += f'<manufactureYear>{self.tabWidget_2.widget(i).spinBoxManufYear.value()}</manufactureYear>\n'
+                            if self.tabWidget_2.widget(i).lineEditSerialNumber.text() != '' and not self.tabWidget_2.widget(i).lineEditSerialNumber.text().isspace():
+                                self.body_3 += f'<manufactureNum>{self.tabWidget_2.widget(i).lineEditSerialNumber.text().strip(" ")}</manufactureNum>\n'
+                            if self.tabWidget_2.widget(i).lineEditSpecifications.text() != '' and not self.tabWidget_2.widget(i).lineEditSpecifications.text().isspace():
+                                self.body_3 += f'<metroChars>{self.tabWidget_2.widget(i).lineEditSpecifications.text().strip(" ")}</metroChars>\n'
+                            self.body_3 += F'</se>\n'
+                        self.body_3 += f'</ses>\n'
+
+                    if self.mieta_number != '':
+                        text = self.mieta_number.strip(' ')
+                        text = text.split(';')
+                        self.body_3 += f'<mieta>\n'
+                        for t in text:
+                            if t != '' and not t.isspace():
+                                self.body_3 += f'<number>{t.strip(" ")}</number>\n'
+                        self.body_3 += f'</mieta>\n'
+
+                    if self.tabWidget_3.count() > 1:
+                        self.body_3 += f'<mis>\n'
+                        for i in range(self.tabWidget_3.count() - 1):
+                            self.body_3 += F'<mi>\n'
+                            self.body_3 += f'<typeNum>{self.tabWidget_3.widget(i).lineEditTypeSI.text().strip(" ")}</typeNum>\n'
+                            if self.tabWidget_3.widget(i).lineEditZavNumber.text() != '':
+                                self.body_3 += f'<manufactureNum>{self.tabWidget_3.widget(i).lineEditZavNumber.text().strip(" ")}</manufactureNum>\n'
+                            elif self.tabWidget_3.widget(i).lineEditInventory.text() != '':
+                                self.body_3 += f'<inventoryNum>{self.tabWidget_3.widget(i).lineEditInventory.text().strip(" ")}</inventoryNum>\n'
+                            self.body_3 += F'</mi>\n'
+                        self.body_3 += f'</mis>\n'
+
+                    if self.reagent_number != '':
+                        text = self.reagent_number.strip(' ')
+                        text = text.split(';')
+                        self.body_3 += f'<reagent>\n'
+                        for t in text:
+                            if t != '' and not t.isspace():
+                                self.body_3 += f'<number>{t.strip(" ")}</number>\n'
+                        self.body_3 += f'</reagent>\n'
+
+                else:
+                    self.body_3 += f'<oMethod>{self.oMethod}</oMethod>\n'
+
+                self.body_3 += f'</means>\n'
+
+                self.body_3 += f'<conditions>\n'
+                self.body_3 += f'<temperature>{self.temperature.strip(" ")}</temperature>\n'
+                self.body_3 += f'<pressure>{self.pressure.strip(" ")}</pressure>\n'
+                self.body_3 += f'<hymidity>{self.hymidity.strip(" ")}</hymidity>\n'
+                if self.other != '':
+                    self.body_3 += f'<other>{self.other.strip(" ")}</other>\n'
+                self.body_3 += f'</conditions>\n'
+
+                if self.structure != '':
+                    self.body_3 += f'<structure>{self.structure.strip(" ")}</structure>\n'
+
+                if self.checkBox_4.isChecked():
+                    self.body_3 += f'<brief_procedure>\n'
+                    self.body_3 += f'<characteristics>{self.characteristics.strip(" ")}</characteristics>\n'
+                    self.body_3 += f'</brief_procedure>\n'
+
+                if self.additional_info != '':
+                    self.body_3 += f'<additional_info>{self.additional_info.strip(" ")}</additional_info>\n'
+
+                self.body_3 += f'</result>\n'
+                #sample_body.write(self.main_body)
+                sample_body.write(self.body_3)
 
                 counter_zav += 1
 
@@ -625,6 +620,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 self.count_1 = 0
 
         self.start_to_create_application()
+        #return self.count_1
 
     #Проверка таб 2
     def check_tab_2(self):
@@ -695,6 +691,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 self.count_2 = 0
 
         self.start_to_create_application()
+        #return self.count_2
 
     #Проверка таб 3
     def check_tab_3(self):
@@ -807,6 +804,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
             self.count_3 = 1
 
         self.start_to_create_application()
+        #return self.count_3
 
     #Проверка таб 4
     def check_tab_4(self):
@@ -850,6 +848,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 self.count_4 = 0
 
         self.start_to_create_application()
+        #return self.count_4
 
     def universal_fields_checker(self, field_tab):
         '''
@@ -869,7 +868,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 required_field.setStyleSheet(self.red_warning)
                 alert_field.setVisible(True)
             else:
-                required_field.setStyleSheet('')
+                required_field.setStyleSheet("")
                 alert_field.setVisible(False)
 
     def universal_fields_checker_with_sender(self):
@@ -877,6 +876,11 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         Универсальная функция проверки заполнения полей использующая sender в качестве источника сигнала (sender получает данные от разных переменных)
         '''
         sender = self.sender()
+        if sender == self.lineEdit_4 and not type(self.counter_zav_number) is int:
+            self.check_zav_number_is_int()
+            self.label_9.setVisible(True)
+        elif sender == self.lineEdit_4 and type(self.counter_zav_number) is int:
+            self.label_9.setVisible(False)
         is_lineEdit = isinstance(sender, QtWidgets.QLineEdit)
         is_textEdit = isinstance(sender, QtWidgets.QTextEdit)
         if is_lineEdit and (sender.text() == '' or sender.text().isspace()):
@@ -884,14 +888,7 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         elif (is_textEdit and self.checkBox_4.isChecked()) and (sender.toPlainText() == '' or sender.toPlainText().isspace()):
             sender.setStyleSheet(self.red_warning)
         else:
-            sender.setStyleSheet('')
-
-        if sender == self.lineEdit_4 and not type(self.counter_zav_number) is int:
-            self.check_zav_number_is_int()
-            sender.setStyleSheet(self.red_warning)
-            self.label_9.setVisible(True)
-        elif sender == self.lineEdit_4 and type(self.counter_zav_number) is int:
-            self.label_9.setVisible(False)
+            sender.setStyleSheet("")
 
     def start_to_create_application(self):
         '''
@@ -901,105 +898,167 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
         self.result = self.count_1 + self.count_2 + self.count_3 + self.count_4
 
         if self.result == 4:
-            self.pushButton.setText("Создать xml-файл")
+            self.pushButton.setText("Создать заявку")
             self.pushButton.setEnabled(True)
+            #self.collecting_data()
         else:
-            self.pushButton.setText("Заполнить форму")
+            self.pushButton.setText("Необходимо заполнить обязательные поля")
             self.pushButton.setEnabled(False)
 
-    def update_data(self):
-        '''
-        Обновление содержимого переменных (для случая, если после формирования файлов внесены изменения в необязательные поля,
-        т.к. для этих полей нет проверки изменения содержимого на-лету)
-        '''
-        #Тип СИ
-        self.mitypeNumber = self.lineEdit.text()
-        #Модификация СИ
-        self.modification = self.lineEdit_2.text()
-        #Дата производства СИ
-        self.manufactureYear = self.spinBox_3.text()
-        if self.manufactureYear == '-':
-            self.manufactureYear = ''
-        else:
-            self.manufactureYear = int(self.spinBox_3.text())
-        #Заводской номер СИ
-        self.prefix_zav_number = self.lineEdit_3.text()
-        self.counter_zav_number = self.lineEdit_4.text()
-        self.zav_len = len(self.counter_zav_number.strip(' '))
-        if self.counter_zav_number != '':
-            self.check_zav_number_is_int()
-        self.tail_zav_number = self.lineEdit_5.text()
-        #Условный шифр знака поверки
-        signCipher = self.lineEdit_7.text()
-        self.signCipher = signCipher.upper()
-        #Владелец СИ
-        self.miOwner = self.lineEdit_10.text()
-        #Дата поверки (формат гггг-мм-дд)
-        self.vrfDate = self.dateEdit.text()
-        #Дата действия поверки (формат гггг-мм-дд)
-        self.validDate = self.lineEdit_6.text()
-        #Методика поверки
-        self.method = self.lineEdit_11.text()
-        #Ф.И.О. поверителя
-        self.metrologist = self.lineEdit_20.text()
-        #Результаты калибровки (true/false)
-        calibration = f'{self.checkBox_3.isChecked()}'
-        self.calibration = calibration.lower()
-        #Номер наклейки
-        self.stickerNum = self.lineEdit_8.text()
-        #Знак поверки в паспорте (true/false)
-        signPass = f'{self.checkBox.isChecked()}'
-        self.signPass = signPass.lower()
-        #Знак поверки на СИ (true/false)
-        signMi = f'{self.checkBox_2.isChecked()}'
-        self.signMi = signMi.lower()
-        #Причина непригодности
-        self.reasons = self.lineEdit_9.text()
-        #ГПЭ
-        self.npe_number = self.lineEdit_12.text()
-        #Эталоны
-        self.uve_number = self.lineEdit_13.text()
-        #СИ, применяемые в качестве эталонов
-        self.mieta_number = self.lineEdit_16.text()
-        #Вещества (материалы)
-        self.reagent_number = self.lineEdit_19.text()
-        #Методы поверки без применения средств поверки
-        self.oMethod = self.comboBox.currentIndex()
-        #Условия проведения поверки
-        self.temperature = self.lineEdit_21.text()
-        self.pressure = self.lineEdit_22.text()
-        self.hymidity = self.lineEdit_23.text()
-        #Другие факторы
-        self.other = self.textEdit_24.toPlainText()
-        #Состав СИ, представленного на поверку
-        self.structure = self.textEdit_25.toPlainText()
-        #Краткая характеристика объема поверки
-        self.characteristics = self.textEdit_27.toPlainText()
-        #Прочие сведения
-        self.additional_info = self.textEdit_26.toPlainText()
+    # def collecting_data(self):
+    #     self.body_1 = ''
+    #     self.body_3 = ''
+
+    #     #Первая часть формируемой заявки
+    #     self.body_1 = f'<result>\n'+ f'<miInfo>\n' + f'<singleMI>\n'
+
+    #     if self.radioButton_7.isChecked():
+    #         self.body_1 += f'<mitypeNumber>{self.mitypeNumber.strip(" ")}</mitypeNumber>\n'
+    #     elif self.radioButton_8.isChecked():
+    #         self.body_1 += f'<crtmitypeTitle>{self.mitypeNumber.strip(" ")}</crtmitypeTitle>\n'
+    #     elif self.radioButton_9.isChecked():
+    #         self.body_1 += f'<milmitypeTitle>{self.mitypeNumber.strip(" ")}</milmitypeTitle>\n'
+
+    #     #Третья часть формируемой заявки
+    #     if self.manufactureYear != '':
+    #         self.body_3 += f'<manufactureYear>{self.manufactureYear}</manufactureYear>\n'
+
+    #     self.body_3 += f'<modification>{self.modification.strip(" ")}</modification>\n'
+
+    #     self.body_3 += f'</singleMI>\n'
+    #     self.body_3 += f'</miInfo>\n'
+    #     self.body_3 += f'<signCipher>{self.signCipher.strip(" ")}</signCipher>\n'
+    #     self.body_3 += f'<miOwner>{self.miOwner.strip(" ")}</miOwner>\n'
+
+    #     self.body_3 += f'<vrfDate>{self.vrfDate}</vrfDate>\n'
+
+    #     if self.validDate != '':
+    #         self.body_3 += f'<validDate>{self.validDate}</validDate>\n'
+
+    #     if self.radioButton.isChecked():
+    #         self.body_3 += f'<type>1</type>\n'
+    #     else:
+    #         self.body_3 += f'<type>2</type>\n'
+
+    #     self.body_3 += f'<calibration>{self.calibration}</calibration>\n'
+    #     if self.radioButton_3.isChecked():
+    #         self.body_3 += f'<applicable>\n'
+    #         if self.stickerNum != '':
+    #             self.body_3 += f'<stickerNum>{self.stickerNum.strip(" ")}</stickerNum>\n'
+    #         self.body_3 += f'<signPass>{self.signPass}</signPass>\n'
+    #         self.body_3 += f'<signMi>{self.signMi}</signMi>\n'
+    #         self.body_3 += f'</applicable>\n'
+    #     else:
+    #         self.body_3 += f'<inapplicable>\n'
+    #         self.body_3 += f'<reasons>{self.reasons.strip(" ")}</reasons>\n'
+    #         self.body_3 += f'</inapplicable>\n'
+
+    #     self.body_3 += f'<docTitle>{self.method.strip(" ")}</docTitle>\n'
+
+    #     if self.metrologist != '':
+    #         self.body_3 += f'<metrologist>{self.metrologist.strip(" ")}</metrologist>\n'
+
+    #     self.body_3 += f'<means>\n'
+
+    #     if self.comboBox.currentIndex() == 0:
+    #         if self.npe_number != '':
+    #             text = self.npe_number.strip(' ')
+    #             text = text.split(';')
+    #             self.body_3 += f'<npe>\n'
+    #             for t in text:
+    #                 if t != '' and not t.isspace():
+    #                     self.body_3 += f'<number>{t.strip(" ")}</number>\n'
+    #             self.body_3 += f'</npe>\n'
+
+    #         if self.uve_number != '':
+    #             text = self.uve_number.strip(' ')
+    #             text = text.split(';')
+    #             self.body_3 += f'<uve>\n'
+    #             for t in text:
+    #                 if t != '' and not t.isspace():
+    #                     self.body_3 += f'<number>{t.strip(" ")}</number>\n'
+    #             self.body_3 += f'</uve>\n'
+
+    #         if self.tabWidget_2.count() > 1:
+    #             self.body_3 += f'<ses>\n'
+    #             for i in range(self.tabWidget_2.count() - 1):
+    #                 self.body_3 += F'<se>\n'
+    #                 self.body_3 += f'<typeNum>{self.tabWidget_2.widget(i).lineEditType.text().strip(" ")}</typeNum>\n'
+    #                 self.body_3 += f'<manufactureYear>{self.tabWidget_2.widget(i).spinBoxManufYear.value()}</manufactureYear>\n'
+    #                 if self.tabWidget_2.widget(i).lineEditSerialNumber.text() != '' and not self.tabWidget_2.widget(i).lineEditSerialNumber.text().isspace():
+    #                     self.body_3 += f'<manufactureNum>{self.tabWidget_2.widget(i).lineEditSerialNumber.text().strip(" ")}</manufactureNum>\n'
+    #                 if self.tabWidget_2.widget(i).lineEditSpecifications.text() != '' and not self.tabWidget_2.widget(i).lineEditSpecifications.text().isspace():
+    #                     self.body_3 += f'<metroChars>{self.tabWidget_2.widget(i).lineEditSpecifications.text().strip(" ")}</metroChars>\n'
+    #                 self.body_3 += F'</se>\n'
+    #             self.body_3 += f'</ses>\n'
+
+    #         if self.mieta_number != '':
+    #             text = self.mieta_number.strip(' ')
+    #             text = text.split(';')
+    #             self.body_3 += f'<mieta>\n'
+    #             for t in text:
+    #                 if t != '' and not t.isspace():
+    #                     self.body_3 += f'<number>{t.strip(" ")}</number>\n'
+    #             self.body_3 += f'</mieta>\n'
+
+    #         if self.tabWidget_3.count() > 1:
+    #             self.body_3 += f'<mis>\n'
+    #             for i in range(self.tabWidget_3.count() - 1):
+    #                 self.body_3 += F'<mi>\n'
+    #                 self.body_3 += f'<typeNum>{self.tabWidget_3.widget(i).lineEditTypeSI.text().strip(" ")}</typeNum>\n'
+    #                 if self.tabWidget_3.widget(i).lineEditZavNumber.text() != '':
+    #                     self.body_3 += f'<manufactureNum>{self.tabWidget_3.widget(i).lineEditZavNumber.text().strip(" ")}</manufactureNum>\n'
+    #                 elif self.tabWidget_3.widget(i).lineEditInventory.text() != '':
+    #                     self.body_3 += f'<inventoryNum>{self.tabWidget_3.widget(i).lineEditInventory.text().strip(" ")}</inventoryNum>\n'
+    #                 self.body_3 += F'</mi>\n'
+    #             self.body_3 += f'</mis>\n'
+
+    #         if self.reagent_number != '':
+    #             text = self.reagent_number.strip(' ')
+    #             text = text.split(';')
+    #             self.body_3 += f'<reagent>\n'
+    #             for t in text:
+    #                 if t != '' and not t.isspace():
+    #                     self.body_3 += f'<number>{t.strip(" ")}</number>\n'
+    #             self.body_3 += f'</reagent>\n'
+
+    #     else:
+    #         self.body_3 += f'<oMethod>{self.oMethod}</oMethod>\n'
+
+    #     self.body_3 += f'</means>\n'
+
+    #     self.body_3 += f'<conditions>\n'
+    #     self.body_3 += f'<temperature>{self.temperature.strip(" ")}</temperature>\n'
+    #     self.body_3 += f'<pressure>{self.pressure.strip(" ")}</pressure>\n'
+    #     self.body_3 += f'<hymidity>{self.hymidity.strip(" ")}</hymidity>\n'
+    #     if self.other != '':
+    #         self.body_3 += f'<other>{self.other.strip(" ")}</other>\n'
+    #     self.body_3 += f'</conditions>\n'
+
+    #     if self.structure != '':
+    #         self.body_3 += f'<structure>{self.structure.strip(" ")}</structure>\n'
+
+    #     if self.checkBox_4.isChecked():
+    #         self.body_3 += f'<brief_procedure>\n'
+    #         self.body_3 += f'<characteristics>{self.characteristics.strip(" ")}</characteristics>\n'
+    #         self.body_3 += f'</brief_procedure>\n'
+
+    #     if self.additional_info != '':
+    #         self.body_3 += f'<additional_info>{self.additional_info.strip(" ")}</additional_info>\n'
+
+    #     self.body_3 += f'</result>\n'
 
     def create(self):
-        #Обновление содержимого переменных
-        self.update_data()
-        #Сбор данных в переменные
-        self.collecting_data()
-        #Финишная проверка всех вкладок
-        self.check_tab_1()
-        self.check_tab_2()
-        self.check_tab_3()
-        self.check_tab_4()
 
         #Общее количество записей о поверках СИ
         TOTAL_RESULTS = int(self.spinBox.text())
 
-        #Количество записей о поверках СИ в одной заявке (не более 5000 записей)
+        #Количество записей о поверках СИ в одной заявке (не более 4000 записей)
         RESULTS_IN_APP = int(self.spinBox_2.text())
 
-        filepath = QtWidgets.QFileDialog.getExistingDirectory(self, "Каталог сохранения файлов")
+        filepath = QtWidgets.QFileDialog.getExistingDirectory(self, "Каталог сохранения заявок")
         if filepath != '':
-            # self.pushButton.setText("Подготовка данных")
-            # self.timer.start(2500)
-            # self.pushButton.setText("Создание xml-файла")
+
             self.pushButton.setVisible(False)
             self.progressBar.setVisible(True)
 
@@ -1027,7 +1086,6 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
                 self.progressBar.setValue(round(set_progress))
 
             self.statusBar().showMessage('Формирование файлов завершено!')
-            self.pushButton.setText("Создать xml-файл")
             self.pushButton.setVisible(True)
             self.progressBar.setVisible(False)
             self.statusTimer()
@@ -1041,21 +1099,22 @@ class main_window(QtWidgets.QMainWindow, MainWindow_poverki_2020.Ui_MainWindow):
     def clearStatusBar(self):
         self.statusBar().clearMessage()
 
-    def closeEvent(self, event):                           #Запрос на закрытие программы
-        reply = QtWidgets.QMessageBox.question(self, 'Предупреждение',
-            "Закрыть приложение?", QtWidgets.QMessageBox.No |
-            QtWidgets.QMessageBox.No, QtWidgets.QMessageBox.Yes)
+    # def closeEvent(self, event):                           #Запрос на закрытие программы
+    #     reply = QMessageBox.question(self, 'Предупреждение',
+    #         "Закрыть приложение?", QMessageBox.No |
+    #         QMessageBox.No, QMessageBox.Yes)
 
-        if reply == QtWidgets.QMessageBox.Yes:
-            event.accept()
-        else:
-            event.ignore()
+    #     if reply == QMessageBox.Yes:
+    #         event.accept()
+    #     else:
+    #         event.ignore()
 
     def keyPressEvent(self, e):                            #Выход из программы по Esc
         if e.key() == QtCore.Qt.Key_Escape:
             self.close()
 
         if e.key() in [QtCore.Qt.Key_Enter, QtCore.Qt.Key_Return]:
+            #self.create()
             self.start_to_create_application()
 
 if __name__ == '__main__':
